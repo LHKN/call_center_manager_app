@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
-using ManagerApp.ViewModel;
 using Microsoft.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -12,9 +11,9 @@ namespace ManagerApp.View
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class RootPage : Page
+    public sealed partial class HomePage : Page
     {
-        public RootPage()
+        public HomePage()
         {
             InitializeComponent();
         }

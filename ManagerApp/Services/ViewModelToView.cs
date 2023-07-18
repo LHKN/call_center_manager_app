@@ -12,7 +12,7 @@ namespace ManagerApp.Services
         private static readonly Dictionary<Type, Type> pairs = new Dictionary<Type, Type>()
         {
             //{typeof(LoginViewModel), typeof(LoginPage)},
-            //{typeof(HomeViewModel), typeof(HomePage)},
+            {typeof(HomeViewModel), typeof(HomePage)},
             
             //add more page...
 
