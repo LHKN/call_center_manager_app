@@ -4,6 +4,7 @@ using ManagerApp.View;
 using ManagerApp.ViewModel;
 using System;
 using System.Collections.Generic;
+using Windows.UI.ApplicationSettings;
 
 namespace ManagerApp.Services
 {
@@ -13,7 +14,16 @@ namespace ManagerApp.Services
         {
             //{typeof(LoginViewModel), typeof(LoginPage)},
             {typeof(HomeViewModel), typeof(HomePage)},
-            
+            {typeof(StatisticsViewModel), typeof(StatisticsPage)},
+            {typeof(BookingScheduleViewModel), typeof(BookingSchedulePage)},
+
+            //{typeof(AddBookingViewModel), typeof(AddBookingPage)},
+            //{typeof(ViewBookingViewModel), typeof(ViewBookingPage)},
+     
+            {typeof(ManageCustomerViewModel), typeof(ManageCustomerPage)},
+            {typeof(ManageDriverViewModel), typeof(ManageDriverPage)},
+            {typeof(LogsViewModel), typeof(LogsPage)},
+
             //add more page...
 
         };

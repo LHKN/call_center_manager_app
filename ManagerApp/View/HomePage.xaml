@@ -10,6 +10,7 @@
     xmlns:vm="using:ManagerApp.ViewModel" d:DataContext="{d:DesignInstance Type=vm:HomeViewModel}"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -39,11 +40,23 @@
                 <NavigationViewItem Content="Statistics" Icon="SolidStar" IsSelected="True"/>
                 <NavigationViewItem Content="Booking Schedule" Icon="Calendar"/>
                 <NavigationViewItem Content="Manage Customer" Icon="AddFriend" />
-                <NavigationViewItem Content="Manage Driver" Icon="ContactInfo" />
-                <NavigationViewItem Content="Settings" Icon="Account" />
+                <NavigationViewItem Content="Manage Driver" Icon="ContactPresence" />
+                <!--<NavigationViewItem Content="Logs" Icon="ContactInfo" />-->
             </NavigationView.MenuItems>
+            
             <NavigationView.FooterMenuItems>
-                <NavigationViewItem Content="Settings" Icon="Setting" />
+                <NavigationViewItem Content="Logs">
+                    <NavigationViewItem.Icon>
+                        <AnimatedIcon x:Name='AnimatedIcon6'>
+                            <AnimatedIcon.Source>
+                                <animatedvisuals:AnimatedSettingsVisualSource/>
+                            </AnimatedIcon.Source>
+                            <AnimatedIcon.FallbackIconSource>
+                                <FontIconSource FontFamily="Segoe MDL2 Assets" Glyph="&#xE713;"/>
+                            </AnimatedIcon.FallbackIconSource>
+                        </AnimatedIcon>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
             </NavigationView.FooterMenuItems>
             <Frame x:Name="contentFrame"
                    Content="{Binding ChildPageNavigation.ViewModel,Converter={StaticResource ViewModelToView}}"/>

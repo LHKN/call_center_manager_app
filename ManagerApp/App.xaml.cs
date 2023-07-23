@@ -3,6 +3,7 @@
 
 using ManagerApp.View;
 using Microsoft.UI.Xaml;
+using Windows.UI.ViewManagement;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -33,8 +34,11 @@ namespace ManagerApp
             {
                 Content = new RootPage()
             };
-            //m_window.ExtendsContentIntoTitleBar = true;
-            //m_window.SetTitleBar(null);
+            m_window.ExtendsContentIntoTitleBar = true;
+            m_window.SetTitleBar(null);
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.FullScreen;
+            ApplicationView.TryUnsnapToFullscreen();
+
             m_window.Activate();
             MainRoot = m_window.Content as FrameworkElement;
         }

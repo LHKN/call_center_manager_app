@@ -1,0 +1,53 @@
+<!-- Copyright (c) Microsoft Corporation and Contributors. -->
+<!-- Licensed under the MIT License. -->
+
+<Page
+    x:Class="ManagerApp.View.ManageCustomerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ManagerApp.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:ManagerApp.ViewModel" d:DataContext="{d:DesignInstance Type=vm:ManageCustomerViewModel}"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="auto"/>
+
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Manage Customer" FontWeight="SemiBold" FontSize="40" Padding="30"/>
+        <StackPanel x:Name="BookCommandStackPanel"
+                        Grid.Row="0" Grid.Column="1"
+                        Orientation="Horizontal" Height="50" 
+                        RelativePanel.AlignRightWithPanel="True"
+                    HorizontalAlignment="Right">
+            <AppBarButton x:Name="addButton" Icon="AddFriend" Label="Add" Command="{Binding AddCommand}"/>
+            <AppBarButton x:Name="importButton" Icon="Import" Label="Import" Command="{Binding ImportCommand}"/>
+            <AppBarButton x:Name="exportButton" Icon="Save" Label="Export" Command="{Binding ExportCommand}"/>
+
+            <AppBarButton Icon="Setting" IsCompact="True" ToolTipService.ToolTip="Sort" AutomationProperties.Name="Sort"
+                          Content="Select">
+                <AppBarButton.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="Option" Tag="match"/>
+
+                        <!--<MenuFlyoutItem Text="By rating" Click="MenuFlyoutItem_Click" Tag="rating"/>
+                        <MenuFlyoutItem Text="By match" Click="MenuFlyoutItem_Click" Tag="match"/>
+                        <MenuFlyoutItem Text="By distance" Click="MenuFlyoutItem_Click" Tag="distance"/>-->
+                    </MenuFlyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            
+        </StackPanel>
+    </Grid>
+</Page>

@@ -10,9 +10,9 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-                <!-- Other merged dictionaries here -->
-                <ResourceDictionary Source="/Styles/UIColors.xaml"/>
-                <ResourceDictionary Source="/Styles/ButtonStyles.xaml"/>
+                 <!--Other merged dictionaries here--> 
+                <ResourceDictionary Source="/Style/UIColors.xaml"/>
+                <ResourceDictionary Source="/Style/ButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
             <service:ViewModelToView x:Key="ViewModelToView"/>

@@ -22,7 +22,7 @@ namespace ManagerApp.ViewModel
         public HomeViewModel()
         {
             //Account = null;
-            //ChildPageNavigation = new PageNavigation(new StatisticsViewModel());
+            ChildPageNavigation = new PageNavigation(new StatisticsViewModel());
         }
 
         private ICommand _itemInvokedCommand;
@@ -34,23 +34,23 @@ namespace ManagerApp.ViewModel
             // the idea of passing in a NavigationViewItemInvokedEventArgs
             if (args.InvokedItem.ToString().Equals("Statistics"))
             {
-                //ChildPageNavigation.ViewModel = new StatisticsViewModel();
+                ChildPageNavigation.ViewModel = new StatisticsViewModel();
             }
             else if (args.InvokedItem.ToString().Equals("Booking Schedule"))
             {
-                //ChildPageNavigation.ViewModel = new BookingScheduleViewModel();
+                ChildPageNavigation.ViewModel = new BookingScheduleViewModel();
             }
             else if (args.InvokedItem.ToString().Equals("Manage Customer"))
             {
-                //ChildPageNavigation.ViewModel = new ManageCustomerViewModel();
+                ChildPageNavigation.ViewModel = new ManageCustomerViewModel();
             }
             else if (args.InvokedItem.ToString().Equals("Manage Driver"))
             {
-                //ChildPageNavigation.ViewModel = new ManageDriverViewModel();
+                ChildPageNavigation.ViewModel = new ManageDriverViewModel();
             }
-            else if (args.InvokedItem.ToString().Equals("Settings"))
+            else if (args.InvokedItem.ToString().Equals("Logs"))
             {
-                //ChildPageNavigation.ViewModel = new SettingsViewModel();
+                ChildPageNavigation.ViewModel = new LogsViewModel();
             }
 
         }
@@ -58,4 +58,3 @@ namespace ManagerApp.ViewModel
         //public Account Account { get => _account; set => _account = value; }
     }
 }
-
