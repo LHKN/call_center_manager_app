@@ -1,2 +1,2 @@
 # call_center_manager_app
-fit_20clc_hcmus_software_architecture submodule
+MiwaUS7605/fit_20clc_hcmus_software_architecture submodule

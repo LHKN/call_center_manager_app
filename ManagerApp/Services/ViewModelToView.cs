@@ -20,8 +20,14 @@ namespace ManagerApp.Services
             //{typeof(AddBookingViewModel), typeof(AddBookingPage)},
             //{typeof(ViewBookingViewModel), typeof(ViewBookingPage)},
      
+            //{typeof(EditBookingViewModel), typeof(EditBookingPage)},
+     
             {typeof(ManageCustomerViewModel), typeof(ManageCustomerPage)},
+            //{typeof(AddCustomerViewModel), typeof(AddCustomerPage)},
+
             {typeof(ManageDriverViewModel), typeof(ManageDriverPage)},
+            //{typeof(AddDriverViewModel), typeof(AddDriverPage)},
+
             {typeof(LogsViewModel), typeof(LogsPage)},
 
             //add more page...
