@@ -14,6 +14,9 @@
   <ItemGroup>
     <None Remove="Style\ButtonStyle.xaml" />
     <None Remove="Style\UIColors.xaml" />
+    <None Remove="View\AddBookingPage.xaml" />
+    <None Remove="View\AddCustomerPage.xaml" />
+    <None Remove="View\AddDriverPage.xaml" />
     <None Remove="View\BookingSchedulePage.xaml" />
     <None Remove="View\HomePage.xaml" />
     <None Remove="View\LogsPage.xaml" />
@@ -53,9 +56,23 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\" />
     <Folder Include="Services\" />
     <Folder Include="Repository\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\AddDriverPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\AddCustomerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\AddBookingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\LogsPage.xaml">

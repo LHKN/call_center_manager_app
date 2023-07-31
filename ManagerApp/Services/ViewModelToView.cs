@@ -17,16 +17,18 @@ namespace ManagerApp.Services
             {typeof(StatisticsViewModel), typeof(StatisticsPage)},
             {typeof(BookingScheduleViewModel), typeof(BookingSchedulePage)},
 
-            //{typeof(AddBookingViewModel), typeof(AddBookingPage)},
+            {typeof(AddBookingViewModel), typeof(AddBookingPage)},
             //{typeof(ViewBookingViewModel), typeof(ViewBookingPage)},
      
             //{typeof(EditBookingViewModel), typeof(EditBookingPage)},
      
             {typeof(ManageCustomerViewModel), typeof(ManageCustomerPage)},
-            //{typeof(AddCustomerViewModel), typeof(AddCustomerPage)},
+            {typeof(AddCustomerViewModel), typeof(AddCustomerPage)},
+            //{typeof(ViewCustomerViewModel), typeof(ViewCustomerPage)},
 
             {typeof(ManageDriverViewModel), typeof(ManageDriverPage)},
-            //{typeof(AddDriverViewModel), typeof(AddDriverPage)},
+            {typeof(AddDriverViewModel), typeof(AddDriverPage)},
+            //{typeof(ViewDriverViewModel), typeof(ViewDriverPage)},
 
             {typeof(LogsViewModel), typeof(LogsPage)},
 

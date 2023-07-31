@@ -32,10 +32,7 @@
                         RelativePanel.AlignRightWithPanel="True"
                     HorizontalAlignment="Right">
             <AppBarButton x:Name="addButton" Icon="Add" Label="Add" Command="{Binding AddCommand}"/>
-            <AppBarButton x:Name="viewButton" Icon="ZoomIn" Label="View" Command="{Binding ViewCommand}"/>
-            <!--update, delete only for VIP-->
-            <AppBarButton x:Name="updateButton" Icon="Edit" Label="Update" Command="{Binding EditCommand}"/>
-            <AppBarButton x:Name="deleteButton" Icon="Delete" Label="Delete" Command="{Binding DeleteCommand}"/>
+            <!--<AppBarButton x:Name="viewButton" Icon="ZoomIn" Label="View" Command="{Binding ViewCommand}"/>-->
         </StackPanel>
 
         <CalendarView
@@ -50,38 +47,55 @@
 
         <!--Display list of customers on that day-->
         
-        <!--<ListView Grid.Row="1" Grid.Column="1"
+        <ListView Grid.Row="1" Grid.Column="1"
                   x:Name="dataListView" 
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   Margin="10,50,0,0"
-                  ItemsSource="{Binding DisplayBillList, Mode=TwoWay}"
-                  SelectedItem="{Binding SelectedBill, Mode=TwoWay}">
+                  ItemsSource="{Binding DisplayCustomerList, Mode=TwoWay}"
+                  SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
 
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Width="200" Height="100">
                         <TextBlock TextWrapping="WrapWholeWords" >
-                                ID: <Run Text="{Binding Id}" FontWeight="Bold" Foreground="Blue"/>
+                                Selected Date: <Run Text="{Binding Date}" FontWeight="Bold" Foreground="Blue"/>
                         </TextBlock>
                         <TextBlock TextWrapping="WrapWholeWords" >
-                                Customer ID: <Run Text="{Binding CustomerId}" FontWeight="Bold" Foreground="CadetBlue"/>
+                                Customer's phone no. : <Run Text="{Binding CustomerPhone}" FontWeight="Bold" Foreground="CadetBlue"/>
                         </TextBlock>
+                        
+                        <!--TODO: The rest in detail-->
                         <TextBlock TextWrapping="WrapWholeWords" >
-                                Total price: <Run Text="{Binding TotalPrice}" FontWeight="Bold" Foreground="CadetBlue"/>
+                                Transport: <Run Text="{Binding Transport}" FontWeight="Bold" Foreground="CadetBlue"/>
                         </TextBlock>
+                        
+                        <!--TODO: Map icon-->
                         <TextBlock TextWrapping="WrapWholeWords" >
-                                Transaction date: <Run Text="{Binding TransactionDate}" FontWeight="Bold" Foreground="CadetBlue"/>
+                                Start location: <Run Text="{Binding StartLocation}" FontWeight="Bold" Foreground="CadetBlue"/>
                         </TextBlock>
+                        <!--<AppBarButton x:Name="startLocationButton" Icon="MapPin" Label="Edit" Command="{Binding StartCommand}"/>-->
+                        <AppBarButton x:Name="startLocationButton" Label="Edit" Command="{Binding StartCommand}">
+                            &#xE819;
+                        </AppBarButton>
 
+
+                        <TextBlock TextWrapping="WrapWholeWords" >
+                                Destination: <Run Text="{Binding Destination}" FontWeight="Bold" Foreground="CadetBlue"/>
+                        </TextBlock>
+                        <!--<AppBarButton x:Name="destinationButton" Icon="MapPin" Label="Edit" Command="{Binding EndCommand}"/>-->
+                        <AppBarButton x:Name="destinationButton" Label="Edit" Command="{Binding EndCommand}">
+                            &#xE81A;
+                        </AppBarButton>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
 
             <ListView.Resources>
                 <CommandBarFlyout Placement="Right" x:Name="CommandBarFlyout1">
-                    <AppBarButton Icon="Add" Label="Add" Command="{Binding AddCommand}"/>
-                    <AppBarButton Icon="Delete" Label="Delete" Command="{Binding DeleteCommand}"/>
-                    <AppBarButton Icon="Edit" Label="Update" Command="{Binding EditCommand}"/>
+                    <AppBarButton x:Name="viewButton" Icon="ZoomIn" Label="View" Command="{Binding ViewCommand}"/>
+                    <!--TODO: update, delete only for VIP (put these in detail page?)-->
+                    <AppBarButton x:Name="updateButton" Icon="Edit" Label="Update" Command="{Binding EditCommand}"/>
+                    <AppBarButton x:Name="deleteButton" Icon="Delete" Label="Delete" Command="{Binding DeleteCommand}"/>
                 </CommandBarFlyout>
             </ListView.Resources>
 
@@ -92,7 +106,7 @@
                            Orientation="Horizontal"/>
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
-        </ListView>-->
+        </ListView>
         
     </Grid>
 </Page>

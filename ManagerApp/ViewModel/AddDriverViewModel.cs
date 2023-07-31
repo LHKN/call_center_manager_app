@@ -8,26 +8,26 @@ using System.Windows.Input;
 
 namespace ManagerApp.ViewModel
 {
-    partial class ManageCustomerViewModel : ViewModelBase
+    class AddDriverViewModel : ViewModelBase
     {
         // fields
 
         // constructor
-        public ManageCustomerViewModel()
+        public AddDriverViewModel()
         {
-            AddCommand = new RelayCommand(ExecuteAddCommand);
+            BackCommand = new RelayCommand(ExecuteBackCommand);
         }
 
         // execute commands
-        public async void ExecuteAddCommand()
+        public async void ExecuteBackCommand()
         {
-            ParentPageNavigation.ViewModel = new AddCustomerViewModel();
+            ParentPageNavigation.ViewModel = new ManageDriverViewModel();
         }
 
         // getters, setters
 
         // commands
-        public ICommand AddCommand { get; }
+        public ICommand BackCommand { get; }
 
     }
 }

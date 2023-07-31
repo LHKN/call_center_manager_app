@@ -8,6 +8,16 @@ namespace ManagerApp.ViewModel
 {
     partial class StatisticsViewModel : ViewModelBase
     {
+        // fields
+
+        // constructor
         public StatisticsViewModel() { }
+
+        // execute commands
+
+        // getters, setters
+
+        // commands
+
     }
 }

@@ -8,6 +8,16 @@ namespace ManagerApp.ViewModel
 {
     class LogsViewModel : ViewModelBase
     {
+        // fields
+
+        // constructor
         public LogsViewModel() { }
+
+        // execute commands
+
+        // getters, setters
+
+        // commands
+
     }
 }
