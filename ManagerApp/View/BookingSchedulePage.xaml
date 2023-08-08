@@ -71,7 +71,7 @@
                         
                         <!--TODO: Map icon-->
                         <TextBlock TextWrapping="WrapWholeWords" >
-                                Start location: <Run Text="{Binding StartLocation}" FontWeight="Bold" Foreground="CadetBlue"/>
+                                Pickup location: <Run Text="{Binding PickupLocation}" FontWeight="Bold" Foreground="CadetBlue"/>
                         </TextBlock>
                         <!--<AppBarButton x:Name="startLocationButton" Icon="MapPin" Label="Edit" Command="{Binding StartCommand}"/>-->
                         <AppBarButton x:Name="startLocationButton" Label="Edit" Command="{Binding StartCommand}">
