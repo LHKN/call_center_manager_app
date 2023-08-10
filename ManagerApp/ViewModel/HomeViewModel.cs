@@ -2,6 +2,7 @@
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
@@ -32,6 +33,15 @@ namespace ManagerApp.ViewModel
         {
             // could also use a converter on the command parameter if you don't like
             // the idea of passing in a NavigationViewItemInvokedEventArgs
+            MenuItems = new ObservableCollection<string>
+            {
+                "Statistics",
+                "Booking Schedule",
+                "Manage Customer",
+                "Manage Driver",
+                "Logs"
+            };
+
             if (args.InvokedItem.ToString().Equals("Statistics"))
             {
                 ChildPageNavigation.ViewModel = new StatisticsViewModel();
@@ -54,6 +64,8 @@ namespace ManagerApp.ViewModel
             }
 
         }
+
+        public ObservableCollection<string> MenuItems { get; set; }
         public PageNavigation ChildPageNavigation { get; set; }
         //public Account Account { get => _account; set => _account = value; }
     }

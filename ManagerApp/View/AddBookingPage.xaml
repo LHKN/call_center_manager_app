@@ -8,6 +8,8 @@
     xmlns:local="using:ManagerApp.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodel="using:ManagerApp.ViewModel" 
+    d:DataContext="{d:DesignInstance Type=viewmodel:AddBookingViewModel}"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -19,7 +21,6 @@
 
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="20 20 0 0">
             <TextBlock Text="New Customer Booking" FontSize="30" Margin="30 10 10 20"/>
-
             <!--Datatemplate start-->
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
@@ -43,51 +44,54 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="Customer Phone Number*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 5"/>
-                <TextBlock Grid.Column="1" Grid.ColumnSpan="2" Text="123456789" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="0 10 10 5"/>
+                <TextBlock Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Booking.PhoneNumber}" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="0 10 10 5"/>
                 <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="This customer is VIP" FontWeight="Light" FontStyle="Italic" Foreground="DodgerBlue" TextWrapping="WrapWholeWords" />
 
                 <TextBlock Grid.Row="2" Text="Desired transport*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10"/>
-                <RadioButtons Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" x:Name="RadioButtons" SelectedIndex="0" MaxColumns="3" Margin="0 5 10 5">
-                    <TextBlock Text="4 Seater Car" FontWeight="Light"/>
-                    <TextBlock Text="7 Seater Car" FontWeight="Light"/>
-                    <TextBlock Text="Motorbike" FontWeight="Light"/>
-                </RadioButtons>
+                <RadioButtons Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" x:Name="RadioButtons" SelectedIndex="0" MaxColumns="3" Margin="0 5 10 5"
+                                          ItemsSource="{Binding TransportOptions}" FontWeight="Light"
+                                          SelectedItem="{Binding Booking.Transport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Grid.Row="3" Text="Pickup Location*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10"/>
-                <TextBlock Grid.Row="3" Grid.Column="2" Text="Address A" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10"/>
+                <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Booking.PickupLocationName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                       FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10"/>
                 <AppBarButton Grid.Row="3" Grid.Column="1" x:Name="startLocationButton" Icon="MapPin" Label="Edit" Command="{Binding StartCommand}"/>
 
                 <TextBlock Grid.Row="4" Text="Destination*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10"/>
-                <TextBlock Grid.Row="4" Grid.Column="2" Text="Address B" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10" />
+                <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding Booking.DestinationName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                       FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10" />
                 <AppBarButton Grid.Row="4" Grid.Column="1" x:Name="destinationButton" Icon="MapPin" Label="Edit" Command="{Binding EndCommand}"/>
-                
-                <TextBlock Grid.Row="5" Grid.Column="2" Text="*Required" FontWeight="Light" FontStyle="Italic" Foreground="Red" TextWrapping="WrapWholeWords" Margin="30 20 0 0"/>
+
+                <TextBlock Grid.Row="5" Grid.Column="2" Text="*Required" FontWeight="Light" FontStyle="Italic" Foreground="Red" TextWrapping="WrapWholeWords" Margin="50 20 0 0"/>
 
                 <!--optional only for VIP-->
                 <TextBlock Grid.Row="6" Grid.ColumnSpan="4" Text="Optional" FontWeight="Light" FontStyle="Italic" Foreground="DodgerBlue" TextWrapping="WrapWholeWords" Margin="30 20 0 0"/>
-                
+
                 <TextBlock Grid.Row="7" Text="Pickup Date" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"/>
-                <DatePicker Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="datePicker" Visibility="Visible" Width="400"/>
+                <DatePicker Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="datePicker" Visibility="Visible" Width="400"
+                                        SelectedDate="{Binding Booking.PickupDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Grid.Row="8" Text="Pickup Time" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"/>
-                <TimePicker Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" x:Name="timePicker" Visibility="Visible" Width="400"/>
+                <TimePicker Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" x:Name="timePicker" Visibility="Visible" Width="400"
+                                        SelectedTime="{Binding Booking.PickupTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <!--optional only for VIP-->
-                
+
                 <TextBlock Grid.Row="9" Text="Estimated cost" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"/>
-                <TextBlock Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Text="1.000.000 VND" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="0 10 10 10" />
+                <TextBlock Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" 
+                                       FontWeight="Light" TextWrapping="WrapWholeWords" Margin="0 10 10 10" >
+                    <Run Text="{Binding Booking.Price}"/> VND
+                </TextBlock>
             </Grid>
             <!--Datatemplate end-->
 
-
-            <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                      Width="200" Height="200"
-                      HorizontalAlignment="Right">
-                <!--ItemsSource="{Binding SelectedBillDetailList, Mode=TwoWay}">-->
+            <!--<ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Visible"
+                      ItemsSource="{Binding Bookings}"
+                      SelectedIndex="0" SelectedItem="{Binding Booking}" SelectionMode="None">
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        
-                        <!--insert here-->
+
                         
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -103,7 +107,7 @@
                                Orientation="Horizontal"/>
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
-            </ListView>
+            </ListView>-->
             
         </StackPanel>
         

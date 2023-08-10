@@ -30,7 +30,19 @@ namespace ManagerApp.ViewModel
         // execute commands
         public async void ExecuteAddCommand()
         {
-            ParentPageNavigation.ViewModel = new AddBookingViewModel();
+            BookingDetail booking = new BookingDetail()
+            {
+                PhoneNumber = "12346789",
+                PickupLocationName = "Address A",
+                DestinationName = "Address B",
+
+                PickupTime = new TimeSpan(14, 15, 00),
+                PickupDate = new DateTime(2010, 3, 1),
+
+                Price = 100000,
+            };
+
+            ParentPageNavigation.ViewModel = new AddBookingViewModel(booking);
         }
 
         public async void ExecuteViewCommand()

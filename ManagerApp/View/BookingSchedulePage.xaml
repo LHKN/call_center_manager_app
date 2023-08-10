@@ -63,29 +63,7 @@
                         <TextBlock TextWrapping="WrapWholeWords" >
                                 Customer's phone no. : <Run Text="{Binding CustomerPhone}" FontWeight="Bold" Foreground="CadetBlue"/>
                         </TextBlock>
-                        
-                        <!--TODO: The rest in detail-->
-                        <TextBlock TextWrapping="WrapWholeWords" >
-                                Transport: <Run Text="{Binding Transport}" FontWeight="Bold" Foreground="CadetBlue"/>
-                        </TextBlock>
-                        
-                        <!--TODO: Map icon-->
-                        <TextBlock TextWrapping="WrapWholeWords" >
-                                Pickup location: <Run Text="{Binding PickupLocation}" FontWeight="Bold" Foreground="CadetBlue"/>
-                        </TextBlock>
-                        <!--<AppBarButton x:Name="startLocationButton" Icon="MapPin" Label="Edit" Command="{Binding StartCommand}"/>-->
-                        <AppBarButton x:Name="startLocationButton" Label="Edit" Command="{Binding StartCommand}">
-                            &#xE819;
-                        </AppBarButton>
 
-
-                        <TextBlock TextWrapping="WrapWholeWords" >
-                                Destination: <Run Text="{Binding Destination}" FontWeight="Bold" Foreground="CadetBlue"/>
-                        </TextBlock>
-                        <!--<AppBarButton x:Name="destinationButton" Icon="MapPin" Label="Edit" Command="{Binding EndCommand}"/>-->
-                        <AppBarButton x:Name="destinationButton" Label="Edit" Command="{Binding EndCommand}">
-                            &#xE81A;
-                        </AppBarButton>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

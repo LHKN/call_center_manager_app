@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using ManagerApp.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,14 +13,18 @@ namespace ManagerApp.ViewModel
     class AddBookingViewModel : ViewModelBase
     {
         // fields
-        // temp users
-        //private List<Account> DisplayCustomerList = new List<Account>();
-
+        private BookingDetail booking;
+        private ObservableCollection<string> transportOptions;
 
         // constructor
-        public AddBookingViewModel()
+        public AddBookingViewModel(BookingDetail newBooking)
         {
-
+            //initial
+            transportOptions = new ObservableCollection<string> {
+                    "4 Seater Car","7 Seater Car","Motorbike"
+            };
+            Bookings = new ObservableCollection<BookingDetail> { newBooking};
+            Booking = newBooking;
 
             BackCommand = new RelayCommand(ExecuteBackCommand);
             ConfirmCommand = new RelayCommand(ExecuteConfirmCommand);
@@ -37,6 +43,10 @@ namespace ManagerApp.ViewModel
 
 
         // getters, setters
+        public ObservableCollection<string> TransportOptions { get => transportOptions; set => transportOptions = value; }
+        public ObservableCollection<BookingDetail> Bookings { get; set; }
+        public BookingDetail Booking { get => booking; set => booking = value; }
+
 
         // commands
         public ICommand BackCommand { get; }

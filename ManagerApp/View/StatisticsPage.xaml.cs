@@ -14,6 +14,9 @@ namespace ManagerApp.View
     /// </summary>
     public sealed partial class StatisticsPage : Page
     {
+        private const string BY_MONTH = "Filter by month";
+        private const string BY_YEAR = "Filter by year";
+
         public StatisticsPage()
         {
             this.InitializeComponent();
@@ -26,10 +29,10 @@ namespace ManagerApp.View
 
             switch (option)
             {
-                case "Filter by month":
+                case BY_MONTH:
                     yearDatePicker.MonthVisible = true;
                     break;
-                case "Filter by year":
+                case BY_YEAR:
                     yearDatePicker.MonthVisible = false;
                     break;
                 default:
