@@ -31,7 +31,7 @@ namespace ManagerApp.Model
 
         //datetime
         private TimeSpan? _pickupTime;
-        private DateTime? _pickupDate;
+        private DateOnly? _pickupDate;
 
         public int Id { get => _id; set => _id = value; }
         public string PhoneNumber { get => _phoneNumber; set => _phoneNumber = value; }
@@ -39,10 +39,11 @@ namespace ManagerApp.Model
         public string PickupLocationName { get => _pickupLocationName; set => _pickupLocationName = value; }
         public string DestinationName { get => _destinationName; set => _destinationName = value; }
         public TimeSpan? PickupTime { get => _pickupTime; set => _pickupTime = value; }
-        public DateTime? PickupDate { get => _pickupDate; set => _pickupDate = value; }
+        public DateOnly? PickupDate { get => _pickupDate; set => _pickupDate = value; }
         public int Price { get => _price; set => _price = value; }
         public int Rating { get => _rating; set => _rating = value; }
         public string Transport { get => _transport; set => _transport = value; }
+        public int Status { get => _status; set => _status = value; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

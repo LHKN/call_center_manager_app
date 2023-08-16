@@ -16,6 +16,9 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI;
+using Microsoft.UI.Xaml.Documents;
+using ManagerApp.Model;
+using System.Collections.ObjectModel;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -27,6 +30,8 @@ namespace ManagerApp.View
     /// </summary>
     public sealed partial class BookingSchedulePage : Page
     {
+        private Dictionary<DateOnly, ObservableCollection<BookingDetail>> Bookings;
+
         public BookingSchedulePage()
         {
             this.InitializeComponent();
@@ -35,6 +40,10 @@ namespace ManagerApp.View
         private void CalendarView_CalendarViewDayItemChanging(CalendarView sender,
                                    CalendarViewDayItemChangingEventArgs args)
         {
+            var allBookings = dataListView.ItemsSource as ObservableCollection<BookingDetail>;
+
+            // sort bookings into Bookings dict
+
             //// Render basic day items.
             //if (args.Phase == 0)
             //{
@@ -83,6 +92,13 @@ namespace ManagerApp.View
             //        args.Item.SetDensityColors(densityColors);
             //    }
             //}
+        }
+
+        private void CalendarView_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
+        {
+            string date = sender.SelectedDates.FirstOrDefault().Date.ToString();
+            date = date.Split(" ").FirstOrDefault();
+            selectedDate.Text = date;
         }
     }
 }

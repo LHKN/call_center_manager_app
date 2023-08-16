@@ -32,59 +32,71 @@
                         RelativePanel.AlignRightWithPanel="True"
                     HorizontalAlignment="Right">
             <AppBarButton x:Name="addButton" Icon="Add" Label="Add" Command="{Binding AddCommand}"/>
-            <!--<AppBarButton x:Name="viewButton" Icon="ZoomIn" Label="View" Command="{Binding ViewCommand}"/>-->
+            <AppBarButton x:Name="viewButton" Icon="ZoomIn" Label="View" Command="{Binding ViewCommand}"/>
         </StackPanel>
 
         <CalendarView
             CalendarViewDayItemChanging="CalendarView_CalendarViewDayItemChanging"
+            SelectedDatesChanged="CalendarView_SelectedDatesChanged"
             SelectionMode="Single"
             IsGroupLabelVisible="True"
             IsOutOfScopeEnabled="True"
             Language="en"
             CalendarIdentifier="GregorianCalendar" 
             Margin="10"
-            Grid.Row="1"/>
+            Grid.Row="1"
+            />
 
         <!--Display list of customers on that day-->
-        
-        <ListView Grid.Row="1" Grid.Column="1"
-                  x:Name="dataListView" 
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  Margin="10,50,0,0"
-                  ItemsSource="{Binding DisplayCustomerList, Mode=TwoWay}"
-                  SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
 
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Width="200" Height="100">
-                        <TextBlock TextWrapping="WrapWholeWords" >
-                                Selected Date: <Run Text="{Binding Date}" FontWeight="Bold" Foreground="Blue"/>
-                        </TextBlock>
-                        <TextBlock TextWrapping="WrapWholeWords" >
-                                Customer's phone no. : <Run Text="{Binding CustomerPhone}" FontWeight="Bold" Foreground="CadetBlue"/>
-                        </TextBlock>
+        <!--temp stackpanel-->
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <TextBlock TextWrapping="WrapWholeWords" Text="{Binding Warning, UpdateSourceTrigger=PropertyChanged}" 
+                       FontWeight="Light" FontStyle="Italic" Foreground="Red" HorizontalTextAlignment="End" Margin="5 0 5 10"/>
 
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+            <TextBlock TextWrapping="WrapWholeWords">
+                       Selected Date: <Run x:Name="selectedDate" Text="{Binding Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                           FontWeight="SemiBold" Foreground="DarkSlateBlue"/>
+            </TextBlock>
 
-            <ListView.Resources>
-                <CommandBarFlyout Placement="Right" x:Name="CommandBarFlyout1">
-                    <AppBarButton x:Name="viewButton" Icon="ZoomIn" Label="View" Command="{Binding ViewCommand}"/>
-                    <!--TODO: update, delete only for VIP (put these in detail page?)-->
-                    <AppBarButton x:Name="updateButton" Icon="Edit" Label="Update" Command="{Binding EditCommand}"/>
-                    <AppBarButton x:Name="deleteButton" Icon="Delete" Label="Delete" Command="{Binding DeleteCommand}"/>
-                </CommandBarFlyout>
-            </ListView.Resources>
+            <ListView x:Name="dataListView" 
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      Margin="10,50,0,0"
+                      ItemsSource="{Binding BookingList, Mode=TwoWay}"
+                      SelectedItem="{Binding SelectedBooking}">
 
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <ItemsWrapGrid x:Name="MaxItemsWrapGrid"
-                           MaximumRowsOrColumns="1"
-                           Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-        </ListView>
-        
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel MinHeight="70">
+                            <TextBlock TextWrapping="WrapWholeWords" >
+                                        Customer's phone number : <Run Text="{Binding PhoneNumber}" FontWeight="Bold" Foreground="CadetBlue"/>
+                            </TextBlock>
+                            <TextBlock TextWrapping="WrapWholeWords" >
+                                        Booking Status : <Run Text="{Binding Status}" FontWeight="Bold" Foreground="CadetBlue"/>
+                            </TextBlock>
+                            <TextBlock TextWrapping="WrapWholeWords" >
+                                        Role : <Run Text="{Binding CustomerRole}" FontWeight="Bold" Foreground="CadetBlue"/>
+                            </TextBlock>
+
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+                <ListView.Resources>
+                    <CommandBarFlyout Placement="Right" x:Name="CommandBarFlyout1">
+                        <!--<AppBarButton x:Name="viewButton" Icon="ZoomIn" Label="View" Command="{Binding ViewCommand}"/>-->
+                    </CommandBarFlyout>
+                </ListView.Resources>
+
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsWrapGrid x:Name="MaxItemsWrapGrid"
+                               MaximumRowsOrColumns="1"
+                               Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+        </StackPanel>
+
     </Grid>
 </Page>

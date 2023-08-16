@@ -8,18 +8,31 @@
     xmlns:local="using:ManagerApp.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
     xmlns:viewmodel="using:ManagerApp.ViewModel" 
+    xmlns:i="using:Microsoft.Xaml.Interactivity" 
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     d:DataContext="{d:DesignInstance Type=viewmodel:StatisticsViewModel}"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="150"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="4*"/>
 
         </Grid.RowDefinitions>
+
+        <i:Interaction.Behaviors>
+            <core:EventTriggerBehavior EventName="Loaded">
+                <core:EventTriggerBehavior.Actions>
+                    <core:InvokeCommandAction Command="{Binding Load_Page}" />
+                </core:EventTriggerBehavior.Actions>
+            </core:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+
+        <!--<TextBlock HorizontalAlignment="Right" Text="Statistics" FontWeight="SemiBold" FontSize="40" Padding="30"/>-->
 
         <Pivot Title="ABOUT US">
             <PivotItem Header="Our customers" Padding="5">
@@ -56,6 +69,12 @@
         </StackPanel>
         
         <!--TODO: Income Graph here-->
-        
+        <lvc:CartesianChart Grid.Row="2"
+            Series="{Binding IncomeSeries}"
+            ZoomMode="X"
+            XAxes="{Binding XAxes}"
+            YAxes="{Binding YAxes}">
+
+        </lvc:CartesianChart>
     </Grid>
 </Page>

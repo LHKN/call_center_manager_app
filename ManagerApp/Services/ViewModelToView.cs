@@ -18,7 +18,7 @@ namespace ManagerApp.Services
             {typeof(BookingScheduleViewModel), typeof(BookingSchedulePage)},
 
             {typeof(AddBookingViewModel), typeof(AddBookingPage)},
-            //{typeof(ViewBookingViewModel), typeof(ViewBookingPage)},
+            {typeof(ViewBookingViewModel), typeof(ViewBookingPage)},
      
             //{typeof(EditBookingViewModel), typeof(EditBookingPage)},
      
