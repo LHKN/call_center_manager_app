@@ -9,7 +9,5 @@ namespace ManagerApp.Model
 
         //public string PhoneNumber { get => _phoneNumber; set => _phoneNumber = value; }
         //public string Address { get => address; set => address = value; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
