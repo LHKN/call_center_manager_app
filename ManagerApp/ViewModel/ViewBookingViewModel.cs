@@ -13,19 +13,20 @@ namespace ManagerApp.ViewModel
     class ViewBookingViewModel : ViewModelBase
     {
         // fields
-        private ObservableCollection<BookingDetail> bookings;
+        //private ObservableCollection<BookingDetail> bookings;
         private BookingDetail booking;
         private ObservableCollection<string> transportOptions;
 
         // constructor
-        public ViewBookingViewModel(ObservableCollection<BookingDetail> curBooking)
+        public ViewBookingViewModel(BookingDetail curBooking)
         {
             //initial
             transportOptions = new ObservableCollection<string> {
                     "4 Seater Car","7 Seater Car","Motorbike"
             };
-            Bookings = curBooking;
-            Booking = curBooking.FirstOrDefault();
+            //Bookings = curBooking;
+            //Booking = curBooking.FirstOrDefault();
+            Booking = curBooking;
 
             BackCommand = new RelayCommand(ExecuteBackCommand);
             EditCommand = new RelayCommand(ExecuteEditCommand);
@@ -45,7 +46,7 @@ namespace ManagerApp.ViewModel
 
         // getters, setters
         public ObservableCollection<string> TransportOptions { get => transportOptions; set => transportOptions = value; }
-        public ObservableCollection<BookingDetail> Bookings { get; set; }
+        //public ObservableCollection<BookingDetail> Bookings { get; set; }
         public BookingDetail Booking { get => booking; set => booking = value; }
 
 

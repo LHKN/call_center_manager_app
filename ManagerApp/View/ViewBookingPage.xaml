@@ -21,16 +21,78 @@
 
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="20 20 0 0">
             <TextBlock Text="View Customer Booking" FontSize="30" Margin="30 10 10 20"/>
-            
 
-            <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            <Grid VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="66"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Customer Phone Number*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 5"/>
+                <TextBlock Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Booking.PhoneNumber}" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="0 10 10 5"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="This customer is VIP" FontWeight="Light" FontStyle="Italic" Foreground="DodgerBlue" TextWrapping="WrapWholeWords" />
+
+                <TextBlock Grid.Row="2" Text="Desired transport*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Booking.Transport}" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="0 20 10 5"/>
+
+                <TextBlock Grid.Row="3" Text="Pickup Location*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10"/>
+                <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Booking.PickupLocationName}" 
+                                       FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10"/>
+                <AppBarButton Grid.Row="3" Grid.Column="1" x:Name="startLocationButton" Icon="MapPin" Label="View" Command="{Binding StartCommand}"/>
+
+                <TextBlock Grid.Row="4" Text="Destination*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10"/>
+                <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding Booking.DestinationName}" 
+                                       FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10" />
+                <AppBarButton Grid.Row="4" Grid.Column="1" x:Name="destinationButton" Icon="MapPin" Label="View" Command="{Binding EndCommand}"/>
+
+                <!--<TextBlock Grid.Row="5" Grid.Column="1" Text="*Required" FontWeight="Light" FontStyle="Italic" Foreground="Red" TextWrapping="WrapWholeWords"/>-->
+
+                <!--optional only for VIP-->
+                <TextBlock Grid.Row="6" Grid.ColumnSpan="4" Text="Optional" FontWeight="Light" FontStyle="Italic" Foreground="DodgerBlue" TextWrapping="WrapWholeWords" Margin="30 20 0 0"/>
+
+                <TextBlock Grid.Row="7" Text="Pickup Date" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"/>
+                <!--<DatePicker Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="datePicker" Visibility="Visible" Width="400"
+                                        SelectedDate="{Binding PickupDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
+                <TextBlock Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" 
+                                       FontWeight="Light" TextWrapping="WrapWholeWords" Margin="0 10 10 10" Text="{Binding Booking.PickupDate}"/>
+
+                <TextBlock Grid.Row="8" Text="Pickup Time" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"/>
+                <!--<TimePicker Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" x:Name="timePicker" Visibility="Visible" Width="400"
+                                        SelectedTime="{Binding PickupTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
+                <TextBlock Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" 
+                                       FontWeight="Light" TextWrapping="WrapWholeWords" Margin="0 10 10 10" Text="{Binding Booking.PickupTime}"/>
+                <!--optional only for VIP-->
+
+                <TextBlock Grid.Row="9" Text="Estimated cost" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"/>
+                <TextBlock Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" 
+                                       FontWeight="Light" TextWrapping="WrapWholeWords" Margin="0 10 10 10" >
+                                <Run Text="{Binding Booking.Price}"/> VND
+                </TextBlock>
+            </Grid>
+
+            <!--<ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                       ScrollViewer.VerticalScrollBarVisibility="Visible"
                       ItemsSource="{Binding Bookings}"
                       SelectedIndex="0" SelectedItem="{Binding Booking}" SelectionMode="None">
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <!--Datatemplate start-->
+                        --><!--Datatemplate start--><!--
                         <Grid VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -69,23 +131,23 @@
                                        FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10" />
                             <AppBarButton Grid.Row="4" Grid.Column="1" x:Name="destinationButton" Icon="MapPin" Label="View" Command="{Binding EndCommand}"/>
 
-                            <!--<TextBlock Grid.Row="5" Grid.Column="1" Text="*Required" FontWeight="Light" FontStyle="Italic" Foreground="Red" TextWrapping="WrapWholeWords"/>-->
+                            --><!--<TextBlock Grid.Row="5" Grid.Column="1" Text="*Required" FontWeight="Light" FontStyle="Italic" Foreground="Red" TextWrapping="WrapWholeWords"/>-->
 
-                            <!--optional only for VIP-->
+                            <!--optional only for VIP--><!--
                             <TextBlock Grid.Row="6" Grid.ColumnSpan="4" Text="Optional" FontWeight="Light" FontStyle="Italic" Foreground="DodgerBlue" TextWrapping="WrapWholeWords" Margin="30 20 0 0"/>
 
                             <TextBlock Grid.Row="7" Text="Pickup Date" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"/>
-                            <!--<DatePicker Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="datePicker" Visibility="Visible" Width="400"
-                                        SelectedDate="{Binding PickupDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
+                            --><!--<DatePicker Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="datePicker" Visibility="Visible" Width="400"
+                                        SelectedDate="{Binding PickupDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>--><!--
                             <TextBlock Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" 
                                        FontWeight="Light" TextWrapping="WrapWholeWords" Margin="0 10 10 10" Text="{Binding PickupDate}"/>
                             
                             <TextBlock Grid.Row="8" Text="Pickup Time" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"/>
-                            <!--<TimePicker Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" x:Name="timePicker" Visibility="Visible" Width="400"
-                                        SelectedTime="{Binding PickupTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
+                            --><!--<TimePicker Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" x:Name="timePicker" Visibility="Visible" Width="400"
+                                        SelectedTime="{Binding PickupTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>--><!--
                             <TextBlock Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" 
                                        FontWeight="Light" TextWrapping="WrapWholeWords" Margin="0 10 10 10" Text="{Binding PickupTime}"/>
-                            <!--optional only for VIP-->
+                            --><!--optional only for VIP--><!--
 
                             <TextBlock Grid.Row="9" Text="Estimated cost" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"/>
                             <TextBlock Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" 
@@ -93,7 +155,7 @@
                                 <Run Text="{Binding Price}"/> VND
                             </TextBlock>
                         </Grid>
-                        <!--Datatemplate end-->
+                        --><!--Datatemplate end--><!--
 
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -109,7 +171,7 @@
                                Orientation="Horizontal"/>
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
-            </ListView>
+            </ListView>-->
 
         </StackPanel>
 

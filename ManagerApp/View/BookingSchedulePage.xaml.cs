@@ -9,6 +9,7 @@ using Microsoft.UI;
 using ManagerApp.Model;
 using System.Collections.ObjectModel;
 using Windows.UI;
+using Microsoft.UI.Xaml;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -25,6 +26,7 @@ namespace ManagerApp.View
         public BookingSchedulePage()
         {
             this.InitializeComponent();
+            datePicker.MinYear = DateTimeOffset.Now;
         }
 
         private void CalendarView_CalendarViewDayItemChanging(CalendarView sender,
@@ -103,11 +105,11 @@ namespace ManagerApp.View
             }
         }
 
-        private void CalendarView_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
-        {
-            string date = sender.SelectedDates.FirstOrDefault().Date.ToString();
-            date = date.Split(" ").FirstOrDefault();
-            selectedDate.Text = date;
-        }
+        //private void CalendarView_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
+        //{
+        //    string date = sender.SelectedDates.FirstOrDefault().Date.ToString();
+        //    date = date.Split(" ").FirstOrDefault();
+        //    selectedDate.Text = date;
+        //}
     }
 }
