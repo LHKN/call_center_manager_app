@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using ManagerApp.Model;
+using ManagerApp.Repository;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,14 +17,19 @@ namespace ManagerApp.ViewModel
         private BookingDetail booking;
         private ObservableCollection<string> transportOptions;
 
+        private IBookingRepository _bookingRepository;
+
         // constructor
         public AddBookingViewModel(BookingDetail newBooking)
         {
             //initial
+            _bookingRepository = new BookingRepository();
+            
             transportOptions = new ObservableCollection<string> {
                     "4 Seater Car","7 Seater Car","Motorbike"
             };
-            Bookings = new ObservableCollection<BookingDetail> { newBooking};
+
+            Bookings = new ObservableCollection<BookingDetail> {newBooking};
             Booking = newBooking;
 
             BackCommand = new RelayCommand(ExecuteBackCommand);
@@ -38,7 +44,15 @@ namespace ManagerApp.ViewModel
 
         public async void ExecuteConfirmCommand()
         {
-
+            try
+            {
+                await _bookingRepository.Add(Booking);
+                ParentPageNavigation.ViewModel = new BookingScheduleViewModel();
+            }
+            catch
+            {
+                return;
+            }
         }
 
 
