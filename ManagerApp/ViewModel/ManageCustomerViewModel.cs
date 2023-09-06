@@ -20,6 +20,7 @@ namespace ManagerApp.ViewModel
         private List<Customer> _displayCustomerList;
         private List<Customer> _resultCustomerList;
         private ObservableCollection<Customer> _displayCustomerCollection;
+        private Customer _selectedCustomer;
 
         private IAccountRepository _accountRepository;
         private string _paginationMessage;
@@ -193,5 +194,6 @@ namespace ManagerApp.ViewModel
         public ICommand AddCommand { get; private set; }
         public RelayCommand GoToPreviousPageCommand { get; private set; }
         public RelayCommand GoToNextPageCommand { get; private set; }
+        public Customer SelectedCustomer { get => _selectedCustomer; set => _selectedCustomer = value; }
     }
 }

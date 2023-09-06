@@ -25,10 +25,12 @@ namespace ManagerApp.Services
             {typeof(ManageCustomerViewModel), typeof(ManageCustomerPage)},
             {typeof(AddCustomerViewModel), typeof(AddCustomerPage)},
             {typeof(ViewCustomerViewModel), typeof(ViewCustomerPage)},
+            {typeof(EditCustomerViewModel), typeof(EditCustomerPage)},
 
             {typeof(ManageDriverViewModel), typeof(ManageDriverPage)},
             {typeof(AddDriverViewModel), typeof(AddDriverPage)},
             {typeof(ViewDriverViewModel), typeof(ViewDriverPage)},
+            {typeof(EditDriverViewModel), typeof(EditDriverPage)},
 
             {typeof(LogsViewModel), typeof(LogsPage)},
 

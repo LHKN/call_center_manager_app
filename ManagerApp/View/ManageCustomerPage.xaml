@@ -68,6 +68,7 @@
                             AreRowDetailsFrozen="False" AreRowGroupHeadersFrozen="True"
                             GridLinesVisibility="All"
                             AutoGenerateColumns="False"
+                            SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
                             Grid.ColumnSpan="2">
             <controls:DataGrid.Columns>
                 <controls:DataGridTextColumn Width="1*" Header="ID" Binding="{Binding Id}" Tag="ID"/>
