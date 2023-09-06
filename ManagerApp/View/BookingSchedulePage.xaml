@@ -92,7 +92,7 @@
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                       Margin="10,50,0,0"
                       ItemsSource="{Binding SortedBookingList, Mode=TwoWay}"
-                      SelectedItem="{Binding SelectedBooking}">
+                      SelectedItem="{Binding SelectedBooking, Mode=TwoWay}">
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
