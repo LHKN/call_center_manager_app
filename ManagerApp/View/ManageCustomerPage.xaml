@@ -8,10 +8,21 @@
     xmlns:local="using:ManagerApp.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="using:ManagerApp.ViewModel" d:DataContext="{d:DesignInstance Type=vm:ManageCustomerViewModel}"
+    xmlns:vm="using:ManagerApp.ViewModel"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:services="using:ManagerApp.Services"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.DataContext>
+        <vm:ManageCustomerViewModel x:Name="ManageCustomerViewModel"/>
+    </Page.DataContext>
+
+    <Page.Resources>
+        <services:CustomerTypeConverter x:Key="typeConverter"/>
+    </Page.Resources>
+    
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
@@ -47,9 +58,31 @@
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-            
         </StackPanel>
 
+        <controls:DataGrid x:Name="dataGrid" Grid.Row="1" ItemsSource="{Binding DisplayCustomerCollection}" 
+                           VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                            HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"
+                            AlternatingRowBackground="Transparent" AlternatingRowForeground="Gray"
+                            AreRowDetailsFrozen="False" AreRowGroupHeadersFrozen="True"
+                            GridLinesVisibility="All"
+                            AutoGenerateColumns="False"
+                            Grid.ColumnSpan="2">
+            <controls:DataGrid.Columns>
+                <controls:DataGridTextColumn Width="1*" Header="ID" Binding="{Binding Id}" Tag="ID"/>
+                <controls:DataGridTextColumn Width="1*" Header="Name" Binding="{Binding Name}" Tag="Name"/>
+                <controls:DataGridTextColumn Width="1*" Header="PhoneNumber" Binding="{Binding PhoneNumber}" Tag="PhoneNumber"/>
+                <controls:DataGridTemplateColumn Width="2*" Header="Location" >
+                    <controls:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Location}" TextWrapping="Wrap" />
+                        </DataTemplate>
+                    </controls:DataGridTemplateColumn.CellTemplate>
+                </controls:DataGridTemplateColumn>
+                <controls:DataGridTextColumn Width="1*" Header="Type" Binding="{Binding Type, Converter={StaticResource typeConverter}}" Tag="Type"/>
+            </controls:DataGrid.Columns>
+        </controls:DataGrid>
+        
         <!--<DataGrid>
             
         </DataGrid>-->
