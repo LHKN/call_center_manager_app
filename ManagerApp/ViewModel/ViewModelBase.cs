@@ -2,7 +2,7 @@
 
 namespace ManagerApp.ViewModel
 {
-    public class ViewModelBase
+    public class ViewModelBase: ObservableObject
     {
         public PageNavigation ParentPageNavigation { get; set; }
     }

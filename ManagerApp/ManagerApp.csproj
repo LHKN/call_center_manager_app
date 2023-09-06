@@ -10,6 +10,7 @@
     <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
+    <UserSecretsId>4c5af9bd-6ab5-49da-b430-c0e81883f5d3</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <AvaloniaXaml Remove="NewFolder\**" />
@@ -46,6 +47,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+    <PackageReference Include="FireSharp" Version="2.0.4" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.DataGrid" Version="7.1.2" />
     <PackageReference Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.0.0-beta.911" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
@@ -65,6 +67,7 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Services\" />
     <Folder Include="Repository\" />
   </ItemGroup>
   <ItemGroup>

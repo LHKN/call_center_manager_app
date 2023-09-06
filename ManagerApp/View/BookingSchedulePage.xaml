@@ -9,8 +9,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:ManagerApp.ViewModel" d:DataContext="{d:DesignInstance Type=vm:BookingScheduleViewModel}"
+    xmlns:services="using:ManagerApp.Services"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <services:DateConverter x:Key="dateConverter"/>
+    </Page.Resources>
     
     <Grid>
         <Grid.RowDefinitions>
@@ -35,17 +40,30 @@
             <AppBarButton x:Name="viewButton" Icon="ZoomIn" Label="View" Command="{Binding ViewCommand}"/>
         </StackPanel>
 
-        <CalendarView
-            CalendarViewDayItemChanging="CalendarView_CalendarViewDayItemChanging"
-            SelectedDatesChanged="CalendarView_SelectedDatesChanged"
-            SelectionMode="Single"
-            IsGroupLabelVisible="True"
-            IsOutOfScopeEnabled="True"
-            Language="en"
-            CalendarIdentifier="GregorianCalendar" 
-            Margin="10"
-            Grid.Row="1"
-            />
+        <StackPanel Grid.Row="1" Margin="10 10 100 10">
+            <TextBlock Text="ALL BOOKINGS" FontWeight="Bold" Padding="10"/>
+
+            <CalendarView
+                CalendarViewDayItemChanging="CalendarView_CalendarViewDayItemChanging"
+                SelectionMode="None"
+                IsGroupLabelVisible="True"
+                IsOutOfScopeEnabled="True"
+                Language="en"
+                CalendarIdentifier="GregorianCalendar" 
+                Margin="10"
+                Grid.Row="1"
+                />
+
+        <!--services:CalendarViewHelper.SelectedDate="{Binding Date, Mode=OneWay}"-->
+        <!--SelectedDatesChanged="CalendarView_SelectedDatesChanged"-->
+
+            <TextBlock TextWrapping="WrapWholeWords" Text="Notes:" Padding="10"/>
+            <TextBlock TextWrapping="WrapWholeWords" Text="Blue date is today's date" Padding="20 0 0 0"/>
+            <TextBlock TextWrapping="WrapWholeWords" Text="The number of green strokes is the number of bookings" Padding="20 0 0 0"/>
+            <TextBlock TextWrapping="WrapWholeWords" Text="Bookings on dates before today's date will not display" Padding="20 0 0 0"/>
+
+        </StackPanel>
+
 
         <!--Display list of customers on that day-->
 
@@ -54,15 +72,26 @@
             <TextBlock TextWrapping="WrapWholeWords" Text="{Binding Warning, UpdateSourceTrigger=PropertyChanged}" 
                        FontWeight="Light" FontStyle="Italic" Foreground="Red" HorizontalTextAlignment="End" Margin="5 0 5 10"/>
 
-            <TextBlock TextWrapping="WrapWholeWords">
-                       Selected Date: <Run x:Name="selectedDate" Text="{Binding Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                           FontWeight="SemiBold" Foreground="DarkSlateBlue"/>
-            </TextBlock>
+            <TextBlock Text="VIEW BOOKINGS BY DATE" FontWeight="Bold" Padding="10"/>
+
+            <!--<TextBlock TextWrapping="WrapWholeWords" Margin="10 0 0 10">
+                           Selected Date: <Run x:Name="selectedDate" Text="{Binding Date, UpdateSourceTrigger=PropertyChanged}" 
+                                               FontWeight="SemiBold" Foreground="DarkSlateBlue"/>
+            </TextBlock>-->
+
+            <DatePicker x:Name="datePicker" Visibility="Visible" Width="300"
+                        SelectedDate="{Binding Date, Mode=TwoWay, Converter={StaticResource dateConverter}, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"/>
 
             <ListView x:Name="dataListView" 
+                      ItemsSource="{Binding BookingList}"
+                      IsActiveView="False"
+                      Visibility="Collapsed">
+            </ListView>
+
+            <ListView x:Name="dataListView2" 
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                       Margin="10,50,0,0"
-                      ItemsSource="{Binding BookingList, Mode=TwoWay}"
+                      ItemsSource="{Binding SortedBookingList, Mode=TwoWay}"
                       SelectedItem="{Binding SelectedBooking}">
 
                 <ListView.ItemTemplate>
@@ -96,6 +125,7 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
             </ListView>
+
         </StackPanel>
 
     </Grid>

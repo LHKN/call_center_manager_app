@@ -23,6 +23,7 @@ namespace ManagerApp.Model
         private int _driverId;
         private int _transportType;
         private string _transport;
+        //private int _transport;
 
         //locations
         private string _pickupLocationName;
@@ -43,6 +44,7 @@ namespace ManagerApp.Model
         public int Price { get => _price; set => _price = value; }
         public int Rating { get => _rating; set => _rating = value; }
         public string Transport { get => _transport; set => _transport = value; }
+        //public int Transport { get => _transport; set => _transport = value; }
         public int Status { get => _status; set => _status = value; }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -1,12 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using ManagerApp.Model;
-using Microsoft.UI.Xaml.Controls;
+using ManagerApp.Services;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ManagerApp.ViewModel
@@ -14,10 +10,11 @@ namespace ManagerApp.ViewModel
     partial class BookingScheduleViewModel : ViewModelBase
     {
         // fields
-            // temp users
+        // temp users
         //private List<Account> DisplayCustomerList = new List<Account>();
-        private DateTime? _selectedDate;
+        private DateOnly? _selectedDate;
         private ObservableCollection<BookingDetail> bookings;
+        private ObservableCollection<BookingDetail> sortedBookings;
         private BookingDetail _selectedBooking;
         private string _warning = "Select before viewing";
 
@@ -33,7 +30,7 @@ namespace ManagerApp.ViewModel
                     Transport = "4 Seater Car",
 
                     PickupTime = new TimeSpan(14, 15, 00),
-                    PickupDate = new DateOnly(2010, 3, 1),
+                    PickupDate = new DateOnly(2023, 9, 10),
 
                     Price = 100000,
                 },
@@ -44,14 +41,15 @@ namespace ManagerApp.ViewModel
                     DestinationName = "Address B",
 
                     PickupTime = new TimeSpan(14, 15, 00),
-                    PickupDate = new DateOnly(2010, 3, 1),
+                    PickupDate = new DateOnly(2023, 9, 10),
 
                     Price = 100000,
                 },
             };
+            _selectedBooking = bookings[1];
 
-
-       
+            sortedBookings = new ObservableCollection<BookingDetail>();
+            _selectedDate = DateOnly.FromDateTime(DateTimeOffset.Now.Date);
 
             AddCommand = new RelayCommand(ExecuteAddCommand);
             ViewCommand = new RelayCommand(ExecuteViewCommand);
@@ -62,32 +60,68 @@ namespace ManagerApp.ViewModel
         // execute commands
         public async void ExecuteAddCommand()
         {
-            ParentPageNavigation.ViewModel = new AddBookingViewModel(bookings[1]);
+            BookingDetail newBooking = SelectedBooking; //temp data
+
+            ParentPageNavigation.ViewModel = new AddBookingViewModel(newBooking);
         }
 
         public async void ExecuteViewCommand()
         {
-            var temp = new ObservableCollection<BookingDetail>
+            if (SelectedBooking == null)
             {
-                bookings[1],
-            };
+                await App.MainRoot.ShowDialog("No selected booking", "Please select a booking first!");
+                return;
+            }
 
-                ParentPageNavigation.ViewModel = new ViewBookingViewModel(temp);
+            ParentPageNavigation.ViewModel = new ViewBookingViewModel(SelectedBooking);
         }
 
         public async void ExecuteEditCommand()
         {
+            if (SelectedBooking == null)
+            {
+                await App.MainRoot.ShowDialog("No selected booking", "Please select a booking first!");
+                return;
+            }
 
+            //edit
         }
 
         public async void ExecuteDeleteCommand()
         {
+            if (SelectedBooking == null)
+            {
+                await App.MainRoot.ShowDialog("No selected booking", "Please select a booking first!");
+                return;
+            }
 
+            //delete
         }
 
-        // getters, setters
-        public DateTime? Date { get => _selectedDate; set => _selectedDate = value; }
+        public DateOnly? Date
+        {
+            get => _selectedDate;
+            set
+            {
+                _selectedDate = value;
+
+                if (_selectedDate == null) return;
+
+                sortedBookings.Clear();
+                foreach (var booking in bookings)
+                {
+                    if (booking.PickupDate.ToString().Equals(_selectedDate.ToString()))
+                    {
+                        sortedBookings.Add(booking);
+                    }
+                }
+
+                OnPropertyChanged(nameof(Date));
+            }
+        }
+
         public ObservableCollection<BookingDetail> BookingList { get => bookings; set => bookings = value; }
+        public ObservableCollection<BookingDetail> SortedBookingList { get => sortedBookings; set => sortedBookings = value; }
         public BookingDetail SelectedBooking { get => _selectedBooking; set => _selectedBooking = value; }
         public string Warning { get => _warning; set => _warning = value; }
 
