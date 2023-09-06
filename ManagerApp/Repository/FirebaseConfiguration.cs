@@ -1,11 +1,11 @@
 ﻿using System;
 using ManagerApp.Services;
 using FireSharp.Config;
-using FireSharp.Response;
 using FireSharp.Interfaces;
 using FireSharp;
 using Microsoft.Extensions.Configuration;
 using ManagerApp.Model;
+using System.Threading.Tasks;
 
 namespace ManagerApp.Repository
 {
@@ -26,21 +26,17 @@ namespace ManagerApp.Repository
             };
         }
 
-        public void TryConnect()
+        public async Task<IFirebaseClient> TryConnect()
         {
             try
             {
-                client = new FirebaseClient(ifc);
+                return new FirebaseClient(ifc);
             }
             catch
             {
-                App.MainRoot.ShowDialog("Can not connect to Firebase", "There was a problem with your internet!");
+                await App.MainRoot.ShowDialog("Can not connect to Firebase", "There was a problem with your internet!");
+                return null;
             }
-        }
-
-        public void ClientSetBooking(String str, BookingDetail obj)
-        {
-            var setter = client.Set(str, obj);
         }
     }
 }
