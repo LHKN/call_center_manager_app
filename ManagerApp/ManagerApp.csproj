@@ -33,6 +33,8 @@
     <None Remove="View\RootPage.xaml" />
     <None Remove="View\StatisticsPage.xaml" />
     <None Remove="View\ViewBookingPage.xaml" />
+    <None Remove="View\ViewCustomerPage.xaml" />
+    <None Remove="View\ViewDriverPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,6 +57,7 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
     <PackageReference Include="Prism.Core" Version="8.1.97" />
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -68,7 +71,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
-    <Folder Include="Repository\" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\AddDriverPage.xaml">
@@ -141,6 +143,16 @@
   </PropertyGroup>
   <ItemGroup>
     <PRIResource Remove="NewFolder\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\ViewDriverPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\ViewCustomerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\ViewBookingPage.xaml">

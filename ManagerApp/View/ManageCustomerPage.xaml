@@ -26,7 +26,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="*"/>
 
         </Grid.RowDefinitions>
 
@@ -60,7 +61,7 @@
             </AppBarButton>
         </StackPanel>
 
-        <controls:DataGrid x:Name="dataGrid" Grid.Row="1" ItemsSource="{Binding DisplayCustomerCollection}" 
+        <controls:DataGrid x:Name="dataGrid" Grid.Row="1" ItemsSource="{Binding DisplayCustomerCollection, Mode=TwoWay}" 
                            VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                             HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"
                             AlternatingRowBackground="Transparent" AlternatingRowForeground="Gray"
@@ -82,10 +83,16 @@
                 <controls:DataGridTextColumn Width="1*" Header="Type" Binding="{Binding Type, Converter={StaticResource typeConverter}}" Tag="Type"/>
             </controls:DataGrid.Columns>
         </controls:DataGrid>
-        
-        <!--<DataGrid>
-            
-        </DataGrid>-->
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+            <AppBarButton Label="Previous" Icon="Previous" Command="{Binding GoToPreviousPageCommand}"/>
+            <StackPanel>
+                <TextBlock HorizontalTextAlignment="Center" Text="{Binding PaginationMessage}"/>
+                <TextBlock HorizontalAlignment="Center">
+                    <Run Text="{Binding CurrentPage}"></Run>/<Run Text="{Binding TotalPages}"></Run>
+                </TextBlock>
+            </StackPanel>
+            <AppBarButton Label="Next" Icon="Next" Command="{Binding GoToNextPageCommand}"/>
+        </StackPanel>
         
     </Grid>
 </Page>

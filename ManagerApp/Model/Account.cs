@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.ComponentModel;
 
 namespace ManagerApp.Model
 {
@@ -7,7 +8,7 @@ namespace ManagerApp.Model
         Admin = 1,
         User = 2,
     }
-    public class Account : INotifyPropertyChanged
+    public class Account : ObservableObject
     {
         protected string _id;
         protected string _name;

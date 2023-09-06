@@ -13,7 +13,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace ManagerApp.ViewModel
 {
-    partial class StatisticsViewModel : ViewModelBase, INotifyPropertyChanged
+    partial class StatisticsViewModel : ViewModelBase
     {
         // fields
         private int _customerCount;
@@ -26,7 +26,6 @@ namespace ManagerApp.ViewModel
         private List<string> _monthLabels;
         private List<string> _yearLabels;
 
-        [Obsolete]
         // constructor
         public StatisticsViewModel() { 
         
