@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ManagerApp.Model
 {
-    class BookingDetail : INotifyPropertyChanged
+    class BookingDetail : ObservableObject
     {
         private int _id;
         private string _phoneNumber;

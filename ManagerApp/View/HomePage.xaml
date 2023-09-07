@@ -18,8 +18,7 @@
         <NavigationView x:Name="nvHomePage"
                         PaneDisplayMode="Left"
                         IsSettingsVisible="False"
-                        IsBackButtonVisible="Collapsed"
-                        MenuItemsSource="{Binding MenuItems}">
+                        IsBackButtonVisible="Collapsed">
 
             <NavigationView.Header>
                 <Image Source="/Assets/logo_bookit.png"

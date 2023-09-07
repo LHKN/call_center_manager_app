@@ -1,9 +1,10 @@
-﻿using System.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.ComponentModel;
 
 
 namespace ManagerApp.Model
 {
-    public class EWallet : INotifyPropertyChanged
+    public class EWallet : ObservableObject
     {
         protected int _id;
         protected string _userId;
