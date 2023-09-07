@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using ManagerApp.Model;
+using ManagerApp.Repository;
 using ManagerApp.Services;
 using System;
 using System.Collections.ObjectModel;
@@ -16,37 +17,45 @@ namespace ManagerApp.ViewModel
         private ObservableCollection<BookingDetail> bookings;
         private ObservableCollection<BookingDetail> sortedBookings;
         private BookingDetail _selectedBooking;
-        private string _warning = "Select before viewing";
+        //private string _warning = "Select before viewing";
+        private string _warning = "";
+
+        private IBookingRepository _bookingRepository;
 
         // constructor
         public BookingScheduleViewModel() {
             // initial data
-            bookings = new ObservableCollection<BookingDetail> {
-                new BookingDetail()
-                {
-                    PhoneNumber = "12346789",
-                    PickupLocationName = "Address A",
-                    DestinationName = "Address B",
-                    Transport = "4 Seater Car",
+                //bookings = new ObservableCollection<BookingDetail> {
+                //    new BookingDetail()
+                //    {
+                //        PhoneNumber = "12346789",
+                //        PickupLocationName = "Address A",
+                //        DestinationName = "Address B",
+                //        Transport = "4 Seater Car",
 
-                    PickupTime = new TimeSpan(14, 15, 00),
-                    PickupDate = new DateOnly(2023, 9, 10),
+                //        PickupTime = new TimeSpan(14, 15, 00),
+                //        PickupDate = new DateOnly(2023, 9, 10),
 
-                    Price = 100000,
-                },
-                new BookingDetail()
-                {
-                    PhoneNumber = "12346789",
-                    PickupLocationName = "Address A",
-                    DestinationName = "Address B",
+                //        Price = 100000,
+                //    },
+                //    new BookingDetail()
+                //    {
+                //        PhoneNumber = "12346789",
+                //        PickupLocationName = "Address A",
+                //        DestinationName = "Address B",
 
-                    PickupTime = new TimeSpan(14, 15, 00),
-                    PickupDate = new DateOnly(2023, 9, 10),
+                //        PickupTime = new TimeSpan(14, 15, 00),
+                //        PickupDate = new DateOnly(2023, 9, 10),
 
-                    Price = 100000,
-                },
-            };
-            _selectedBooking = bookings[1];
+                //        Price = 100000,
+                //    },
+                //};
+                //_selectedBooking = bookings[1];
+
+            _bookingRepository = new BookingRepository();
+
+            var task = _bookingRepository.GetAll();
+            bookings = task.Result;
 
             sortedBookings = new ObservableCollection<BookingDetail>();
             _selectedDate = DateOnly.FromDateTime(DateTimeOffset.Now.Date);
