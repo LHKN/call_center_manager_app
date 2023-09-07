@@ -20,68 +20,88 @@
 
     <Page.Resources>
         <services:CustomerTypeConverter x:Key="typeConverter"/>
+        <Style TargetType="controls:DataGridCell">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="MinHeight" Value="64"/>
+            <Setter Property="IsTabStop" Value="False"/>
+        </Style>
+
+        <Style x:Key="CenterGridHeaderStyle" TargetType="controls:DataGridRowGroupHeader">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
     </Page.Resources>
     
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="5*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="3*"/>
             <RowDefinition Height="*"/>
 
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
 
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="Manage Customer" FontWeight="SemiBold" FontSize="40" Padding="30"/>
-        <StackPanel x:Name="BookCommandStackPanel"
+        <TextBlock Text="Manage Customer" 
+                   Grid.ColumnSpan="3"
+                   FontWeight="SemiBold" 
+                   FontSize="40"
+                   Margin="30 30 0 30"/>
+        <StackPanel x:Name="CustomerCommandsStackPanel"
                         Grid.Row="0" Grid.Column="1"
                         Orientation="Horizontal" Height="50" 
                         RelativePanel.AlignRightWithPanel="True"
-                    HorizontalAlignment="Right">
+                        HorizontalAlignment="Right"
+                        Margin="30">
             <AppBarButton x:Name="addButton" Icon="AddFriend" Label="Add" Command="{Binding AddCommand}"/>
-            <AppBarButton x:Name="importButton" Icon="Import" Label="Import" Command="{Binding ImportCommand}"/>
-            <AppBarButton x:Name="exportButton" Icon="Save" Label="Export" Command="{Binding ExportCommand}"/>
+            <AppBarButton x:Name="viewButton" Icon="View" Label="View" Command="{Binding ViewCommand}"/>
 
-            <AppBarButton Icon="Setting" IsCompact="True" ToolTipService.ToolTip="Sort" AutomationProperties.Name="Sort"
-                          Content="Select">
-                <AppBarButton.Flyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem Text="Option" Tag="match"/>
+            <AppBarButton x:Name="settingButton" Icon="Setting" Label="Setting">
+                <Button.Flyout>
+                    <MenuFlyout Placement="RightEdgeAlignedTop">
+                        <MenuFlyoutItem Text="Import" Tag="import" Command="{Binding ImportCommand}">
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Export" Tag="export" Command="{Binding ExportCommand}"/>
 
-                        <!--<MenuFlyoutItem Text="By rating" Click="MenuFlyoutItem_Click" Tag="rating"/>
-                        <MenuFlyoutItem Text="By match" Click="MenuFlyoutItem_Click" Tag="match"/>
-                        <MenuFlyoutItem Text="By distance" Click="MenuFlyoutItem_Click" Tag="distance"/>-->
                     </MenuFlyout>
-                </AppBarButton.Flyout>
+                </Button.Flyout>
             </AppBarButton>
         </StackPanel>
 
         <controls:DataGrid x:Name="dataGrid" Grid.Row="1" ItemsSource="{Binding DisplayCustomerCollection, Mode=TwoWay}" 
                            VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                             HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"
-                            AlternatingRowBackground="Transparent" AlternatingRowForeground="Gray"
+                            AlternatingRowBackground="LightGray" AlternatingRowForeground="Black"
                             AreRowDetailsFrozen="False" AreRowGroupHeadersFrozen="True"
                             GridLinesVisibility="All"
                             AutoGenerateColumns="False"
+                            IsReadOnly="True"
                             SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
-                            Grid.ColumnSpan="2">
+                            Grid.ColumnSpan="2"
+                            Margin="30"
+                            >
             <controls:DataGrid.Columns>
-                <controls:DataGridTextColumn Width="1*" Header="ID" Binding="{Binding Id}" Tag="ID"/>
-                <controls:DataGridTextColumn Width="1*" Header="Name" Binding="{Binding Name}" Tag="Name"/>
-                <controls:DataGridTextColumn Width="1*" Header="PhoneNumber" Binding="{Binding PhoneNumber}" Tag="PhoneNumber"/>
-                <controls:DataGridTemplateColumn Width="2*" Header="Location" >
+                <controls:DataGridTextColumn Width="1*" Header="CustomerID"  Binding="{Binding Id}" Tag="ID"/>
+                <controls:DataGridTextColumn Width="1*" Header="Name"  Binding="{Binding Name}" Tag="Name"/>
+                <controls:DataGridTextColumn Width="1*" Header="PhoneNumber"  Binding="{Binding PhoneNumber}" Tag="PhoneNumber"/>
+                <controls:DataGridTemplateColumn Width="1.5*" Header="Location">
                     <controls:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Location}" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding Location}" 
+                                       VerticalAlignment="Center"
+                                       Padding="5"
+                                       HorizontalTextAlignment="Start"
+                                       TextWrapping="Wrap" />
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>
                 </controls:DataGridTemplateColumn>
-                <controls:DataGridTextColumn Width="1*" Header="Type" Binding="{Binding Type, Converter={StaticResource typeConverter}}" Tag="Type"/>
+                <controls:DataGridTextColumn Width="1*" Header="Type"  Binding="{Binding Type, Converter={StaticResource typeConverter}}" Tag="Type"/>
             </controls:DataGrid.Columns>
         </controls:DataGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center">

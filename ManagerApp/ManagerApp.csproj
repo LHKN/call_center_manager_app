@@ -26,6 +26,8 @@
     <None Remove="View\AddCustomerPage.xaml" />
     <None Remove="View\AddDriverPage.xaml" />
     <None Remove="View\BookingSchedulePage.xaml" />
+    <None Remove="View\EditCustomerPage.xaml" />
+    <None Remove="View\EditDriverPage.xaml" />
     <None Remove="View\HomePage.xaml" />
     <None Remove="View\LogsPage.xaml" />
     <None Remove="View\ManageCustomerPage.xaml" />
@@ -143,6 +145,16 @@
   </PropertyGroup>
   <ItemGroup>
     <PRIResource Remove="NewFolder\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\EditDriverPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\EditCustomerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\ViewDriverPage.xaml">

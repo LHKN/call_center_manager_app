@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using ManagerApp.Model;
 using ManagerApp.Repository;
+using ManagerApp.Services;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,12 @@ namespace ManagerApp.ViewModel
                     Name = "Trần Văn Tèo",
                     PhoneNumber = "+84834635633",
                     Location = "89 Hoàng Hoa Thám, Phường 6, Bình Thạnh, Thành phố Hồ Chí Minh, Việt Nam",
-
+                    DateOfBirth = new DateOnly(1996,5,26),
+                    Gender = Gender.Male,
+                    Email = "teovan@gmail.com",
+                    CreateByAdmin = "LHKN",
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
                 },
                 new Customer
                 {
@@ -113,8 +119,22 @@ namespace ManagerApp.ViewModel
 
             ExecuteGetAllCustomerCommand();
             AddCommand = new RelayCommand(ExecuteAddCommand);
+            ImportCommand = new RelayCommand(ExecuteImportCommand);
+            ExportCommand = new RelayCommand(ExecutExportCommand);
             GoToNextPageCommand = new RelayCommand(ExecuteGoToNextPageCommand);
             GoToPreviousPageCommand = new RelayCommand(ExecuteGoToPreviousPageCommand);
+            ViewCommand = new RelayCommand(ExecuteViewCommand);
+
+        }
+
+        private void ExecutExportCommand()
+        {
+            
+        }
+
+        private void ExecuteImportCommand()
+        {
+            
         }
 
         // execute commands
@@ -176,6 +196,16 @@ namespace ManagerApp.ViewModel
         //    UpdatePagingInfo();
         //}
 
+        public async void ExecuteViewCommand()
+        {
+            if (SelectedCustomer == null)
+            {
+                await App.MainRoot.ShowDialog("No selected item", "Please select an item first!");
+                return;
+            }
+            ParentPageNavigation.ViewModel = new ViewCustomerViewModel(SelectedCustomer);
+        }
+
 
         // getters, setters
         public List<Customer> CustomerList { get => _customerList; set => _customerList = value; }
@@ -192,8 +222,11 @@ namespace ManagerApp.ViewModel
 
         // commands
         public ICommand AddCommand { get; private set; }
-        public RelayCommand GoToPreviousPageCommand { get; private set; }
-        public RelayCommand GoToNextPageCommand { get; private set; }
+        public ICommand GoToPreviousPageCommand { get; private set; }
+        public ICommand GoToNextPageCommand { get; private set; }
+        public ICommand ViewCommand { get; private set; }
+        public ICommand ImportCommand { get; private set; }
+        public ICommand ExportCommand { get; private set; }
         public Customer SelectedCustomer { get => _selectedCustomer; set => _selectedCustomer = value; }
     }
 }
