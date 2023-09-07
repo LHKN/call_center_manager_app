@@ -79,7 +79,7 @@ namespace ManagerApp.ViewModel
         }
         public void ExecuteUpdateCommand()
         {
-            ParentPageNavigation.ViewModel = new EditCustomerViewModel(); //TODO: implement Update/Edit method on AccountRepository
+            //TODO: implement Update/Edit method on AccountRepository
         }
     }
 }

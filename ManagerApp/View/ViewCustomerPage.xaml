@@ -84,7 +84,6 @@
             <TextBlock Grid.Row="5" Grid.Column="3" FontSize="16" FontFamily="Arial" Text="Date Updated:" Margin="30 30 0 0"/>
             <TextBlock Grid.Row="5" Grid.Column="4" FontSize="16" FontFamily="Arial" FontWeight="SemiBold" Text="{Binding CurrentCustomer.UpdatedAt}" Margin="30 30 0 0"/>
             <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.Column="4"
-                        Background="BurlyWood"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center">
                 <AppBarButton Icon="Clock" 
