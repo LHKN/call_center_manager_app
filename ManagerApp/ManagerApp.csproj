@@ -72,9 +72,6 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="View\AddDriverPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -145,6 +142,11 @@
   </PropertyGroup>
   <ItemGroup>
     <PRIResource Remove="NewFolder\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\MapURI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\EditDriverPage.xaml">

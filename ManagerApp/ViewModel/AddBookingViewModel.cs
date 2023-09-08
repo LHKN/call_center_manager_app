@@ -31,13 +31,16 @@ namespace ManagerApp.ViewModel
 
             Bookings = new ObservableCollection<BookingDetail> {newBooking};
             Booking = newBooking;
+            //Booking.PickupDate = DateOnly.FromDateTime(DateTime.Now);
 
             BackCommand = new RelayCommand(ExecuteBackCommand);
             ConfirmCommand = new RelayCommand(ExecuteConfirmCommand);
+            StartCommand = new RelayCommand(ExecuteStartCommand);
+            EndCommand = new RelayCommand(ExecuteEndCommand);
         }
 
         // execute commands
-        public async void ExecuteBackCommand()
+        public void ExecuteBackCommand()
         {
             ParentPageNavigation.ViewModel = new BookingScheduleViewModel();
         }
@@ -55,6 +58,18 @@ namespace ManagerApp.ViewModel
             }
         }
 
+        public void ExecuteStartCommand()
+        {
+            //not implemented
+            Booking.PickupLocationName = "Address A";
+        }
+
+        public void ExecuteEndCommand()
+        {
+            //not implemented
+            Booking.DestinationName = "Address B";
+        }
+
 
         // getters, setters
         public ObservableCollection<string> TransportOptions { get => transportOptions; set => transportOptions = value; }
@@ -65,5 +80,7 @@ namespace ManagerApp.ViewModel
         // commands
         public ICommand BackCommand { get; }
         public ICommand ConfirmCommand { get; }
+        public ICommand StartCommand { get; }
+        public ICommand EndCommand { get; }
     }
 }

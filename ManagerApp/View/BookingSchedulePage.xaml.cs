@@ -36,7 +36,6 @@ namespace ManagerApp.View
             DateOnly selectedDate = DateOnly.FromDateTime(args.Item.Date.Date);
 
             // sort bookings into Bookings dict
-            List<DateOnly?> dates = new List<DateOnly?>();
             Bookings = new Dictionary<DateOnly?, ObservableCollection<BookingDetail>>();
 
             foreach (BookingDetail booking in allBookings)

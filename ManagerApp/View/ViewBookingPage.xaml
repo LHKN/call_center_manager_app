@@ -60,14 +60,10 @@
                                        FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10" />
                 <AppBarButton Grid.Row="4" Grid.Column="1" x:Name="destinationButton" Icon="MapPin" Label="View" Command="{Binding EndCommand}"/>
 
-                <!--<TextBlock Grid.Row="5" Grid.Column="1" Text="*Required" FontWeight="Light" FontStyle="Italic" Foreground="Red" TextWrapping="WrapWholeWords"/>-->
-
                 <!--optional only for VIP-->
                 <TextBlock Grid.Row="6" Grid.ColumnSpan="4" Text="Optional" FontWeight="Light" FontStyle="Italic" Foreground="DodgerBlue" TextWrapping="WrapWholeWords" Margin="30 20 0 0"/>
 
                 <TextBlock Grid.Row="7" Text="Pickup Date" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"/>
-                <!--<DatePicker Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="datePicker" Visibility="Visible" Width="400"
-                                        SelectedDate="{Binding PickupDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
                 <TextBlock Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" 
                                        FontWeight="Light" TextWrapping="WrapWholeWords" Margin="0 10 10 10" Text="{Binding Booking.PickupDate}"/>
 

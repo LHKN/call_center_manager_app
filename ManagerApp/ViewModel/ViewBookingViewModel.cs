@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using ManagerApp.Model;
+using ManagerApp.Repository;
+using ManagerApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,6 +19,8 @@ namespace ManagerApp.ViewModel
         private BookingDetail booking;
         private ObservableCollection<string> transportOptions;
 
+        private IBookingRepository _bookingRepository;
+
         // constructor
         public ViewBookingViewModel(BookingDetail curBooking)
         {
@@ -28,8 +32,11 @@ namespace ManagerApp.ViewModel
             //Booking = curBooking.FirstOrDefault();
             Booking = curBooking;
 
+            _bookingRepository = new BookingRepository();
+
             BackCommand = new RelayCommand(ExecuteBackCommand);
             EditCommand = new RelayCommand(ExecuteEditCommand);
+            DeleteCommand = new RelayCommand(ExecuteDeleteCommand);
         }
 
         // execute commands
@@ -38,9 +45,28 @@ namespace ManagerApp.ViewModel
             ParentPageNavigation.ViewModel = new BookingScheduleViewModel();
         }
 
+        public async void ExecuteDeleteCommand()
+        {
+            var result = await App.MainRoot.ShowYesCancelDialog("Delete this booking?", "Confirm", "Cancel");
+            if ((bool)result)
+            {
+                try
+                {
+                     await _bookingRepository.Delete(booking.Id);
+                    ExecuteBackCommand();
+                }
+                catch (Exception ex)
+                {
+                    return;
+                }
+            }
+
+        }
+
+
         public async void ExecuteEditCommand()
         {
-
+            
         }
 
 
@@ -53,6 +79,7 @@ namespace ManagerApp.ViewModel
         // commands
         public ICommand BackCommand { get; }
         public ICommand EditCommand { get; }
+        public ICommand DeleteCommand { get; }
 
     }
 }

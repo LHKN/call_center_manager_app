@@ -10,9 +10,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodel="using:ManagerApp.ViewModel" 
     d:DataContext="{d:DesignInstance Type=viewmodel:AddBookingViewModel}"
+    xmlns:services="using:ManagerApp.Services"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <services:DateConverter x:Key="dateConverter"/>
+    </Page.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="5*"/>
@@ -44,7 +49,7 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="Customer Phone Number*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 5"/>
-                <TextBlock Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Booking.PhoneNumber}" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="0 10 10 5"/>
+                <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Booking.PhoneNumber, Mode=TwoWay}" HorizontalAlignment="Left" PlaceholderText="Phone Number" MaxLength="11" MaxWidth="200"/>
                 <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="This customer is VIP" FontWeight="Light" FontStyle="Italic" Foreground="DodgerBlue" TextWrapping="WrapWholeWords" />
 
                 <TextBlock Grid.Row="2" Text="Desired transport*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10"/>
@@ -53,13 +58,12 @@
                                           SelectedItem="{Binding Booking.Transport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Grid.Row="3" Text="Pickup Location*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10"/>
-                <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Booking.PickupLocationName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                       FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10"/>
+                <TextBox Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding Booking.PickupLocationName, Mode=TwoWay}" Margin="10 20 50 10" PlaceholderText="Address"/>
                 <AppBarButton Grid.Row="3" Grid.Column="1" x:Name="startLocationButton" Icon="MapPin" Label="Edit" Command="{Binding StartCommand}"/>
 
                 <TextBlock Grid.Row="4" Text="Destination*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10"/>
-                <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding Booking.DestinationName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                       FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10" />
+                <TextBox Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding Booking.DestinationName, Mode=TwoWay}" Margin="10 20 50 10" PlaceholderText="Address"/>
+
                 <AppBarButton Grid.Row="4" Grid.Column="1" x:Name="destinationButton" Icon="MapPin" Label="Edit" Command="{Binding EndCommand}"/>
 
                 <TextBlock Grid.Row="5" Grid.Column="1" Text="*Required" FontWeight="Light" FontStyle="Italic" Foreground="Red" TextWrapping="WrapWholeWords"/>
@@ -69,7 +73,7 @@
 
                 <TextBlock Grid.Row="7" Text="Pickup Date" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"/>
                 <DatePicker Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="datePicker" Visibility="Visible" Width="400"
-                                        SelectedDate="{Binding Booking.PickupDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        SelectedDate="{Binding Booking.PickupDate, Converter={StaticResource dateConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Grid.Row="8" Text="Pickup Time" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"/>
                 <TimePicker Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" x:Name="timePicker" Visibility="Visible" Width="400"
