@@ -66,7 +66,7 @@ namespace ManagerApp.ViewModel
 
         public async void ExecuteEditCommand()
         {
-            
+            ParentPageNavigation.ViewModel = new EditBookingViewModel(Booking);
         }
 
 

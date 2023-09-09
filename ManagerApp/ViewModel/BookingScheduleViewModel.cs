@@ -27,7 +27,7 @@ namespace ManagerApp.ViewModel
         private ObservableCollection<BookingDetail> sortedBookings;
         private BookingDetail _selectedBooking;
         //private string _warning = "Select before viewing";
-        private string _warning = "";
+        private string _warning = "Updating";
 
         private IBookingRepository _bookingRepository;
 
@@ -53,17 +53,8 @@ namespace ManagerApp.ViewModel
             bookings = new ObservableCollection<BookingDetail>();
 
             _bookingRepository = new BookingRepository();
-            try
-            {
-                var task = _bookingRepository.GetAll();
-                bookings = task.Result;
-            }
-            catch (Exception ex)
-            {
-                return;
-            }
         
-            //ExecuteRefreshCommand();
+            ExecuteRefreshCommand();
        
 
             sortedBookings = new ObservableCollection<BookingDetail>();
@@ -129,12 +120,12 @@ namespace ManagerApp.ViewModel
         //public async void ExecuteRefreshCommand(CalendarView obj)
         public async void ExecuteRefreshCommand()
         {
+            Warning = "Updating";
             await Task.Run(() =>
             {
                 _bookingRepository = new BookingRepository();
                 var task = _bookingRepository.GetAll();
                 bookings = task.Result;
-
 
                 //var element = obj as CalendarView;
 
@@ -169,12 +160,14 @@ namespace ManagerApp.ViewModel
                 //        densityColors.Add(Colors.Blue);
                 //    }
                 //}
-                
+
                 //foreach (var child in children)
                 //{
                 //    child.SetDensityColors(densityColors);
                 //}
             });
+            OnPropertyChanged(nameof(BookingList));
+            Warning = "Finished";
         }
 
 

@@ -26,6 +26,7 @@
     <None Remove="View\AddCustomerPage.xaml" />
     <None Remove="View\AddDriverPage.xaml" />
     <None Remove="View\BookingSchedulePage.xaml" />
+    <None Remove="View\EditBookingPage.xaml" />
     <None Remove="View\EditCustomerPage.xaml" />
     <None Remove="View\EditDriverPage.xaml" />
     <None Remove="View\HomePage.xaml" />
@@ -142,6 +143,11 @@
   </PropertyGroup>
   <ItemGroup>
     <PRIResource Remove="NewFolder\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\EditBookingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\MapURI.xaml">

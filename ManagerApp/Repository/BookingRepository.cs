@@ -170,7 +170,7 @@ namespace ManagerApp.Repository
 
                 if (idFromList != curCount)
                 {
-                    client.Update("Bookings/idList/" + idFromList, idList[curCount]); ;
+                    client.Update("Bookings/idList/" + idFromList, idList[curCount].ToString());
                     client.Delete("Bookings/idList/" + curCount);
                 }
                 else

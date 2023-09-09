@@ -36,23 +36,34 @@
                         Orientation="Horizontal" Height="50" 
                         RelativePanel.AlignRightWithPanel="True"
                     HorizontalAlignment="Right">
-            <AppBarButton x:Name="addButton" Icon="Add" Label="Add" Command="{Binding AddCommand}"/>
+            <AppBarButton x:Name="addButton" Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
+            <AppBarButton x:Name="refreshButton" Icon="Add" Label="Add" Command="{Binding AddCommand}"/>
             <AppBarButton x:Name="viewButton" Icon="ZoomIn" Label="View" Command="{Binding ViewCommand}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Margin="10 10 100 10">
-            <TextBlock Text="ALL BOOKINGS" FontWeight="Bold" Padding="10"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
 
-            <CalendarView
-                CalendarViewDayItemChanging="CalendarView_CalendarViewDayItemChanging"
-                SelectionMode="None"
-                IsGroupLabelVisible="True"
-                IsOutOfScopeEnabled="True"
-                Language="en"
-                CalendarIdentifier="GregorianCalendar" 
-                Margin="10"
-                Grid.Row="1"
-                />
+                <TextBlock Text="ALL BOOKINGS" FontWeight="Bold" Margin="30 30 0 0"/>
+                <Button Content="Update Calendar" HorizontalAlignment="Right" Margin="0 20 60 0" Click="Button_Click" />
+                <!--CommandParameter="{Binding Source={x:Bind calendar}}"/>-->
+                
+                <CalendarView
+                    x:Name="calendar"
+                    Grid.Row="1" 
+                    CalendarViewDayItemChanging="CalendarView_CalendarViewDayItemChanging"
+                    SelectionMode="None"
+                    IsGroupLabelVisible="True"
+                    IsOutOfScopeEnabled="True"
+                    Language="en"
+                    CalendarIdentifier="GregorianCalendar" 
+                    Margin="10"
+                    />
+            </Grid>
 
         <!--services:CalendarViewHelper.SelectedDate="{Binding Date, Mode=OneWay}"-->
         <!--SelectedDatesChanged="CalendarView_SelectedDatesChanged"-->
@@ -70,9 +81,9 @@
         <!--temp stackpanel-->
         <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBlock TextWrapping="WrapWholeWords" Text="{Binding Warning, UpdateSourceTrigger=PropertyChanged}" 
-                       FontWeight="Light" FontStyle="Italic" Foreground="Red" HorizontalTextAlignment="End" Margin="5 0 5 10"/>
+                       FontWeight="Light" FontStyle="Italic" Foreground="CadetBlue" HorizontalTextAlignment="End" Margin="5 0 5 0"/>
 
-            <TextBlock Text="VIEW BOOKINGS BY DATE" FontWeight="Bold" Padding="10"/>
+            <TextBlock Text="VIEW BOOKINGS BY DATE" FontWeight="Bold" Padding="20"/>
 
             <!--<TextBlock TextWrapping="WrapWholeWords" Margin="10 0 0 10">
                            Selected Date: <Run x:Name="selectedDate" Text="{Binding Date, UpdateSourceTrigger=PropertyChanged}" 
@@ -83,16 +94,18 @@
                         SelectedDate="{Binding Date, Mode=TwoWay, Converter={StaticResource dateConverter}, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"/>
 
             <ListView x:Name="dataListView" 
-                      ItemsSource="{Binding BookingList}"
+                      ItemsSource="{Binding BookingList, UpdateSourceTrigger=PropertyChanged}"
                       IsActiveView="False"
                       Visibility="Collapsed">
             </ListView>
 
             <ListView x:Name="dataListView2" 
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Visible"
                       Margin="10,50,0,0"
                       ItemsSource="{Binding SortedBookingList, Mode=TwoWay}"
-                      SelectedItem="{Binding SelectedBooking, Mode=TwoWay}">
+                      SelectedItem="{Binding SelectedBooking, Mode=TwoWay}"
+                      MaxHeight="600">
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
