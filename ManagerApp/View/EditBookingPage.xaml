@@ -51,7 +51,7 @@
                 <TextBlock Text="Customer Phone Number*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 5"/>
                 <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Booking.PhoneNumber, Mode=OneWay}" HorizontalAlignment="Left" PlaceholderText="{Binding Booking.PhoneNumber, Mode=OneWay}" IsReadOnly="True" MaxWidth="200"/>
                 <!--<NumberBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Booking.PhoneNumber, Mode=TwoWay}" HorizontalAlignment="Left" PlaceholderText="Phone Number" Maximum="99999999999" MaxWidth="200"/>-->
-                <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="This customer is VIP" FontWeight="Light" FontStyle="Italic" Foreground="DodgerBlue" TextWrapping="WrapWholeWords" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding CustomerStatus}" FontWeight="Light" FontStyle="Italic" Foreground="DodgerBlue" TextWrapping="WrapWholeWords" />
 
                 <TextBlock Grid.Row="2" Text="Desired transport*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10"/>
                 <RadioButtons Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" x:Name="RadioButtons" SelectedIndex="0" MaxColumns="3" Margin="0 5 10 5"

@@ -2,11 +2,7 @@
 using ManagerApp.Model;
 using ManagerApp.Repository;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ManagerApp.ViewModel
@@ -22,6 +18,8 @@ namespace ManagerApp.ViewModel
         // constructor
         public AddBookingViewModel(BookingDetail newBooking)
         {
+            const int VIP_ROLE = 1;
+
             //initial
             _bookingRepository = new BookingRepository();
             
@@ -31,7 +29,21 @@ namespace ManagerApp.ViewModel
 
             Bookings = new ObservableCollection<BookingDetail> {newBooking};
             Booking = newBooking;
-            //Booking.PickupDate = DateOnly.FromDateTime(DateTime.Now);
+
+            Booking.PickupDate = DateOnly.FromDateTime(DateTime.Now);
+            Booking.PickupTime = DateTime.Now.TimeOfDay;
+            Visibility = false;
+            CustomerStatus = "This customer is Regular";
+
+            if (Booking.CustomerRole == VIP_ROLE)
+            {
+                Visibility = true;
+                CustomerStatus = "This customer is VIP";
+            }
+            else
+            {
+                Booking.Status = 1;
+            }
 
             BackCommand = new RelayCommand(ExecuteBackCommand);
             ConfirmCommand = new RelayCommand(ExecuteConfirmCommand);
@@ -75,7 +87,8 @@ namespace ManagerApp.ViewModel
         public ObservableCollection<string> TransportOptions { get => transportOptions; set => transportOptions = value; }
         public ObservableCollection<BookingDetail> Bookings { get; set; }
         public BookingDetail Booking { get => booking; set => booking = value; }
-
+        public bool Visibility { get; set; }
+        public string CustomerStatus { get; set; }
 
         // commands
         public ICommand BackCommand { get; }

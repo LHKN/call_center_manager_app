@@ -33,7 +33,7 @@
         <TextBlock Text="Booking Schedule" FontWeight="SemiBold" FontSize="40" Padding="30"/>
         <StackPanel x:Name="BookCommandStackPanel"
                         Grid.Row="0" Grid.Column="1"
-                        Orientation="Horizontal" Height="50" 
+                        Orientation="Horizontal" Height="60" 
                         RelativePanel.AlignRightWithPanel="True"
                     HorizontalAlignment="Right">
             <AppBarButton x:Name="addButton" Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
@@ -49,7 +49,7 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="ALL BOOKINGS" FontWeight="Bold" Margin="30 30 0 0"/>
-                <Button Content="Update Calendar" HorizontalAlignment="Right" Margin="0 20 60 0" Click="Button_Click" />
+                <Button Content="Update Calendar" HorizontalAlignment="Right" Margin="0 20 40 0" Click="Button_Click" />
                 <!--CommandParameter="{Binding Source={x:Bind calendar}}"/>-->
                 
                 <CalendarView
@@ -70,8 +70,9 @@
 
             <TextBlock TextWrapping="WrapWholeWords" Text="Notes:" Padding="10"/>
             <TextBlock TextWrapping="WrapWholeWords" Text="Blue date is today's date" Padding="20 0 0 0"/>
-            <TextBlock TextWrapping="WrapWholeWords" Text="The number of green strokes is the number of bookings" Padding="20 0 0 0"/>
+            <TextBlock TextWrapping="WrapWholeWords" Text="The number of strokes is the number of bookings" Padding="20 0 0 0"/>
             <TextBlock TextWrapping="WrapWholeWords" Text="Bookings on dates before today's date will not display" Padding="20 0 0 0"/>
+            <TextBlock TextWrapping="WrapWholeWords" Text="Can only edit orange/'status 0' bookings" Padding="20 0 0 0"/>
 
         </StackPanel>
 

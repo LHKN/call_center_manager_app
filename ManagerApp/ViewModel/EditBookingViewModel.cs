@@ -13,6 +13,8 @@ namespace ManagerApp.ViewModel
 {
     class EditBookingViewModel : ViewModelBase
     {
+        const int VIP_ROLE = 1;
+
         // fields
         private BookingDetail booking;
         //private BookingDetail old;
@@ -35,6 +37,12 @@ namespace ManagerApp.ViewModel
             //old = oldBooking;
             //Booking.PickupDate = DateOnly.FromDateTime(DateTime.Now);
 
+            if(Booking.CustomerRole == VIP_ROLE)
+            {
+                CustomerStatus = "This customer is VIP";
+            }
+            else CustomerStatus = "This customer is Regular";
+
             BackCommand = new RelayCommand(ExecuteBackCommand);
             ConfirmCommand = new RelayCommand(ExecuteConfirmCommand);
             StartCommand = new RelayCommand(ExecuteStartCommand);
@@ -44,7 +52,7 @@ namespace ManagerApp.ViewModel
         // execute commands
         public void ExecuteBackCommand()
         {
-            ParentPageNavigation.ViewModel = new BookingScheduleViewModel();
+            ParentPageNavigation.ViewModel = new ViewBookingViewModel(booking);
         }
 
         public async void ExecuteConfirmCommand()
@@ -78,6 +86,7 @@ namespace ManagerApp.ViewModel
         public ObservableCollection<string> TransportOptions { get => transportOptions; set => transportOptions = value; }
         public ObservableCollection<BookingDetail> Bookings { get; set; }
         public BookingDetail Booking { get => booking; set => booking = value; }
+        public string CustomerStatus { get; set; }
 
 
         // commands

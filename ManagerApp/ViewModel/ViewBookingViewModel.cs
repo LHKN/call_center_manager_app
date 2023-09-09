@@ -3,19 +3,16 @@ using ManagerApp.Model;
 using ManagerApp.Repository;
 using ManagerApp.Services;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ManagerApp.ViewModel
 {
     class ViewBookingViewModel : ViewModelBase
     {
+        const int VIP_ROLE = 1;
+        
         // fields
-        //private ObservableCollection<BookingDetail> bookings;
         private BookingDetail booking;
         private ObservableCollection<string> transportOptions;
 
@@ -28,9 +25,24 @@ namespace ManagerApp.ViewModel
             transportOptions = new ObservableCollection<string> {
                     "4 Seater Car","7 Seater Car","Motorbike"
             };
-            //Bookings = curBooking;
-            //Booking = curBooking.FirstOrDefault();
             Booking = curBooking;
+            
+            if (curBooking.Status != 0)
+            {
+                EditVisibility = false;
+            }
+            else EditVisibility = true;
+
+            if (Booking.CustomerRole == VIP_ROLE)
+            {
+                CustomerStatus = "This customer is VIP";
+                DisplayText = "Optional";
+            }
+            else
+            {
+                CustomerStatus = "This customer is Regular";
+                DisplayText = "Can not edit";
+            }
 
             _bookingRepository = new BookingRepository();
 
@@ -72,9 +84,10 @@ namespace ManagerApp.ViewModel
 
         // getters, setters
         public ObservableCollection<string> TransportOptions { get => transportOptions; set => transportOptions = value; }
-        //public ObservableCollection<BookingDetail> Bookings { get; set; }
         public BookingDetail Booking { get => booking; set => booking = value; }
-
+        public bool EditVisibility { get; set; }
+        public string CustomerStatus { get; set; }
+        public string DisplayText { get; set; }
 
         // commands
         public ICommand BackCommand { get; }

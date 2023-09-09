@@ -11,20 +11,16 @@ namespace ManagerApp.Repository
 {
     class BookingRepository : FirebaseConfiguration, IBookingRepository
     {
-        public bool UpdateBookingDetail(IFirebaseClient client, BookingDetail booking)
+        public bool UpdateBookingDetail(IFirebaseClient client, BookingDetail booking) //TODO: fix
         {
             try
             {
-                client.Update("Bookings/" + booking.Id + "/PhoneNumber", booking.PhoneNumber);
-                client.Update("Bookings/" + booking.Id + "/CustomerRole", booking.CustomerRole.ToString());
-                client.Update("Bookings/" + booking.Id + "/PickupLocationName", booking.PickupLocationName);
-                client.Update("Bookings/" + booking.Id + "/DestinationName", booking.DestinationName);
-                client.Update("Bookings/" + booking.Id + "/PickupTime", booking.PickupTime.ToString());
-                client.Update("Bookings/" + booking.Id + "/PickupDate", booking.PickupDate.ToString());
-                client.Update("Bookings/" + booking.Id + "/Price", booking.Price.ToString());
-                client.Update("Bookings/" + booking.Id + "/Rating", booking.Rating.ToString());
-                client.Update("Bookings/" + booking.Id + "/Transport", booking.Transport);
-                client.Update("Bookings/" + booking.Id + "/Status", booking.Status.ToString());
+                client.Set("Bookings/" + booking.Id + "/PickupLocationName", booking.PickupLocationName);
+                client.Set("Bookings/" + booking.Id + "/DestinationName", booking.DestinationName);
+                client.Set("Bookings/" + booking.Id + "/PickupTime", booking.PickupTime.ToString());
+                client.Set("Bookings/" + booking.Id + "/PickupDate", booking.PickupDate.ToString());
+                client.Set("Bookings/" + booking.Id + "/Transport", booking.Transport);
+                client.Set("Bookings/" + booking.Id + "/Status", booking.Status.ToString());
             }
             catch (Exception e)
             {
@@ -51,6 +47,7 @@ namespace ManagerApp.Repository
             }
             catch (Exception e)
             {
+                client.Delete("Bookings/" + booking.Id);
                 return false;
             }
 
@@ -170,7 +167,7 @@ namespace ManagerApp.Repository
 
                 if (idFromList != curCount)
                 {
-                    client.Update("Bookings/idList/" + idFromList, idList[curCount].ToString());
+                    client.Set("Bookings/idList/" + idFromList, (idList[curCount]).ToString());
                     client.Delete("Bookings/idList/" + curCount);
                 }
                 else
