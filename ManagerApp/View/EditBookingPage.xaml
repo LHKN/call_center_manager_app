@@ -70,14 +70,15 @@
                 <TextBlock Grid.Row="5" Grid.Column="1" Text="*Required" FontWeight="Light" FontStyle="Italic" Foreground="Red" TextWrapping="WrapWholeWords"/>
 
                 <!--optional only for VIP-->
-                <TextBlock Grid.Row="6" Grid.ColumnSpan="4" Text="Optional" FontWeight="Light" FontStyle="Italic" Foreground="DodgerBlue" TextWrapping="WrapWholeWords" Margin="30 20 0 0"/>
+                <TextBlock Grid.Row="6" Grid.ColumnSpan="4" Text="Optional" FontWeight="Light" FontStyle="Italic" Foreground="DodgerBlue" TextWrapping="WrapWholeWords" Margin="30 20 0 0"
+                           Visibility="{Binding EditVisibility}"/>
 
                 <TextBlock Grid.Row="7" Text="Pickup Date" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"/>
-                <DatePicker Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="datePicker" Visibility="Visible" Width="400"
+                <DatePicker Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="datePicker" Visibility="{Binding EditVisibility}" Width="400"
                                         SelectedDate="{Binding Booking.PickupDate, Converter={StaticResource dateConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Grid.Row="8" Text="Pickup Time" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"/>
-                <TimePicker Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" x:Name="timePicker" Visibility="Visible" Width="400"
+                <TimePicker Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" x:Name="timePicker" Visibility="{Binding EditVisibility}" Width="400"
                                         SelectedTime="{Binding Booking.PickupTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <!--optional only for VIP-->
 
@@ -96,7 +97,7 @@
                         Orientation="Horizontal" Height="50" 
                         RelativePanel.AlignRightWithPanel="True"
                     HorizontalAlignment="Right">
-            <AppBarButton x:Name="backButton" Icon="Calendar" Label="Back" Command="{Binding BackCommand}"/>
+            <AppBarButton x:Name="backButton" Icon="Back" Label="Back" Command="{Binding BackCommand}"/>
             <AppBarButton x:Name="confirmButton" Icon="Accept" Label="Confirm" Command="{Binding ConfirmCommand}"/>
         </StackPanel>
 

@@ -21,6 +21,8 @@ namespace ManagerApp.Services
             {typeof(ViewBookingViewModel), typeof(ViewBookingPage)},
             {typeof(EditBookingViewModel), typeof(EditBookingPage)},
 
+            {typeof(MapService), typeof(MapURI)},
+
             {typeof(ManageCustomerViewModel), typeof(ManageCustomerPage)},
             {typeof(AddCustomerViewModel), typeof(AddCustomerPage)},
             {typeof(ViewCustomerViewModel), typeof(ViewCustomerPage)},

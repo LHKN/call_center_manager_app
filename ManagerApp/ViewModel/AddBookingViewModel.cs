@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using ManagerApp.Model;
 using ManagerApp.Repository;
+using ManagerApp.Services;
+using MapControl;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -9,6 +11,8 @@ namespace ManagerApp.ViewModel
 {
     class AddBookingViewModel : ViewModelBase
     {
+        const string indicator = "AddBooking";
+
         // fields
         private BookingDetail booking;
         private ObservableCollection<string> transportOptions;
@@ -73,15 +77,20 @@ namespace ManagerApp.ViewModel
         public void ExecuteStartCommand()
         {
             //not implemented
-            Booking.PickupLocationName = "Address A";
+            Booking.PickupLocationName = "119 Đ. Võ Văn Kiệt, Phường 7, Quận 6, Thành phố Hồ Chí Minh, Vietnam";
+            Booking.PickupLocationLatitude = 10.740126;
+            Booking.PickupLocationLongitude = 106.641168;
+            ParentPageNavigation.ViewModel = new MapService(booking, indicator);
         }
 
         public void ExecuteEndCommand()
         {
             //not implemented
-            Booking.DestinationName = "Address B";
+            Booking.DestinationName = "107-54 Trương Định, Phường 6, Quận 3, Thành phố Hồ Chí Minh, Vietnam";
+            Booking.DestinationLatitude = 10.778695;
+            Booking.DestinationLongitude = 106.688538;
+            ParentPageNavigation.ViewModel = new MapService(booking, indicator);
         }
-
 
         // getters, setters
         public ObservableCollection<string> TransportOptions { get => transportOptions; set => transportOptions = value; }

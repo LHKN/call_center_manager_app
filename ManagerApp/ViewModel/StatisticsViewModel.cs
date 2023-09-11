@@ -110,50 +110,6 @@ namespace ManagerApp.ViewModel
             };
         }
 
-        //private async void Load_Statistics(RoutedEventArgs e)
-        //{
-        //    //top 5 best selling books of the year
-        //    month = 1;
-        //    year_month_day = new StringBuilder().Append(year).Append(seperator).Append(month).Append(seperator).Append(day).ToString();
-        //    DateTime startYearlyDate = DateTime.Parse(year_month_day);
-        //    var top5YearlyBook = await _statisticRepository.GetTop5ProductStatistic(startYearlyDate.Date, DateTimeOffset.Now.Date);
-
-        //    if (top5YearlyBook == null)
-        //    {
-        //        top5YearlyBook = new List<Tuple<string, int>>();
-        //        top5YearlyBook.Add(new Tuple<string, int>("Book 1", 0));
-        //        top5YearlyBook.Add(new Tuple<string, int>("Book 2", 0));
-        //        top5YearlyBook.Add(new Tuple<string, int>("Book 3", 0));
-        //        top5YearlyBook.Add(new Tuple<string, int>("Book 4", 0));
-        //        top5YearlyBook.Add(new Tuple<string, int>("Book 5", 0));
-        //    }
-
-        //    List<string> labels = new List<string>();
-
-        //    top5YearlyBook.ForEach(book =>
-        //    {
-        //        labels.Add(book.Item1);
-        //    });
-
-        //    YearlyXAxes[0].Labels = labels;
-        //    TopYearlyBestSellerSeries = new List<ISeries>();
-
-        //    TopYearlyBestSellerSeries.Add(new ColumnSeries<Tuple<string, int>>
-        //    {
-        //        Stroke = new SolidColorPaint(SKColors.Blue) { StrokeThickness = 2 },
-        //        Values = top5YearlyBook,
-
-        //        Fill = new SolidColorPaint(SKColors.Blue),
-
-        //        Mapping = (taskItem, point) =>
-        //        {
-        //            point.PrimaryValue = (int)taskItem.Item2;
-        //            point.SecondaryValue = point.Context.Index;
-        //        },
-        //        TooltipLabelFormatter = point => $"{point.Model.Item1.ToString()}: {point.PrimaryValue.ToString()}"
-        //    });
-        //}
-
         // getters, setters
         public int CustomerCount { get => _customerCount; set => _customerCount = value; }
         public int DriverCount { get => _driverCount; set => _driverCount = value; }

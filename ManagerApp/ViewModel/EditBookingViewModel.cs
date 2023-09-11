@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using ManagerApp.Model;
 using ManagerApp.Repository;
+using ManagerApp.Services;
+using MapControl;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,6 +16,7 @@ namespace ManagerApp.ViewModel
     class EditBookingViewModel : ViewModelBase
     {
         const int VIP_ROLE = 1;
+        const string indicator = "EditBooking";
 
         // fields
         private BookingDetail booking;
@@ -35,11 +38,12 @@ namespace ManagerApp.ViewModel
             Bookings = new ObservableCollection<BookingDetail> { oldBooking };
             Booking = oldBooking;
             //old = oldBooking;
-            //Booking.PickupDate = DateOnly.FromDateTime(DateTime.Now);
+            EditVisibility = false;
 
-            if(Booking.CustomerRole == VIP_ROLE)
+            if (Booking.CustomerRole == VIP_ROLE)
             {
                 CustomerStatus = "This customer is VIP";
+                EditVisibility = true;
             }
             else CustomerStatus = "This customer is Regular";
 
@@ -72,21 +76,27 @@ namespace ManagerApp.ViewModel
         public void ExecuteStartCommand()
         {
             //not implemented
-            Booking.PickupLocationName = "Address A";
+            Booking.PickupLocationName = "119 Đ. Võ Văn Kiệt, Phường 7, Quận 6, Thành phố Hồ Chí Minh, Vietnam";
+            Booking.PickupLocationLatitude = 10.740126;
+            Booking.PickupLocationLongitude = 106.641168;
+            ParentPageNavigation.ViewModel = new MapService(booking, indicator);
         }
 
         public void ExecuteEndCommand()
         {
             //not implemented
-            Booking.DestinationName = "Address B";
+            Booking.DestinationName = "107-54 Trương Định, Phường 6, Quận 3, Thành phố Hồ Chí Minh, Vietnam";
+            Booking.DestinationLatitude = 10.778695;
+            Booking.DestinationLongitude = 106.688538;
+            ParentPageNavigation.ViewModel = new MapService(booking, indicator);
         }
-
 
         // getters, setters
         public ObservableCollection<string> TransportOptions { get => transportOptions; set => transportOptions = value; }
         public ObservableCollection<BookingDetail> Bookings { get; set; }
         public BookingDetail Booking { get => booking; set => booking = value; }
         public string CustomerStatus { get; set; }
+        public bool EditVisibility { get; set; }
 
 
         // commands

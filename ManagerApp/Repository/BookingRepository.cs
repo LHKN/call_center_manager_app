@@ -17,13 +17,20 @@ namespace ManagerApp.Repository
             {
                 client.Set("Bookings/" + booking.Id + "/PickupLocationName", booking.PickupLocationName);
                 client.Set("Bookings/" + booking.Id + "/DestinationName", booking.DestinationName);
+                client.Set("Bookings/" + booking.Id + "/PickupLocationLatitude", booking.PickupLocationLatitude.ToString());
+                client.Set("Bookings/" + booking.Id + "/PickupLocationLongitude", booking.PickupLocationLongitude.ToString());
+                client.Set("Bookings/" + booking.Id + "/DestinationLatitude", booking.DestinationLatitude.ToString());
+                client.Set("Bookings/" + booking.Id + "/DestinationLongitude", booking.DestinationLongitude.ToString());
                 client.Set("Bookings/" + booking.Id + "/PickupTime", booking.PickupTime.ToString());
                 client.Set("Bookings/" + booking.Id + "/PickupDate", booking.PickupDate.ToString());
                 client.Set("Bookings/" + booking.Id + "/Transport", booking.Transport);
                 client.Set("Bookings/" + booking.Id + "/Status", booking.Status.ToString());
             }
-            catch (Exception e)
+            catch (Exception ex) when (ex is AggregateException ||
+                                      ex is Exception ||
+                                      ex is ArgumentNullException)
             {
+                App.MainRoot.ShowDialog("Error", ex.Message);  
                 return false;
             }
 
@@ -38,6 +45,10 @@ namespace ManagerApp.Repository
                 client.Set("Bookings/" + booking.Id + "/CustomerRole", booking.CustomerRole.ToString());
                 client.Set("Bookings/" + booking.Id + "/PickupLocationName", booking.PickupLocationName);
                 client.Set("Bookings/" + booking.Id + "/DestinationName", booking.DestinationName);
+                client.Set("Bookings/" + booking.Id + "/PickupLocationLatitude", booking.PickupLocationLatitude.ToString());
+                client.Set("Bookings/" + booking.Id + "/PickupLocationLongitude", booking.PickupLocationLongitude.ToString());
+                client.Set("Bookings/" + booking.Id + "/DestinationLatitude", booking.DestinationLatitude.ToString());
+                client.Set("Bookings/" + booking.Id + "/DestinationLongitude", booking.DestinationLongitude.ToString());
                 client.Set("Bookings/" + booking.Id + "/PickupTime", booking.PickupTime.ToString());
                 client.Set("Bookings/" + booking.Id + "/PickupDate", booking.PickupDate.ToString());
                 client.Set("Bookings/" + booking.Id + "/Price", booking.Price.ToString());
@@ -45,8 +56,11 @@ namespace ManagerApp.Repository
                 client.Set("Bookings/" + booking.Id + "/Transport", booking.Transport);
                 client.Set("Bookings/" + booking.Id + "/Status", booking.Status.ToString());
             }
-            catch (Exception e)
+            catch (Exception ex) when (ex is AggregateException ||
+                                      ex is Exception ||
+                                      ex is ArgumentNullException)
             {
+                App.MainRoot.ShowDialog("Error", ex.Message);         
                 client.Delete("Bookings/" + booking.Id);
                 return false;
             }
@@ -88,8 +102,11 @@ namespace ManagerApp.Repository
                 res = client.Get("Bookings/" + booking.Id + "/Status");
                 booking.Status = int.Parse(res.ResultAs<string>());
             }
-            catch (Exception e)
+            catch (Exception ex) when (ex is AggregateException ||
+                                      ex is Exception ||
+                                      ex is ArgumentNullException)
             {
+                App.MainRoot.ShowDialog("Error", ex.Message);
                 return false;
             }
             return true;
@@ -124,9 +141,11 @@ namespace ManagerApp.Repository
                     await App.MainRoot.ShowDialog("Error", "Add Booking Failed...");
                 }
             }
-            catch (Exception e)
+            catch (Exception ex) when (ex is AggregateException ||
+                                      ex is Exception ||
+                                      ex is ArgumentNullException)
             {
-                await App.MainRoot.ShowDialog("Can not connect to Firebase", "There was a problem with your internet!");
+                await App.MainRoot.ShowDialog("Error", ex.Message);
             }
 
             return result;
@@ -177,9 +196,11 @@ namespace ManagerApp.Repository
 
                 await App.MainRoot.ShowDialog("Success", "Delete Booking Successfully!");
             }
-            catch (Exception e)
+            catch (Exception ex) when (ex is AggregateException ||
+                                      ex is Exception ||
+                                      ex is ArgumentNullException)
             {
-                await App.MainRoot.ShowDialog("Can not connect to Firebase", "There was a problem with your internet!");
+                await App.MainRoot.ShowDialog("Error", ex.Message);
             }
 
             return result;
@@ -204,9 +225,11 @@ namespace ManagerApp.Repository
                     await App.MainRoot.ShowDialog("Error", "Update Booking Failed...");
                 }
             }
-            catch (Exception e)
+            catch (Exception ex) when (ex is AggregateException ||
+                                      ex is Exception ||
+                                      ex is ArgumentNullException)
             {
-                await App.MainRoot.ShowDialog("Can not connect to Firebase", "There was a problem with your internet!");
+                await App.MainRoot.ShowDialog("Error", ex.Message);
             }
 
             return result;
@@ -249,9 +272,11 @@ namespace ManagerApp.Repository
                 }
 
             }
-            catch(Exception ex)
+            catch(Exception ex) when (ex is AggregateException ||
+                                      ex is Exception ||
+                                      ex is ArgumentNullException)
             {
-                await App.MainRoot.ShowDialog("Can not connect to Firebase", "There was a problem with your internet!");
+                await App.MainRoot.ShowDialog("Error", ex.Message);
             }
 
             return bookings;
@@ -276,9 +301,11 @@ namespace ManagerApp.Repository
                 }
                 return temp;
             }
-            catch (Exception e)
+            catch (Exception ex) when (ex is AggregateException ||
+                                      ex is Exception ||
+                                      ex is ArgumentNullException)
             {
-                await App.MainRoot.ShowDialog("Can not connect to Firebase", "There was a problem with your internet!");
+                await App.MainRoot.ShowDialog("Error", ex.Message);
                 return new BookingDetail();
             }
         }
@@ -305,9 +332,11 @@ namespace ManagerApp.Repository
 
                 return idList.Max() + 1;
             }
-            catch (Exception e)
+            catch (Exception ex) when (ex is AggregateException ||
+                                      ex is Exception ||
+                                      ex is ArgumentNullException)
             {
-                await App.MainRoot.ShowDialog("Can not connect to Firebase", "There was a problem with your internet!");
+                await App.MainRoot.ShowDialog("Error", ex.Message);
                 return -1;
             }
 

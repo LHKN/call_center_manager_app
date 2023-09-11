@@ -11,7 +11,8 @@ namespace ManagerApp.ViewModel
     class ViewBookingViewModel : ViewModelBase
     {
         const int VIP_ROLE = 1;
-        
+        const string indicator = "ViewBooking";
+
         // fields
         private BookingDetail booking;
         private ObservableCollection<string> transportOptions;
@@ -49,6 +50,8 @@ namespace ManagerApp.ViewModel
             BackCommand = new RelayCommand(ExecuteBackCommand);
             EditCommand = new RelayCommand(ExecuteEditCommand);
             DeleteCommand = new RelayCommand(ExecuteDeleteCommand);
+            StartCommand = new RelayCommand(ExecuteStartCommand);
+            EndCommand = new RelayCommand(ExecuteEndCommand);
         }
 
         // execute commands
@@ -69,6 +72,7 @@ namespace ManagerApp.ViewModel
                 }
                 catch (Exception ex)
                 {
+                    await App.MainRoot.ShowDialog("Error", ex.Message);
                     return;
                 }
             }
@@ -81,6 +85,15 @@ namespace ManagerApp.ViewModel
             ParentPageNavigation.ViewModel = new EditBookingViewModel(Booking);
         }
 
+        public void ExecuteStartCommand()
+        {
+            ParentPageNavigation.ViewModel = new MapService(booking, indicator);
+        }
+
+        public void ExecuteEndCommand()
+        {
+            ParentPageNavigation.ViewModel = new MapService(booking, indicator);
+        }
 
         // getters, setters
         public ObservableCollection<string> TransportOptions { get => transportOptions; set => transportOptions = value; }
@@ -93,6 +106,8 @@ namespace ManagerApp.ViewModel
         public ICommand BackCommand { get; }
         public ICommand EditCommand { get; }
         public ICommand DeleteCommand { get; }
+        public ICommand StartCommand { get; }
+        public ICommand EndCommand { get; }
 
     }
 }

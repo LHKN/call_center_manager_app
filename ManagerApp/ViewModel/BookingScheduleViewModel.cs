@@ -37,8 +37,6 @@ namespace ManagerApp.ViewModel
 
             AddCommand = new RelayCommand(ExecuteAddCommand);
             ViewCommand = new RelayCommand(ExecuteViewCommand);
-            EditCommand = new RelayCommand(ExecuteEditCommand);
-            DeleteCommand = new RelayCommand(ExecuteDeleteCommand);
             RefreshCommand = new RelayCommand(ExecuteRefreshCommand);
         }
 
@@ -65,28 +63,6 @@ namespace ManagerApp.ViewModel
             }
 
             ParentPageNavigation.ViewModel = new ViewBookingViewModel(SelectedBooking);
-        }
-
-        public async void ExecuteEditCommand()
-        {
-            if (SelectedBooking == null)
-            {
-                await App.MainRoot.ShowDialog("No selected booking", "Please select a booking first!");
-                return;
-            }
-
-            //edit
-        }
-
-        public async void ExecuteDeleteCommand()
-        {
-            if (SelectedBooking == null)
-            {
-                await App.MainRoot.ShowDialog("No selected booking", "Please select a booking first!");
-                return;
-            }
-
-            //delete
         }
 
         public async void ExecuteRefreshCommand()
@@ -133,8 +109,6 @@ namespace ManagerApp.ViewModel
         // commands
         public ICommand AddCommand { get; }
         public ICommand ViewCommand { get; }
-        public ICommand EditCommand { get; }
-        public ICommand DeleteCommand { get; }
         public ICommand RefreshCommand { get; }
     }
 }

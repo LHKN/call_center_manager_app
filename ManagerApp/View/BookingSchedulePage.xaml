@@ -48,7 +48,7 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="ALL BOOKINGS" FontWeight="Bold" Margin="30 30 0 0"/>
+                <TextBlock Text="CURRENT BOOKINGS" FontWeight="Bold" Margin="30 30 0 0"/>
                 <Button Content="Update Calendar" HorizontalAlignment="Right" Margin="0 20 40 0" Click="Button_Click" />
                 <!--CommandParameter="{Binding Source={x:Bind calendar}}"/>-->
                 
