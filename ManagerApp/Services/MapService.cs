@@ -34,27 +34,39 @@ namespace ManagerApp.Services
 
         public MapService(BookingDetail booking, string VMIndicator)
         {
-            //Points.Add(new PointItem
-            //{
-            //    Name = "Ho Chi Minh City, Ho Chi Minh City, Vietnam",
-            //    Location = new Location(10.77653, 106.700974)
-            //});
             BackCommand = new RelayCommand(ExecuteBackCommand);
 
             this.booking = booking; 
             previousVM = VMIndicator;
 
-            Points.Add(new PointItem
+            if (booking.PickupLocationName != null)
             {
-                Name = "119 Đ. Võ Văn Kiệt, Phường 7, Quận 6, Thành phố Hồ Chí Minh, Vietnam",
-                Location = new Location(10.740126, 106.641168)
-            });
+                Points.Add(new PointItem
+                {
+                    Name = booking.PickupLocationName,
+                    Location = new Location(booking.PickupLocationLatitude, booking.PickupLocationLongitude)
+                });
+            }    
 
-            Points.Add(new PointItem
+            if (booking.DestinationName != null)
             {
-                Name = "107-54 Trương Định, Phường 6, Quận 3, Thành phố Hồ Chí Minh, Vietnam",
-                Location = new Location(10.778695, 106.688538)
-            });
+                Points.Add(new PointItem
+                {
+                    Name = booking.DestinationName,
+                    Location = new Location(booking.DestinationLatitude, booking.DestinationLongitude)
+                });
+            }
+
+            if (booking.PickupLocationName != null && booking.DestinationName != null)
+            {
+                string points = booking.PickupLocationLatitude + "," + booking.PickupLocationLongitude + " " 
+                            + booking.DestinationLatitude + "," + booking.DestinationLongitude;
+
+                Polylines.Add(new PolylineItem
+                {
+                    Locations = LocationCollection.Parse(points)
+                });
+            }
 
             //Points.Add(new PointItem
             //{
@@ -108,7 +120,7 @@ namespace ManagerApp.Services
             //    Locations = LocationCollection.Parse("53.5978,8.1212 53.6018,8.1494 53.5859,8.1554 53.5852,8.1531 53.5841,8.1539 53.5802,8.1392 53.5826,8.1309 53.5867,8.1317 53.5978,8.1212")
             //});
         }
-        
+
         // execute commands
         public void ExecuteBackCommand()
         {

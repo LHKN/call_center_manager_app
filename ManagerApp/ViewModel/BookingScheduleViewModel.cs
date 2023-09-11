@@ -13,7 +13,6 @@ namespace ManagerApp.ViewModel
     {
         // fields
         // temp users
-        //private List<Account> DisplayCustomerList = new List<Account>();
         private DateOnly? _selectedDate;
         private ObservableCollection<BookingDetail> bookings;
         private ObservableCollection<BookingDetail> sortedBookings;

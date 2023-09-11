@@ -56,6 +56,11 @@ namespace ManagerApp.Model
         public double DestinationLatitude { get => _destinationLatitude; set => _destinationLatitude = value; }
         public double DestinationLongitude { get => _destinationLongitude; set => _destinationLongitude = value; }
 
+        public bool CheckNullDetail()
+        {
+            return (PhoneNumber != null && PickupLocationName != null && DestinationName != null);
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
     }

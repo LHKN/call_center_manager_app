@@ -62,6 +62,12 @@ namespace ManagerApp.ViewModel
         public async void ExecuteConfirmCommand()
         {
             //if (booking.Equals(old)) return;
+            if (Booking.CheckNullDetail() == false)
+            {
+                await App.MainRoot.ShowDialog("Missing Detail", "Please fill in all the *Required details!");
+                return;
+            }
+
             try
             {
                 await _bookingRepository.Edit(Booking);

@@ -139,21 +139,21 @@
             </map:Pushpin>
         </map:Map>
 
-        <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="4" IsHitTestVisible="False">
+        <!--<Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="4" IsHitTestVisible="False">
             <Border.Background>
                 <SolidColorBrush Color="{Binding Background.Color, ElementName=map}" Opacity="0.5"/>
             </Border.Background>
             <TextBlock x:Name="mouseLocation" Foreground="{Binding Foreground, ElementName=map}"
                        FontFamily="Consolas" Margin="4,2" Visibility="Collapsed"/>
-        </Border>
+        </Border>-->
         
-        <!--<Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="4" IsHitTestVisible="False">
+        <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="4" IsHitTestVisible="False">
             <Border.Background>
                 <SolidColorBrush Color="Chocolate" Opacity="0.5"/>
             </Border.Background>
             <TextBlock x:Name="mouseLocation" Foreground="{Binding Foreground, ElementName=map}"
                        FontFamily="Consolas" Margin="4,2" Visibility="Collapsed"/>
-        </Border>-->
+        </Border>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="#AFFFFFFF"
                     DataContext="{Binding MapLayer, ElementName=map}">
@@ -180,6 +180,9 @@
 
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6" Background="#7FFFFFFF">
             <AppBarButton x:Name="backButton" Icon="Back" Label="Back" Command="{Binding BackCommand}"/>
+
+            <TextBlock TextWrapping="WrapWholeWords" Text="Notes:" Padding="10" FontStyle="Italic"/>
+            <TextBlock TextWrapping="WrapWholeWords" Text="Select Graticule and Scale for better view" Padding="20 0 0 30" FontStyle="Italic"/>
 
             <tools:MapLayersMenuButton x:Name="mapLayersMenuButton"
                 Margin="2" Padding="8" ToolTipService.ToolTip="Map Layers and Overlays"
@@ -262,7 +265,7 @@
                     </tools:MapLayerItem>
                 </tools:MapLayersMenuButton.MapOverlays>
             </tools:MapLayersMenuButton>
-
+            
             <tools:MapProjectionsMenuButton
                 x:Name="mapProjectionsMenuButton"
                 Margin="2" Padding="8" ToolTipService.ToolTip="Map Projections"
