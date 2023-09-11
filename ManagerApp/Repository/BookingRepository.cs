@@ -110,12 +110,12 @@ namespace ManagerApp.Repository
 
         public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public async Task<bool> Edit(BookingDetail booking)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public async Task<ObservableCollection<BookingDetail>> GetAll()
@@ -166,7 +166,7 @@ namespace ManagerApp.Repository
 
         public Task<BookingDetail> GetById(int id)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => { return new BookingDetail(); });
         }
     }
 }

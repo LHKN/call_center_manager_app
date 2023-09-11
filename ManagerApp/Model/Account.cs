@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Google.Cloud.Firestore;
 using System.ComponentModel;
 
 namespace ManagerApp.Model
@@ -7,25 +8,32 @@ namespace ManagerApp.Model
     {
         Admin = 1,
         User = 2,
+        Customer = 3,
+        Driver = 4,
     }
+
+    [FirestoreData]
     public class Account : ObservableObject
     {
         protected string _id;
         protected string _name;
         protected string _phoneNumber;
-        //private string address;
-        //protected string _username;
-        //protected string _password;
+        protected string _avatar;
+        protected string _username;
         protected Role _role;
 
+        [FirestoreProperty]
         public string Id { get => _id; set => _id = value; }
+        [FirestoreProperty]
         public string Name { get => _name; set => _name = value; }
+        [FirestoreProperty]
         public string PhoneNumber { get => _phoneNumber; set => _phoneNumber = value; }
-        //public string Address { get => address; set => address = value; }
-        //public string Username { get => _username; set => _username = value; }
-        //public string Password { get => _password; set => _password = value; }
+        [FirestoreProperty]
+        public string Username { get => _username; set => _username = value; }
+        [FirestoreProperty]
         public Role Role { get => _role; set => _role = value; }
+        [FirestoreProperty]
+        public string Avatar { get => _avatar; set => _avatar = value; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

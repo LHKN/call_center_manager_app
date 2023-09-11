@@ -4,6 +4,7 @@ using System.ComponentModel;
 
 namespace ManagerApp.Model
 {
+    
     public class EWallet : ObservableObject
     {
         protected int _id;

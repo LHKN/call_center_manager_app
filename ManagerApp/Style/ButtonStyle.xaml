@@ -6,7 +6,7 @@
                     xmlns:fa="http://schemas.fontawesome.com/icons/fonts">
     <!--Menu button-->
     <Style x:Key="menuButton" TargetType="RadioButton">
-        <!--Normal button style-->
+        <!--Standard button style-->
         <Setter Property="Height" Value="50"/>
         <Setter Property="Margin" Value="-5,0,0,5"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -82,7 +82,7 @@
               BorderThickness="{TemplateBinding BorderThickness}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal">
+                                <VisualState x:Name="Standard">
                                     <Storyboard>
                                         <PointerUpThemeAnimation Storyboard.TargetName="TextBlock" />
                                     </Storyboard>

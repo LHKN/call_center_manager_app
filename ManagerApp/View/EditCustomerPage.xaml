@@ -7,10 +7,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ManagerApp.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:viewmodel="using:ManagerApp.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:EditCustomerViewModel}"
     mc:Ignorable="d"
+    xmlns:services="using:ManagerApp.Services"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <services:GenderConverter x:Key="genderConverter"/>
+        <services:CustomerTypeConverter x:Key="typeConverter"/>
+        <services:DateConverter x:Key="dateConverter"/>
+
+    </Page.Resources>
     <ScrollViewer>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -36,7 +44,7 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="Manage Customer" 
+            <TextBlock Text="Edit Customer Page" 
                        Grid.Column="1" Grid.ColumnSpan="4"
                        FontWeight="SemiBold" FontSize="40" 
                        Margin="0 30 0 30"/>
@@ -45,7 +53,7 @@
                           HorizontalAlignment="Right"
                           VerticalAlignment="Center"
                           Command="{Binding BackCommand}"
-                          ToolTipService.ToolTip="Return to Manage Customer Page"
+                          ToolTipService.ToolTip="Return to View Customer Page"
                           ToolTipService.Placement="Bottom"
                 />
             <Rectangle Grid.Row="1" Grid.Column="1"
@@ -57,26 +65,36 @@
             <TextBlock Grid.Row="1" Grid.Column="1" FontSize="16" FontFamily="Arial" Text="CustomerID:" Margin="30 30 0 0"/>
             <TextBlock Grid.Row="1" Grid.Column="2" FontSize="16" FontFamily="Arial" FontWeight="SemiBold" Text="{Binding CurrentCustomer.Id}" Margin="30 30 0 0"/>
             <TextBlock Grid.Row="2" Grid.Column="1" FontSize="16" FontFamily="Arial" Text="Name:" Margin="30 30 0 0"/>
-            <TextBlock Grid.Row="2" Grid.Column="2" FontSize="16" FontFamily="Arial" FontWeight="SemiBold" Text="{Binding CurrentCustomer.Name}" Margin="30 30 0 0"/>
+            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding CurrentCustomer.Name}" Margin="30 30 0 0"/>
             <TextBlock Grid.Row="3" Grid.Column="1" FontSize="16" FontFamily="Arial" Text="DOB:" Margin="30 30 0 0"/>
-            <TextBlock Grid.Row="3" Grid.Column="2" FontSize="16" FontFamily="Arial" FontWeight="SemiBold" Text="{Binding CurrentCustomer.DateOfBirth}" Margin="30 30 0 0"/>
+            <CalendarDatePicker Grid.Row="3" Grid.Column="2"
+                                Date="{Binding CurrentCustomer.DateOfBirth, Converter={StaticResource dateConverter}, Mode=TwoWay}" Margin="30 30 0 0"/>
             <TextBlock Grid.Row="4" Grid.Column="1" FontSize="16" FontFamily="Arial" Text="Gender:" Margin="30 30 0 0"/>
-            <TextBlock Grid.Row="4" Grid.Column="2" FontSize="16" FontFamily="Arial" FontWeight="SemiBold" Text="{Binding CurrentCustomer.Gender}" Margin="30 30 0 0"/>
+            <ComboBox Grid.Row="4" Grid.Column="2"
+                      SelectedValue="{Binding CurrentCustomer.Gender, Mode=TwoWay}"
+                      ItemsSource="{Binding Genders}"
+                      PlaceholderText="{Binding CurrentCustomer.Gender, Converter={StaticResource genderConverter}, Mode=OneWay}"
+                      Margin="30 30 0 0"/>
             <TextBlock Grid.Row="5" Grid.Column="1" FontSize="16" FontFamily="Arial" Text="Type:" Margin="30 30 0 0"/>
-            <TextBlock Grid.Row="5" Grid.Column="2" FontSize="16" FontFamily="Arial" FontWeight="SemiBold" Text="{Binding CurrentCustomer.Type}" Margin="30 30 0 0"/>
-            <TextBlock Grid.Row="6" Grid.Column="1" FontSize="16" FontFamily="Arial" Text="Location:" Margin="30 30 0 0"/>
-            <TextBlock Grid.Row="6" Grid.Column="2" 
-                       Grid.RowSpan="2"
-                       FontSize="16" FontFamily="Arial" FontWeight="SemiBold" 
-                       Text="{Binding CurrentCustomer.Location}"
-                       TextWrapping="WrapWholeWords"
-                       Margin="30 30 0 0"/>
-            <TextBlock Grid.Row="8" Grid.Column="1" FontSize="16" FontFamily="Arial" Text="Status:" Margin="30 30 0 30"/>
-            <TextBlock Grid.Row="8" Grid.Column="2" FontSize="16" FontFamily="Arial" FontWeight="SemiBold" Text="{Binding CurrentCustomer.Status}" Margin="30 30 0 30"/>
+            <ComboBox Grid.Row="5" Grid.Column="2"
+                      SelectedValue="{Binding CurrentCustomer.Type, Mode=TwoWay}"
+                      ItemsSource="{Binding Types}"
+                      PlaceholderText="{Binding CurrentCustomer.Type,Converter={StaticResource typeConverter}, Mode=OneWay}" 
+                      Margin="30 30 0 30"/>
+            <!--<TextBlock Grid.Row="6" Grid.Column="1" FontSize="16" FontFamily="Arial" Text="Location:" Margin="30 30 0 0"/>
+            <TextBox    Grid.Row="6" Grid.Column="2" 
+                        Grid.RowSpan="2" Grid.ColumnSpan="2"
+                        TextWrapping="Wrap"
+                        Text="{Binding CurrentCustomer.Location, Mode=TwoWay}"
+                        Margin="30 30 0 0"/>-->
             <TextBlock Grid.Row="1" Grid.Column="3" FontSize="16" FontFamily="Arial" Text="Phone Number:" Margin="30 30 0 0"/>
-            <TextBlock Grid.Row="1" Grid.Column="4" FontSize="16" FontFamily="Arial" FontWeight="SemiBold" Text="{Binding CurrentCustomer.PhoneNumber}" Margin="30 30 0 0"/>
+            <TextBox Grid.Row="1" Grid.Column="4" 
+                     Text="{Binding CurrentCustomer.PhoneNumber, Mode=TwoWay}" 
+                     Margin="30 30 0 0"/>
             <TextBlock Grid.Row="2" Grid.Column="3" FontSize="16" FontFamily="Arial" Text="Email:" Margin="30 30 0 0"/>
-            <TextBlock Grid.Row="2" Grid.Column="4" FontSize="16" FontFamily="Arial" FontWeight="SemiBold" Text="{Binding CurrentCustomer.Email}" Margin="30 30 0 0"/>
+            <TextBox Grid.Row="2" Grid.Column="4"
+                     Text="{Binding CurrentCustomer.Email, Mode=TwoWay}" 
+                     Margin="30 30 0 0"/>
             <TextBlock Grid.Row="3" Grid.Column="3" FontSize="16" FontFamily="Arial" Text="Created By:" Margin="30 30 0 0"/>
             <TextBlock Grid.Row="3" Grid.Column="4" FontSize="16" FontFamily="Arial" FontWeight="SemiBold" Text="{Binding CurrentCustomer.CreateByAdmin}" Margin="30 30 0 0"/>
             <TextBlock Grid.Row="4" Grid.Column="3" FontSize="16" FontFamily="Arial" Text="Date Created:" Margin="30 30 0 0"/>
@@ -86,28 +104,20 @@
             <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.Column="4"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center">
-                <AppBarButton Icon="Clock" 
-                          Label="Update"
+                <AppBarButton Icon="Save" 
+                          Label="Save"
                           Background="#0067C0"
                           Foreground="White"
-                          Command="{Binding UpdateCommand}"
-                          ToolTipService.ToolTip="Update information for this customer"
+                          Command="{Binding SaveCommand}"
+                          ToolTipService.ToolTip="Save current information of this customer"
                           ToolTipService.Placement="Bottom"
                 />
-                <AppBarButton Icon="Important" 
-                          Label="Ban"
+                <AppBarButton Icon="Cancel" 
+                          Label="Cancel"
                           Background="#E81123"
                           Foreground="White"
-                          Command="{Binding TerminateCommand}"
-                          ToolTipService.ToolTip="Update information for this customer"
-                          ToolTipService.Placement="Bottom"
-                />
-                <AppBarButton Icon="Delete" 
-                          Label="Delete"
-                          Background="#E81123"
-                          Foreground="White"
-                          Command="{Binding DeleteCommand}"
-                          ToolTipService.ToolTip="Update information for this customer"
+                          Command="{Binding CancelCommand}"
+                          ToolTipService.ToolTip="Cancel edit information of this customer"
                           ToolTipService.Placement="Bottom"
                 />
             </StackPanel>

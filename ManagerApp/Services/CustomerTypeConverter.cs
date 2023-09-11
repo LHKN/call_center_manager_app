@@ -12,8 +12,9 @@ namespace ManagerApp.Services
     public class CustomerTypeConverter: IValueConverter
     {
         static Dictionary<Model.Type, string> types = new Dictionary<Model.Type, string> {
-            { Model.Type.Normal, "Normal"},
-            { Model.Type.VIP, "VIP" }
+            { Model.Type.Standard, "Standard"},
+            { Model.Type.VIP, "VIP" },
+            { Model.Type.NotUsingApp, "Not Using App" }
         };
 
         public object Convert(object value, System.Type targetType, object parameter, string language)

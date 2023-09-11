@@ -10,12 +10,12 @@ namespace ManagerApp.Services
             if (value == null) { 
                 return value; 
             }
-            return new DateTimeOffset(((DateOnly)value).ToDateTime(TimeOnly.MinValue).ToUniversalTime());
+            return new DateTimeOffset(((DateTime)value).ToUniversalTime());
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            return DateOnly.FromDateTime(((DateTimeOffset)value).Date);
+            return DateTime.SpecifyKind(((DateTimeOffset)value).Date, DateTimeKind.Utc);
         }
     
     }
