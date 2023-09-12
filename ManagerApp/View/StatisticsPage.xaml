@@ -18,7 +18,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
-        <services:DateConverter x:Key="dateConverter"/>
+        <services:DateTimeConverter x:Key="dateConverter"/>
     </Page.Resources>
 
     <Grid>
@@ -39,41 +39,46 @@
 
         <!--<TextBlock HorizontalAlignment="Right" Text="Statistics" FontWeight="SemiBold" FontSize="40" Padding="30"/>-->
 
-        <Pivot Title="ABOUT US">
+        <Pivot Title="ABOUT US" IsEnabled="{Binding Visibility}">
+            <PivotItem/>
+            <PivotItem Header="Our trips" Padding="5" >
+                <TextBlock TextWrapping="WrapWholeWords" >
+                    <Run Text="{Binding TripPercentage, Mode=OneWay}" FontWeight="Bold" Foreground="CadetBlue"/>% of the trips were successfully booked
+                </TextBlock>
+            </PivotItem>
+            
             <PivotItem Header="Our customers" Padding="5">
                 <TextBlock TextWrapping="WrapWholeWords" >
-                    <Run Text="{Binding CustomerCount, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" Foreground="CadetBlue"/> customer(s) installed Customer App
+                    <Run Text="{Binding CustomerCount, Mode=OneWay}" FontWeight="Bold" Foreground="CadetBlue"/> customer(s) installed Customer App
                 </TextBlock>
             </PivotItem>
             
             <PivotItem Header="Our drivers" Padding="5">
                 <TextBlock TextWrapping="WrapWholeWords" >
-                    <Run Text="{Binding DriverCount, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" Foreground="CadetBlue"/> driver(s) installed Driver App
-                </TextBlock>
-            </PivotItem>
-            <PivotItem Header="Our trips" Padding="5">
-                <TextBlock TextWrapping="WrapWholeWords" >
-                    <Run Text="{Binding TripPercentage, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" Foreground="CadetBlue"/>% of the trips were successfully booked
+                    <Run Text="{Binding DriverCount, Mode=OneWay}" FontWeight="Bold" Foreground="CadetBlue"/> driver(s) installed Driver App
                 </TextBlock>
             </PivotItem>
         </Pivot>
 
         <StackPanel Grid.Row="1" Margin="10">
             <TextBlock Text="INCOME GRAPH" FontWeight="Bold"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <DatePicker x:Name="yearDatePicker" MonthVisible="False" DayVisible="False" Visibility="Collapsed"/>
-                            <!--SelectedDate="{Binding SelectedTime, Converter={StaticResource dateConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
-                
-                <ComboBox SelectionChanged="DateComboBox_SelectionChanged" PlaceholderText="Filter by" Width="200"
-                          ItemsSource="{Binding CBOptions}"
-                          SelectedValue="{Binding SelectedOption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock TextWrapping="WrapWholeWords" Text="Fetching database..." 
+                       FontWeight="Light" FontStyle="Italic" Foreground="CadetBlue"
+                       Visibility="{Binding IsLoadingText}"/>
+            
+            <StackPanel Visibility="{Binding Visibility}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <DatePicker x:Name="yearDatePicker" MonthVisible="False" DayVisible="False" Visibility="Collapsed"
+                                SelectedDate="{Binding SelectedTime, Converter={StaticResource dateConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <!--<TextBlock Text="{Binding SelectedOption, Mode=OneWay}"/>-->
+                    <ComboBox SelectionChanged="DateComboBox_SelectionChanged" PlaceholderText="Filter by" Width="200"
+                              ItemsSource="{Binding CBOptions}"
+                              SelectedValue="{Binding SelectedOption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
             </StackPanel>
             
         </StackPanel>
         
-        <!--TODO: Income Graph here-->
         <lvc:CartesianChart Grid.Row="2"
             Series="{Binding IncomeSeries}"
             ZoomMode="X"

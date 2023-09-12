@@ -29,7 +29,6 @@ namespace ManagerApp.ViewModel
             _bookingRepository = new BookingRepository();
         
             ExecuteRefreshCommand();
-       
 
             sortedBookings = new ObservableCollection<BookingDetail>();
             _selectedDate = DateOnly.FromDateTime(DateTimeOffset.Now.Date);

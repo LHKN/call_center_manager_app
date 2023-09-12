@@ -28,17 +28,20 @@ namespace ManagerApp.ViewModel
 
         private ObservableCollection<string> _cbOptions;
         private string _selectedOption;
+        private DateTime _selectedTime;
 
         private List<string> _monthLabels;
         private List<string> _yearLabels;
 
         private IStatisticsRepository _statisticsRepository;
+        private IBookingRepository _bookingRepository;
 
         // constructor
-        public StatisticsViewModel() { 
-        
+        public StatisticsViewModel() {
+
             //Initial info
-            _statisticsRepository = new StatisticsRepository();
+            _bookingRepository = new BookingRepository();
+            ObservableCollection<BookingDetail> bookingList;
 
             _cbOptions = new ObservableCollection<string>
             {
@@ -67,6 +70,10 @@ namespace ManagerApp.ViewModel
                 "DEC"
             };
 
+            SelectedTime = DateTime.Now;
+            Visibility = false;
+            IsLoadingText = true;
+
             // commands
             Load_Page = new RelayCommand<RoutedEventArgs>(Load_Statistics);
         }
@@ -75,9 +82,20 @@ namespace ManagerApp.ViewModel
         private async void Load_Statistics(RoutedEventArgs e)
         {
             // real-time update
-            while (true)
+            await Task.Run(() =>
             {
-                await Task.Run(() =>
+                var bookingTask = _bookingRepository.GetAll();
+                ObservableCollection<BookingDetail> bookingList = bookingTask.Result;
+
+                _statisticsRepository = new StatisticsRepository(bookingList);
+            });
+            
+            Visibility = true;
+            IsLoadingText = false;
+
+            await Task.Run(() =>
+            { 
+                while (true)
                 {
                     var task = _statisticsRepository.GetCustomerCount();
                     _customerCount = task.Result;
@@ -87,15 +105,15 @@ namespace ManagerApp.ViewModel
 
                     var task2 = _statisticsRepository.GetTripPercentage();
                     _tripPercentage = task2.Result;
-                });
-            }
+                }
+            });
         }
 
         private async void FilterByMonth()
         {
             // total income of the month
-            int month = 1;
-            int year = 1;
+            int month = SelectedTime.Month;
+            int year = SelectedTime.Year;
 
             var weeksTotalIncome = await _statisticsRepository.GetIncomeByMonth(month, year);
             
@@ -103,10 +121,10 @@ namespace ManagerApp.ViewModel
             {
                 weeksTotalIncome = new List<Tuple<string, int>>
                 {
-                    new Tuple<string, int>("Week 1", 10),
-                    new Tuple<string, int>("Week 2", 220),
-                    new Tuple<string, int>("Week 3", 100),
-                    new Tuple<string, int>("Week 4", 300)
+                    new Tuple<string, int>("Week 1", 0),
+                    new Tuple<string, int>("Week 2", 0),
+                    new Tuple<string, int>("Week 3", 0),
+                    new Tuple<string, int>("Week 4", 0)
                 };
             }
 
@@ -134,7 +152,7 @@ namespace ManagerApp.ViewModel
 
         private async void FilterByYear()
         {
-            int year = 1;
+            int year = SelectedTime.Year;
 
             var yearsTotalIncome = await _statisticsRepository.GetIncomeByYear(year);
 
@@ -204,7 +222,26 @@ namespace ManagerApp.ViewModel
             }
         }
 
-        public DateTime? SelectedTime { get; set; }
+        public DateTime SelectedTime 
+        { 
+            get => _selectedTime; 
+            set
+            {
+                _selectedTime = value;
+                switch (SelectedOption)
+                {
+                    case BY_MONTH:
+                        FilterByMonth();
+                        break;
+                    case BY_YEAR:
+                        FilterByYear();
+                        break;
+                }
+            }
+        }
+
+        public bool Visibility { get; set; }
+        public bool IsLoadingText { get; set; }
 
         public List<ISeries> IncomeSeries { get; set; }
 
