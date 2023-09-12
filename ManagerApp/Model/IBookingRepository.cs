@@ -5,6 +5,7 @@ namespace ManagerApp.Model
 {
     interface IBookingRepository
     {
+        Task<int> GetAvailableId();
         Task<bool> Add(BookingDetail booking);
         Task<bool> Edit(BookingDetail booking);
         Task<bool> Delete(int id);

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ManagerApp.Model
 {
-    class BookingDetail : ObservableObject
+    public class BookingDetail : ObservableObject
     {
         private int _id;
         private string _phoneNumber;
@@ -29,7 +29,11 @@ namespace ManagerApp.Model
         //locations
         private string _pickupLocationName;
         private string _destinationName;
-        // coordinates?
+        // coordinates
+        private double _pickupLocationLatitude;
+        private double _pickupLocationLongitude;
+        private double _destinationLatitude;
+        private double _destinationLongitude;
 
         //datetime
         private TimeSpan? _pickupTime;
@@ -47,6 +51,15 @@ namespace ManagerApp.Model
         public string Transport { get => _transport; set => _transport = value; }
         //public int Transport { get => _transport; set => _transport = value; }
         public int Status { get => _status; set => _status = value; }
+        public double PickupLocationLatitude { get => _pickupLocationLatitude; set => _pickupLocationLatitude = value; }
+        public double PickupLocationLongitude { get => _pickupLocationLongitude; set => _pickupLocationLongitude = value; }
+        public double DestinationLatitude { get => _destinationLatitude; set => _destinationLatitude = value; }
+        public double DestinationLongitude { get => _destinationLongitude; set => _destinationLongitude = value; }
+
+        public bool CheckNullDetail()
+        {
+            return (PhoneNumber != null && PickupLocationName != null && DestinationName != null);
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

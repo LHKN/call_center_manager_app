@@ -26,13 +26,15 @@
     <None Remove="View\AddCustomerPage.xaml" />
     <None Remove="View\AddDriverPage.xaml" />
     <None Remove="View\BookingSchedulePage.xaml" />
+    <None Remove="View\EditBookingPage.xaml" />
     <None Remove="View\EditCustomerPage.xaml" />
     <None Remove="View\EditDriverPage.xaml" />
     <None Remove="View\HomePage.xaml" />
     <None Remove="View\LogsPage.xaml" />
     <None Remove="View\ManageCustomerPage.xaml" />
     <None Remove="View\ManageDriverPage.xaml" />
-    <None Remove="View\RootPage.xaml" />
+	  <None Remove="View\MapURI.xaml" />
+	  <None Remove="View\RootPage.xaml" />
     <None Remove="View\StatisticsPage.xaml" />
     <None Remove="View\ViewBookingPage.xaml" />
     <None Remove="View\ViewCustomerPage.xaml" />
@@ -58,11 +60,13 @@
     <PackageReference Include="Google.Cloud.Firestore" Version="3.3.0" />
     <PackageReference Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.0.0-beta.911" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230724000" />
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.14" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230822000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
     <PackageReference Include="Prism.Core" Version="8.1.97" />
     <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
+    <PackageReference Include="XAML.MapControl" Version="8.1.0" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -145,6 +149,16 @@
   </PropertyGroup>
   <ItemGroup>
     <PRIResource Remove="NewFolder\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\EditBookingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\MapURI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\EditDriverPage.xaml">

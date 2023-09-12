@@ -33,34 +33,46 @@
         <TextBlock Text="Booking Schedule" FontWeight="SemiBold" FontSize="40" Padding="30"/>
         <StackPanel x:Name="BookCommandStackPanel"
                         Grid.Row="0" Grid.Column="1"
-                        Orientation="Horizontal" Height="50" 
+                        Orientation="Horizontal" Height="60" 
                         RelativePanel.AlignRightWithPanel="True"
                     HorizontalAlignment="Right">
-            <AppBarButton x:Name="addButton" Icon="Add" Label="Add" Command="{Binding AddCommand}"/>
+            <AppBarButton x:Name="addButton" Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
+            <AppBarButton x:Name="refreshButton" Icon="Add" Label="Add" Command="{Binding AddCommand}"/>
             <AppBarButton x:Name="viewButton" Icon="ZoomIn" Label="View" Command="{Binding ViewCommand}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Margin="10 10 100 10">
-            <TextBlock Text="ALL BOOKINGS" FontWeight="Bold" Padding="10"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
 
-            <CalendarView
-                CalendarViewDayItemChanging="CalendarView_CalendarViewDayItemChanging"
-                SelectionMode="None"
-                IsGroupLabelVisible="True"
-                IsOutOfScopeEnabled="True"
-                Language="en"
-                CalendarIdentifier="GregorianCalendar" 
-                Margin="10"
-                Grid.Row="1"
-                />
+                <TextBlock Text="CURRENT BOOKINGS" FontWeight="Bold" Margin="30 30 0 0"/>
+                <Button Content="Update Calendar" HorizontalAlignment="Right" Margin="0 20 40 0" Click="Button_Click" />
+                <!--CommandParameter="{Binding Source={x:Bind calendar}}"/>-->
+                
+                <CalendarView
+                    x:Name="calendar"
+                    Grid.Row="1" 
+                    CalendarViewDayItemChanging="CalendarView_CalendarViewDayItemChanging"
+                    SelectionMode="None"
+                    IsGroupLabelVisible="True"
+                    IsOutOfScopeEnabled="True"
+                    Language="en"
+                    CalendarIdentifier="GregorianCalendar" 
+                    Margin="10"
+                    />
+            </Grid>
 
         <!--services:CalendarViewHelper.SelectedDate="{Binding Date, Mode=OneWay}"-->
         <!--SelectedDatesChanged="CalendarView_SelectedDatesChanged"-->
 
             <TextBlock TextWrapping="WrapWholeWords" Text="Notes:" Padding="10"/>
             <TextBlock TextWrapping="WrapWholeWords" Text="Blue date is today's date" Padding="20 0 0 0"/>
-            <TextBlock TextWrapping="WrapWholeWords" Text="The number of green strokes is the number of bookings" Padding="20 0 0 0"/>
+            <TextBlock TextWrapping="WrapWholeWords" Text="The number of strokes is the number of bookings" Padding="20 0 0 0"/>
             <TextBlock TextWrapping="WrapWholeWords" Text="Bookings on dates before today's date will not display" Padding="20 0 0 0"/>
+            <TextBlock TextWrapping="WrapWholeWords" Text="Can only edit orange/'status 0' bookings" Padding="20 0 0 0"/>
 
         </StackPanel>
 
@@ -70,9 +82,9 @@
         <!--temp stackpanel-->
         <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBlock TextWrapping="WrapWholeWords" Text="{Binding Warning, UpdateSourceTrigger=PropertyChanged}" 
-                       FontWeight="Light" FontStyle="Italic" Foreground="Red" HorizontalTextAlignment="End" Margin="5 0 5 10"/>
+                       FontWeight="Light" FontStyle="Italic" Foreground="CadetBlue" HorizontalTextAlignment="End" Margin="5 0 5 0"/>
 
-            <TextBlock Text="VIEW BOOKINGS BY DATE" FontWeight="Bold" Padding="10"/>
+            <TextBlock Text="VIEW BOOKINGS BY DATE" FontWeight="Bold" Padding="20"/>
 
             <!--<TextBlock TextWrapping="WrapWholeWords" Margin="10 0 0 10">
                            Selected Date: <Run x:Name="selectedDate" Text="{Binding Date, UpdateSourceTrigger=PropertyChanged}" 
@@ -83,16 +95,18 @@
                         SelectedDate="{Binding Date, Mode=TwoWay, Converter={StaticResource dateConverter}, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"/>
 
             <ListView x:Name="dataListView" 
-                      ItemsSource="{Binding BookingList}"
+                      ItemsSource="{Binding BookingList, UpdateSourceTrigger=PropertyChanged}"
                       IsActiveView="False"
                       Visibility="Collapsed">
             </ListView>
 
             <ListView x:Name="dataListView2" 
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Visible"
                       Margin="10,50,0,0"
                       ItemsSource="{Binding SortedBookingList, Mode=TwoWay}"
-                      SelectedItem="{Binding SelectedBooking, Mode=TwoWay}">
+                      SelectedItem="{Binding SelectedBooking, Mode=TwoWay}"
+                      MaxHeight="600">
 
                 <ListView.ItemTemplate>
                     <DataTemplate>

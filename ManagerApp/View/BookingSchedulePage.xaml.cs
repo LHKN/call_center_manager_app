@@ -10,6 +10,7 @@ using ManagerApp.Model;
 using System.Collections.ObjectModel;
 using Windows.UI;
 using Microsoft.UI.Xaml;
+using ManagerApp.Services;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -26,6 +27,7 @@ namespace ManagerApp.View
         public BookingSchedulePage()
         {
             this.InitializeComponent();
+            datePicker.SelectedDate = DateTimeOffset.Now;
             datePicker.MinYear = DateTimeOffset.Now;
         }
 
@@ -36,7 +38,6 @@ namespace ManagerApp.View
             DateOnly selectedDate = DateOnly.FromDateTime(args.Item.Date.Date);
 
             // sort bookings into Bookings dict
-            List<DateOnly?> dates = new List<DateOnly?>();
             Bookings = new Dictionary<DateOnly?, ObservableCollection<BookingDetail>>();
 
             foreach (BookingDetail booking in allBookings)
@@ -47,7 +48,8 @@ namespace ManagerApp.View
                 }
             }
 
-            foreach (BookingDetail booking in allBookings) {
+            foreach (BookingDetail booking in allBookings)
+            {
                 Bookings[booking.PickupDate].Add(booking);
             }
 
@@ -93,14 +95,66 @@ namespace ManagerApp.View
                     {
                         if (booking.Status == 0)
                         {
-                            densityColors.Add(Colors.Green);
+                            densityColors.Add(Colors.Orange);
                         }
                         else
                         {
-                            densityColors.Add(Colors.Blue);
+                            densityColors.Add(Colors.Green);
                         }
                     }
                     args.Item.SetDensityColors(densityColors);
+                }
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            List<Color> densityColors = new List<Color>();
+            var allBookings = dataListView.ItemsSource as ObservableCollection<BookingDetail>;
+
+            // get all children of calendarview
+            var children = CalendarViewChildrenHelper.Children(calendar).OfType<CalendarViewDayItem>();
+
+            // sort bookings into Bookings dict
+            Bookings = new Dictionary<DateOnly?, ObservableCollection<BookingDetail>>();
+
+            foreach (BookingDetail booking in allBookings)
+            {
+                if (Bookings.ContainsKey(booking.PickupDate) == false)
+                {
+                    Bookings.Add(booking.PickupDate, new ObservableCollection<BookingDetail>());
+                }
+            }
+
+            foreach (BookingDetail booking in allBookings)
+            {
+                Bookings[booking.PickupDate].Add(booking);
+            }
+
+            foreach (var child in children)
+            {
+                var temp = DateOnly.FromDateTime(child.Date.Date);
+                if (Bookings.ContainsKey(temp))
+                {
+                    var currentBookings = Bookings[temp];
+
+                    foreach (BookingDetail booking in currentBookings)
+                    {
+                        // Set a density bar color for each of the days bookings.
+                        // It's assumed that there can't be more than 10 bookings in a day. Otherwise,
+                        // further processing is needed to fit within the max of 10 density bars.
+                        if(booking.Status == 0)
+                        {
+                            densityColors.Add(Colors.Orange);
+                        }
+                        else
+                        {
+                            densityColors.Add(Colors.Green);
+                        }
+                    }
+
+                    child.SetDensityColors(densityColors);
+                    densityColors.Clear();
                 }
             }
         }

@@ -4,50 +4,48 @@ using ManagerApp.Repository;
 using ManagerApp.Services;
 using MapControl;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ManagerApp.ViewModel
 {
-    class AddBookingViewModel : ViewModelBase
+    class EditBookingViewModel : ViewModelBase
     {
-        const string indicator = "AddBooking";
+        const int VIP_ROLE = 1;
+        const string indicator = "EditBooking";
 
         // fields
         private BookingDetail booking;
+        //private BookingDetail old;
         private ObservableCollection<string> transportOptions;
 
         private IBookingRepository _bookingRepository;
 
         // constructor
-        public AddBookingViewModel(BookingDetail newBooking)
+        public EditBookingViewModel(BookingDetail oldBooking)
         {
-            const int VIP_ROLE = 1;
-
             //initial
             _bookingRepository = new BookingRepository();
-            
+
             transportOptions = new ObservableCollection<string> {
                     "4 Seater Car","7 Seater Car","Motorbike"
             };
 
-            Bookings = new ObservableCollection<BookingDetail> {newBooking};
-            Booking = newBooking;
-
-            Booking.PickupDate = DateOnly.FromDateTime(DateTime.Now);
-            Booking.PickupTime = DateTime.Now.TimeOfDay;
-            Visibility = false;
-            CustomerStatus = "This customer is Regular";
+            Bookings = new ObservableCollection<BookingDetail> { oldBooking };
+            Booking = oldBooking;
+            //old = oldBooking;
+            EditVisibility = false;
 
             if (Booking.CustomerRole == VIP_ROLE)
             {
-                Visibility = true;
                 CustomerStatus = "This customer is VIP";
+                EditVisibility = true;
             }
-            else
-            {
-                Booking.Status = 1;
-            }
+            else CustomerStatus = "This customer is Regular";
 
             BackCommand = new RelayCommand(ExecuteBackCommand);
             ConfirmCommand = new RelayCommand(ExecuteConfirmCommand);
@@ -58,11 +56,12 @@ namespace ManagerApp.ViewModel
         // execute commands
         public void ExecuteBackCommand()
         {
-            ParentPageNavigation.ViewModel = new BookingScheduleViewModel();
+            ParentPageNavigation.ViewModel = new ViewBookingViewModel(booking);
         }
 
         public async void ExecuteConfirmCommand()
         {
+            //if (booking.Equals(old)) return;
             if (Booking.CheckNullDetail() == false)
             {
                 await App.MainRoot.ShowDialog("Missing Detail", "Please fill in all the *Required details!");
@@ -71,13 +70,13 @@ namespace ManagerApp.ViewModel
 
             try
             {
-                await _bookingRepository.Add(Booking);
-                ParentPageNavigation.ViewModel = new BookingScheduleViewModel();
+                await _bookingRepository.Edit(Booking);
             }
             catch
             {
                 return;
             }
+            ParentPageNavigation.ViewModel = new ViewBookingViewModel(booking);
         }
 
         public void ExecuteStartCommand()
@@ -102,8 +101,9 @@ namespace ManagerApp.ViewModel
         public ObservableCollection<string> TransportOptions { get => transportOptions; set => transportOptions = value; }
         public ObservableCollection<BookingDetail> Bookings { get; set; }
         public BookingDetail Booking { get => booking; set => booking = value; }
-        public bool Visibility { get; set; }
         public string CustomerStatus { get; set; }
+        public bool EditVisibility { get; set; }
+
 
         // commands
         public ICommand BackCommand { get; }

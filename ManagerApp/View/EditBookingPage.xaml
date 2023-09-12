@@ -2,14 +2,14 @@
 <!-- Licensed under the MIT License. -->
 
 <Page
-    x:Class="ManagerApp.View.AddBookingPage"
+    x:Class="ManagerApp.View.EditBookingPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ManagerApp.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodel="using:ManagerApp.ViewModel" 
-    d:DataContext="{d:DesignInstance Type=viewmodel:AddBookingViewModel}"
+    d:DataContext="{d:DesignInstance Type=viewmodel:EditBookingViewModel}"
     xmlns:services="using:ManagerApp.Services"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -26,7 +26,7 @@
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="20 20 0 0">
-                <TextBlock Text="New Customer Booking" FontSize="30" Margin="30 10 10 20"/>
+                <TextBlock Text="Edit Customer Booking" FontSize="30" Margin="30 10 10 20"/>
                 <!--Datatemplate start-->
                 <Grid VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
@@ -50,7 +50,7 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="Customer Phone Number*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 5"/>
-                    <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Booking.PhoneNumber, Mode=TwoWay}" HorizontalAlignment="Left" PlaceholderText="Phone Number" MaxLength="11" MaxWidth="200"/>
+                    <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Booking.PhoneNumber, Mode=OneWay}" HorizontalAlignment="Left" PlaceholderText="{Binding Booking.PhoneNumber, Mode=OneWay}" IsReadOnly="True" MaxWidth="200"/>
                     <!--<NumberBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Booking.PhoneNumber, Mode=TwoWay}" HorizontalAlignment="Left" PlaceholderText="Phone Number" Maximum="99999999999" MaxWidth="200"/>-->
                     <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding CustomerStatus}" FontWeight="Light" FontStyle="Italic" Foreground="DodgerBlue" TextWrapping="WrapWholeWords" />
 
@@ -72,19 +72,15 @@
 
                     <!--optional only for VIP-->
                     <TextBlock Grid.Row="6" Grid.ColumnSpan="4" Text="Optional" FontWeight="Light" FontStyle="Italic" Foreground="DodgerBlue" TextWrapping="WrapWholeWords" Margin="30 20 0 0"
-                           Visibility="{Binding Visibility}"/>
+                           Visibility="{Binding EditVisibility}"/>
 
-                    <TextBlock Grid.Row="7" Text="Pickup Date" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"
-                           Visibility="{Binding Visibility}"/>
-                    <DatePicker Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="datePicker" Width="400"
-                                        SelectedDate="{Binding Booking.PickupDate, Converter={StaticResource dateConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            Visibility="{Binding Visibility}"/>
+                    <TextBlock Grid.Row="7" Text="Pickup Date" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"/>
+                    <DatePicker Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="datePicker" Visibility="{Binding EditVisibility}" Width="400"
+                                        SelectedDate="{Binding Booking.PickupDate, Converter={StaticResource dateConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <TextBlock Grid.Row="8" Text="Pickup Time" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"
-                           Visibility="{Binding Visibility}"/>
-                    <TimePicker Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" x:Name="timePicker" Width="400"
-                                        SelectedTime="{Binding Booking.PickupTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            Visibility="{Binding Visibility}"/>
+                    <TextBlock Grid.Row="8" Text="Pickup Time" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"/>
+                    <TimePicker Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" x:Name="timePicker" Visibility="{Binding EditVisibility}" Width="400"
+                                        SelectedTime="{Binding Booking.PickupTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <!--optional only for VIP-->
 
                     <TextBlock Grid.Row="9" Text="Estimated cost" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"/>
@@ -102,7 +98,7 @@
                         Orientation="Horizontal" Height="50" 
                         RelativePanel.AlignRightWithPanel="True"
                     HorizontalAlignment="Right">
-                <AppBarButton x:Name="backButton" Icon="Calendar" Label="Back" Command="{Binding BackCommand}"/>
+                <AppBarButton x:Name="backButton" Icon="Back" Label="Back" Command="{Binding BackCommand}"/>
                 <AppBarButton x:Name="confirmButton" Icon="Accept" Label="Confirm" Command="{Binding ConfirmCommand}"/>
             </StackPanel>
 

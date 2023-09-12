@@ -20,7 +20,6 @@ namespace ManagerApp.Repository
 {
     class FirebaseConfiguration
     {
-        private IFirebaseClient client;
         private IFirebaseConfig ifc;
         private IConfigurationRoot _config;
 
