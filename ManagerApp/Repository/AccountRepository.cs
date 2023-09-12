@@ -1,6 +1,4 @@
-﻿using FireSharp.Interfaces;
-using FireSharp.Response;
-using Google.Cloud.Firestore;
+﻿using Google.Cloud.Firestore;
 using ManagerApp.Model;
 using ManagerApp.Services;
 using System;
@@ -12,7 +10,6 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Security.Authentication.Identity.Core;
 
 namespace ManagerApp.Repository
 {

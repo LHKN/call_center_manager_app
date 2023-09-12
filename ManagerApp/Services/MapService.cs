@@ -74,18 +74,6 @@ namespace ManagerApp.Services
             //    Location = new Location(53.50092, 8.15267)
             //});
 
-            //Points.Add(new PointItem
-            //{
-            //    Name = "Buhne 8",
-            //    Location = new Location(53.49871, 8.15321)
-            //});
-
-            //Points.Add(new PointItem
-            //{
-            //    Name = "Buhne 10",
-            //    Location = new Location(53.49350, 8.15563)
-            //});
-
             //Pushpins.Add(new PointItem
             //{
             //    Name = "WHV - Eckwarderhörne",

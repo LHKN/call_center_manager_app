@@ -11,7 +11,7 @@ namespace ManagerApp.Repository
 {
     class BookingRepository : FirebaseConfiguration, IBookingRepository
     {
-        public bool UpdateBookingDetail(IFirebaseClient client, BookingDetail booking) //TODO: fix
+        public bool UpdateBookingDetail(IFirebaseClient client, BookingDetail booking)
         {
             try
             {

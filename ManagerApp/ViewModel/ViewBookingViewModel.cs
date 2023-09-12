@@ -45,6 +45,16 @@ namespace ManagerApp.ViewModel
                 DisplayText = "Can not edit";
             }
 
+            if (curBooking.PickupLocationLatitude == 0 && curBooking.PickupLocationLongitude == 0)
+            {
+                ViewStartVisibility = false;
+            }
+
+            if (curBooking.DestinationLatitude == 0 && curBooking.DestinationLongitude == 0)
+            {
+                ViewEndVisibility = false;
+            }
+
             _bookingRepository = new BookingRepository();
 
             BackCommand = new RelayCommand(ExecuteBackCommand);
@@ -101,6 +111,8 @@ namespace ManagerApp.ViewModel
         public bool EditVisibility { get; set; }
         public string CustomerStatus { get; set; }
         public string DisplayText { get; set; }
+        public bool ViewStartVisibility { get; set; }
+        public bool ViewEndVisibility { get; set; }
 
         // commands
         public ICommand BackCommand { get; }
