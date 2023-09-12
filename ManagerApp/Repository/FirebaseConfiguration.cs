@@ -41,9 +41,9 @@ namespace ManagerApp.Repository
             }
             //Firestore config
             {
-                string path = AppDomain.CurrentDomain.BaseDirectory + @"..\..\..\..\..\Repository\transportation-app-297c0-3e370aba606a.json";
+                string path = _config.GetSection("Firebase:ServiceAccount")["key_file"];
                 Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", path);
-                string project = "transportation-app-297c0";
+                string project = _config.GetSection("Firebase:ServiceAccount")["project_name"];
                 FirestoreDb = FirestoreDb.Create(project);
 
             }
