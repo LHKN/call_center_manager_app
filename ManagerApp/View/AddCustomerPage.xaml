@@ -16,7 +16,7 @@
     <Page.Resources>
         <services:GenderConverter x:Key="genderConverter"/>
         <services:CustomerTypeConverter x:Key="typeConverter"/>
-        <services:DateConverter x:Key="dateConverter"/>
+        <services:DateTimeConverter x:Key="dateConverter"/>
 
     </Page.Resources>
     <ScrollViewer>
