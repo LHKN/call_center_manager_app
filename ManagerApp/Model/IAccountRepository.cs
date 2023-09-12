@@ -25,12 +25,12 @@ namespace ManagerApp.Model
         Task<bool> GetCustomerById(string customerId);
         
         Task<bool> AddDriver(Driver newDriver);
-        Task<bool> EditDriver(Customer currentDriver);
+        Task<bool> EditDriver(Driver currentDriver);
         Task<bool> DeleteDriver(string driverId);
         Task<bool> GetDriverById(string driverId);
 
         Task<ObservableCollection<Account>> GetAll();
         Task<List<Customer>> GetAllCustomer();
-        Task<ObservableCollection<Driver>> GetAllDriver();
+        Task<List<Driver>> GetAllDriver();
     }
 }

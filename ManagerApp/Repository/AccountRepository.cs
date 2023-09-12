@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Security.Authentication.Identity.Core;
@@ -34,10 +35,26 @@ namespace ManagerApp.Repository
             { "Restricted", Model.AccountStatus.Restricted }
         };
 
+        static Dictionary<string, Model.Driver.DriverStatus> driverStatusDict = new Dictionary<string, Model.Driver.DriverStatus> {
+            { "offline", Model.Driver.DriverStatus.Offline },
+            { "available", Model.Driver.DriverStatus.Available },
+            { "busy", Model.Driver.DriverStatus.Busy },
+            { "restricted", Model.Driver.DriverStatus.Restricted },
+            
+        };
+
         static Dictionary<string, Model.Gender> genderDict = new Dictionary<string, Model.Gender> {
             { "Male", Model.Gender.Male },
             { "Female", Model.Gender.Female },
             { "Unspecified", Model.Gender.Unspecified }
+        };
+        static Dictionary<string, Model.Gender> genderDictIIConvert = new Dictionary<string, Model.Gender> {
+            { "True", Model.Gender.Female },
+            { "False", Model.Gender.Male },
+        };
+        static Dictionary<Model.Gender, bool> genderDictIIConvertBack = new Dictionary<Model.Gender, bool> {
+            { Model.Gender.Female, true  },
+            { Model.Gender.Male, false  },
         };
 
 
@@ -73,7 +90,7 @@ namespace ManagerApp.Repository
                 { "created_at", DateTime.SpecifyKind(newCustomer.CreatedAt, DateTimeKind.Utc)},
                 { "updated_at", DateTime.SpecifyKind(newCustomer.UpdatedAt, DateTimeKind.Utc)},
                 { "gender", newCustomer.Gender.ToString() },
-                { "status", newCustomer.Status.ToString() },
+                { "_status", newCustomer.Status.ToString() },
                 { "create_by_admin", newCustomer.CreateByAdmin },
                 { "fcm_token", "" },
             };
@@ -86,9 +103,41 @@ namespace ManagerApp.Repository
             return false;
         }
 
-        public Task<bool> AddDriver(Driver newDriver)
+        public async Task<bool> AddDriver(Driver newDriver)
         {
-            return Task.Run(() => { return true; });
+            DocumentReference driverDocRef = FirestoreDb.Collection("driver").Document();
+            DocumentReference driver_partitionDocRef = FirestoreDb.Collection("driver_partition").Document($"{driverDocRef.Id}");
+
+            Dictionary<string, object> driverFormattedObject = new Dictionary<string, object>
+            {
+                { "avatar", newDriver.Avatar },
+                { "email", newDriver.Email },
+                { "name", newDriver.Name },
+                { "e_wallet", new ArrayList() },
+                { "dob", DateTime.SpecifyKind(newDriver.DateOfBirth, DateTimeKind.Utc) },
+                { "phoneNumber", newDriver.PhoneNumber },
+                { "created_at", DateTime.SpecifyKind(newDriver.CreatedAt, DateTimeKind.Utc)},
+                { "updated_at", DateTime.SpecifyKind(newDriver.UpdatedAt, DateTimeKind.Utc)},
+                { "gender", genderDictIIConvertBack[newDriver.Gender] },
+                //{ "rating", ((int)Math.Round(newDriver.Rating)).ToString() },
+                { "rating", 0.ToString() },
+            };
+
+            Dictionary<string, object> driverPartitionFormattedObject = new Dictionary<string, object>
+            {
+                { "driver_status", newDriver.Status.ToString().ToLower() },
+                { "area_status", "" },
+                { "fcm_token", "" },
+                { "partition_key", "" },
+            };
+
+            WriteResult resultI = await driverDocRef.SetAsync(driverFormattedObject);
+            WriteResult resultII = await driver_partitionDocRef.SetAsync(driverPartitionFormattedObject);
+            if (resultI != null && resultII != null)
+            {
+                return true;
+            }
+            return false;
         }
 
         public Task<bool> DeleteAdminAccount(string accountId)
@@ -103,9 +152,14 @@ namespace ManagerApp.Repository
             if (result != null) { return true;} return false;
         }
 
-        public Task<bool> DeleteDriver(string driverId)
+        public async Task<bool> DeleteDriver(string driverId)
         {
-            return Task.Run(() => { return true; });
+            DocumentReference docRef = FirestoreDb.Collection("driver").Document(driverId);
+            DocumentReference docPartitionRef = FirestoreDb.Collection("driver_partition").Document(driverId);
+            WriteResult resultI = await docRef.DeleteAsync();
+            WriteResult resultII = await docPartitionRef.DeleteAsync();
+            if (resultI != null && resultII != null) { return true; }
+            return false;
         }
 
         public Task<bool> EditAdminAccount(AdminAccount currentAccount)
@@ -131,7 +185,7 @@ namespace ManagerApp.Repository
                 { "type_customer", currentCustomer.Type.ToString() },
                 { "updated_at", DateTime.SpecifyKind(currentCustomer.UpdatedAt, DateTimeKind.Utc) },
                 { "gender", currentCustomer.Gender.ToString() },
-                { "status", currentCustomer.Status.ToString() },
+                { "_status", currentCustomer.Status.ToString() },
                 //{ "create_by_admin", currentCustomer.CreateByAdmin },
                 //{ "fcm_token", "" },
             };
@@ -144,9 +198,40 @@ namespace ManagerApp.Repository
             return false;
         }
 
-        public Task<bool> EditDriver(Customer currentDriver)
+        public async Task<bool> EditDriver(Driver currentDriver)
         {
-            return Task.Run(() => { return true; });
+            DocumentReference driverDocRef = FirestoreDb.Collection("driver").Document(currentDriver.Id);
+            DocumentReference driver_partitionDocRef = FirestoreDb.Collection("driver_partition").Document(currentDriver.Id);
+
+            Dictionary<string, object> driverFormattedObject = new Dictionary<string, object>
+            {
+                { "avatar", currentDriver.Avatar },
+                { "email", currentDriver.Email },
+                { "name", currentDriver.Name },
+                { "e_wallet", new ArrayList() },
+                { "dob", DateTime.SpecifyKind(currentDriver.DateOfBirth, DateTimeKind.Utc) },
+                { "phoneNumber", currentDriver.PhoneNumber },
+                { "created_at", DateTime.SpecifyKind(currentDriver.CreatedAt, DateTimeKind.Utc)},
+                { "updated_at", DateTime.SpecifyKind(currentDriver.UpdatedAt, DateTimeKind.Utc)},
+                { "gender", genderDictIIConvertBack[currentDriver.Gender] },
+                //{ "rating", ((int)Math.Round(newDriver.Rating)).ToString() },
+            };
+
+            Dictionary<string, object> driverPartitionFormattedObject = new Dictionary<string, object>
+            {
+                { "driver_status", currentDriver.Status.ToString().ToLower() },
+                { "area_status", "" },
+                { "fcm_token", "" },
+                { "partition_key", "" },
+            };
+
+            WriteResult resultI = await driverDocRef.UpdateAsync(driverFormattedObject);
+            WriteResult resultII = await driver_partitionDocRef.UpdateAsync(driverPartitionFormattedObject);
+            if (resultI != null && resultII != null)
+            {
+                return true;
+            }
+            return false;
         }
 
         public Task<Account> GetAccountById(string accountId)
@@ -199,9 +284,50 @@ namespace ManagerApp.Repository
             return customers;
         }
 
-        public Task<ObservableCollection<Driver>> GetAllDriver()
+        public async Task<List<Driver>> GetAllDriver()
         {
-            return Task.Run(() => { return new ObservableCollection<Driver>(); });
+            List<Driver> drivers = new List<Driver>();
+
+            Query driverQuery = FirestoreDb.Collection("driver");
+            QuerySnapshot allDriverQuerySnapshot = await driverQuery.GetSnapshotAsync();
+            foreach (DocumentSnapshot documentSnapshot in allDriverQuerySnapshot.Documents)
+            {
+                Driver current = new Driver
+                {
+                    Id = documentSnapshot.Id,
+                };
+                Dictionary<string, object> customerFormattedObject = documentSnapshot.ToDictionary();
+                DocumentReference partitionDocRef = FirestoreDb.Collection("driver_partition").Document($"{current.Id}");
+                DocumentSnapshot snapshot = await partitionDocRef.GetSnapshotAsync();
+
+
+                foreach (KeyValuePair<string, object> pair in customerFormattedObject)
+                {
+                    if (pair.Key.Equals("avatar")) { current.Avatar = pair.Value?.ToString(); continue; };
+                    if (pair.Key.Equals("created_at")) { current.CreatedAt = pair.Value is Timestamp timestamp ? timestamp.ToDateTime().ToLocalTime() : current.CreatedAt; continue; };
+                    if (pair.Key.Equals("dob")) { current.DateOfBirth = pair.Value is Timestamp timestamp ? timestamp.ToDateTime().ToLocalTime() : current.DateOfBirth; continue; };
+                    if (pair.Key.Equals("email")) { current.Email = pair.Value?.ToString(); continue; };
+                    //if (pair.Key.Equals("fcm_token")) { continue; };
+                    if (pair.Key.Equals("gender")) { current.Gender = genderDictIIConvert[pair.Value?.ToString()]; continue; };
+                    if (pair.Key.Equals("name")) { current.Name = pair.Value?.ToString(); continue; };
+                    if (pair.Key.Equals("phoneNumber")) { current.PhoneNumber = pair.Value?.ToString(); continue; };
+                    if (pair.Key.Equals("updated_at")) { current.UpdatedAt = pair.Value is Timestamp timestamp ? timestamp.ToDateTime().ToLocalTime() : current.UpdatedAt; continue; };
+
+                    if (snapshot.Exists)
+                    {
+                        Dictionary<string, object> partitionDict = snapshot.ToDictionary();
+                        foreach (KeyValuePair<string, object> _pair in partitionDict)
+                        {
+                            if (_pair.Key.Equals("area_status")) { continue; };
+                            if (_pair.Key.Equals("driver_status")) { current.Status = driverStatusDict[_pair.Value?.ToString()]; continue; };
+                            if (_pair.Key.Equals("fcm_token")) { continue; };
+                            if (_pair.Key.Equals("partition_key")) { continue; };
+                        }
+                    }
+                }
+                drivers.Add(current);
+            }
+            return drivers;
         }
 
         public Task<bool> GetCustomerById(string customerId)

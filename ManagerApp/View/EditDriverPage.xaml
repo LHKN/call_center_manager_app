@@ -7,11 +7,113 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ManagerApp.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:viewmodel="using:ManagerApp.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:EditDriverViewModel}"
     mc:Ignorable="d"
+    xmlns:services="using:ManagerApp.Services"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Page.Resources>
+        <services:GenderConverter x:Key="genderConverter"/>
+        <services:DateConverter x:Key="dateConverter"/>
 
-    </Grid>
+    </Page.Resources>
+    <ScrollViewer>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="0.5*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Edit Driver Page" 
+                       Grid.Column="1" Grid.ColumnSpan="4"
+                       FontWeight="SemiBold" FontSize="40" 
+                       Margin="0 30 0 30"/>
+            <AppBarButton Icon="Back" Grid.Column="4"
+                          Label="Back"
+                          HorizontalAlignment="Right"
+                          VerticalAlignment="Center"
+                          Command="{Binding BackCommand}"
+                          ToolTipService.ToolTip="Return to View Driver Page"
+                          ToolTipService.Placement="Bottom"
+                />
+            <Rectangle Grid.Row="1" Grid.Column="1"
+                       Grid.ColumnSpan="4" 
+                       Grid.RowSpan="9" 
+                       Fill="White" 
+                       Opacity="0.7"
+                       RadiusX="10" RadiusY="10"/>
+            <TextBlock Grid.Row="1" Grid.Column="1" FontSize="16" FontFamily="Arial" Text="DriverID:" Margin="30 30 0 0"/>
+            <TextBlock Grid.Row="1" Grid.Column="2" FontSize="16" FontFamily="Arial" FontWeight="SemiBold" Text="{Binding CurrentDriver.Id}" Margin="30 30 0 0"/>
+            <TextBlock Grid.Row="2" Grid.Column="1" FontSize="16" FontFamily="Arial" Text="Name:" Margin="30 30 0 0"/>
+            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding CurrentDriver.Name}" Margin="30 30 0 0"/>
+            <TextBlock Grid.Row="3" Grid.Column="1" FontSize="16" FontFamily="Arial" Text="DOB:" Margin="30 30 0 0"/>
+            <CalendarDatePicker Grid.Row="3" Grid.Column="2"
+                                Date="{Binding CurrentDriver.DateOfBirth, Converter={StaticResource dateConverter}, Mode=TwoWay}" Margin="30 30 0 0"/>
+            <TextBlock Grid.Row="4" Grid.Column="1" FontSize="16" FontFamily="Arial" Text="Gender:" Margin="30 30 0 0"/>
+            <ComboBox Grid.Row="4" Grid.Column="2"
+                      SelectedValue="{Binding CurrentDriver.Gender, Mode=TwoWay}"
+                      ItemsSource="{Binding Genders}"
+                      PlaceholderText="{Binding CurrentDriver.Gender, Converter={StaticResource genderConverter}, Mode=OneWay}"
+                      Margin="30 30 0 0"/>
+            <!--<TextBlock Grid.Row="6" Grid.Column="1" FontSize="16" FontFamily="Arial" Text="Location:" Margin="30 30 0 0"/>
+            <TextBox    Grid.Row="6" Grid.Column="2" 
+                        Grid.RowSpan="2" Grid.ColumnSpan="2"
+                        TextWrapping="Wrap"
+                        Text="{Binding CurrentDriver.Location, Mode=TwoWay}"
+                        Margin="30 30 0 0"/>-->
+            <TextBlock Grid.Row="1" Grid.Column="3" FontSize="16" FontFamily="Arial" Text="Phone Number:" Margin="30 30 0 0"/>
+            <TextBox Grid.Row="1" Grid.Column="4" 
+                     Text="{Binding CurrentDriver.PhoneNumber, Mode=TwoWay}" 
+                     Margin="30 30 0 0"/>
+            <TextBlock Grid.Row="2" Grid.Column="3" FontSize="16" FontFamily="Arial" Text="Email:" Margin="30 30 0 0"/>
+            <TextBox Grid.Row="2" Grid.Column="4"
+                     Text="{Binding CurrentDriver.Email, Mode=TwoWay}" 
+                     Margin="30 30 0 0"/>
+            <TextBlock Grid.Row="3" Grid.Column="3" FontSize="16" FontFamily="Arial" Text="Date Created:" Margin="30 30 0 0"/>
+            <TextBlock Grid.Row="3" Grid.Column="4" FontSize="16" FontFamily="Arial" FontWeight="SemiBold" Text="{Binding CurrentDriver.CreatedAt}" Margin="30 30 0 0"/>
+            <TextBlock Grid.Row="4" Grid.Column="3" FontSize="16" FontFamily="Arial" Text="Date Updated:" Margin="30 30 0 0"/>
+            <TextBlock Grid.Row="4" Grid.Column="4" FontSize="16" FontFamily="Arial" FontWeight="SemiBold" Text="{Binding CurrentDriver.UpdatedAt}" Margin="30 30 0 0"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.Column="4"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center">
+                <AppBarButton Icon="Save" 
+                          Label="Save"
+                          Background="#0067C0"
+                          Foreground="White"
+                          Command="{Binding SaveCommand}"
+                          ToolTipService.ToolTip="Save current information of this Driver"
+                          ToolTipService.Placement="Bottom"
+                />
+                <AppBarButton Icon="Cancel" 
+                          Label="Cancel"
+                          Background="#E81123"
+                          Foreground="White"
+                          Command="{Binding CancelCommand}"
+                          ToolTipService.ToolTip="Cancel edit information of this Driver"
+                          ToolTipService.Placement="Bottom"
+                />
+            </StackPanel>
+
+
+        </Grid>
+    </ScrollViewer>
 </Page>
