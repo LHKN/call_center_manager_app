@@ -41,7 +41,6 @@ namespace ManagerApp.ViewModel
 
             //Initial info
             _bookingRepository = new BookingRepository();
-            ObservableCollection<BookingDetail> bookingList;
 
             _cbOptions = new ObservableCollection<string>
             {
@@ -105,6 +104,8 @@ namespace ManagerApp.ViewModel
 
                     var task2 = _statisticsRepository.GetTripPercentage();
                     _tripPercentage = task2.Result;
+
+                    Task.Delay(TimeSpan.FromHours(1));
                 }
             });
         }

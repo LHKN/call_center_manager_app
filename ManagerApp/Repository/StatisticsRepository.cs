@@ -20,6 +20,8 @@ namespace ManagerApp.Repository
                 {
                     var task = _bookingRepository.GetAll();
                     bookingList = task.Result;
+
+                    Task.Delay(TimeSpan.FromHours(1));
                 }
             });
         }

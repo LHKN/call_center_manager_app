@@ -1,17 +1,11 @@
-﻿using FireSharp.Interfaces;
-using FireSharp.Response;
-using Google.Cloud.Firestore;
+﻿using Google.Cloud.Firestore;
 using ManagerApp.Model;
-using ManagerApp.Services;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.Security.Authentication.Identity.Core;
 
 namespace ManagerApp.Repository
 {
