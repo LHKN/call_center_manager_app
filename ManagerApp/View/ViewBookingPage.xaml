@@ -54,12 +54,14 @@
                     <TextBlock Grid.Row="3" Text="Pickup Location*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10"/>
                     <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Booking.PickupLocationName}" 
                                        FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10"/>
-                    <AppBarButton Grid.Row="3" Grid.Column="1" x:Name="startLocationButton" Icon="MapPin" Label="View" Command="{Binding StartCommand}"/>
+                    <AppBarButton Grid.Row="3" Grid.Column="1" x:Name="startLocationButton" Icon="MapPin" Label="View" Command="{Binding StartCommand}"
+                                  Visibility="{Binding ViewStartVisibility}"/>
 
                     <TextBlock Grid.Row="4" Text="Destination*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10"/>
                     <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding Booking.DestinationName}" 
                                        FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10" />
-                    <AppBarButton Grid.Row="4" Grid.Column="1" x:Name="destinationButton" Icon="MapPin" Label="View" Command="{Binding EndCommand}"/>
+                    <AppBarButton Grid.Row="4" Grid.Column="1" x:Name="destinationButton" Icon="MapPin" Label="View" Command="{Binding EndCommand}"
+                                  Visibility="{Binding ViewEndVisibility}"/>
 
                     <!--optional only for VIP-->
                     <TextBlock Grid.Row="6" Grid.ColumnSpan="4" Text="{Binding DisplayText}" FontWeight="Light" FontStyle="Italic" Foreground="DodgerBlue" TextWrapping="WrapWholeWords" Margin="30 20 0 0"/>

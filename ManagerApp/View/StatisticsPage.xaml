@@ -13,8 +13,13 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity" 
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     d:DataContext="{d:DesignInstance Type=viewmodel:StatisticsViewModel}"
+    xmlns:services="using:ManagerApp.Services"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <services:DateConverter x:Key="dateConverter"/>
+    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -36,22 +41,19 @@
 
         <Pivot Title="ABOUT US">
             <PivotItem Header="Our customers" Padding="5">
-                <!--<TextBlock Text="N Customers have installed Customer App" />-->
                 <TextBlock TextWrapping="WrapWholeWords" >
-                    <Run Text="{Binding CustomerCount}" FontWeight="Bold" Foreground="CadetBlue"/> customer(s) installed Customer App
+                    <Run Text="{Binding CustomerCount, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" Foreground="CadetBlue"/> customer(s) installed Customer App
                 </TextBlock>
             </PivotItem>
             
             <PivotItem Header="Our drivers" Padding="5">
-                <!--<TextBlock Text="N Drivers have installed Driver App"--> 
                 <TextBlock TextWrapping="WrapWholeWords" >
-                    <Run Text="{Binding DriverCount}" FontWeight="Bold" Foreground="CadetBlue"/> driver(s) installed Driver App
+                    <Run Text="{Binding DriverCount, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" Foreground="CadetBlue"/> driver(s) installed Driver App
                 </TextBlock>
             </PivotItem>
             <PivotItem Header="Our trips" Padding="5">
-                <!--<TextBlock Text="x% of the trips were successfully booked" />-->
                 <TextBlock TextWrapping="WrapWholeWords" >
-                    <Run Text="{Binding TripPercentage}" FontWeight="Bold" Foreground="CadetBlue"/>% of the trips were successfully booked
+                    <Run Text="{Binding TripPercentage, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" Foreground="CadetBlue"/>% of the trips were successfully booked
                 </TextBlock>
             </PivotItem>
         </Pivot>
@@ -60,10 +62,13 @@
             <TextBlock Text="INCOME GRAPH" FontWeight="Bold"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <DatePicker x:Name="yearDatePicker" MonthVisible="False" DayVisible="False" Visibility="Collapsed"/>
+                            <!--SelectedDate="{Binding SelectedTime, Converter={StaticResource dateConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
                 
                 <ComboBox SelectionChanged="DateComboBox_SelectionChanged" PlaceholderText="Filter by" Width="200"
                           ItemsSource="{Binding CBOptions}"
                           SelectedValue="{Binding SelectedOption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!--<TextBlock Text="{Binding SelectedOption, Mode=OneWay}"/>-->
             </StackPanel>
             
         </StackPanel>
