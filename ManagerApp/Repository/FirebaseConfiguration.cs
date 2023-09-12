@@ -9,7 +9,7 @@ using Firebase.Auth.Repository;
 using Microsoft.Extensions.Configuration;
 using ManagerApp.Model;
 using System.Threading.Tasks;
-using Microsoft.WindowsAppSDK.Runtime.Packages;
+//using Microsoft.WindowsAppSDK.Runtime.Packages;
 using Google.Cloud.Firestore;
 using Google.Cloud.Firestore.V1;
 using FirebaseAdmin;
