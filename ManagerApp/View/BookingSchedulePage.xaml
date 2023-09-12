@@ -14,7 +14,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
-        <services:DateConverter x:Key="dateConverter"/>
+        <services:DateOnlyConverter x:Key="dateConverter"/>
     </Page.Resources>
     
     <Grid>

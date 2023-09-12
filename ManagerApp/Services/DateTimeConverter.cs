@@ -3,19 +3,19 @@ using Microsoft.UI.Xaml.Data;
 
 namespace ManagerApp.Services
 {
-    internal class DateConverter : IValueConverter
+    internal class DateTimeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (value == null) { 
                 return value; 
             }
-            return new DateTimeOffset(((DateOnly)value).ToDateTime(TimeOnly.MinValue).ToUniversalTime());
+            return new DateTimeOffset(((DateTime)value).ToUniversalTime());
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            return DateOnly.FromDateTime(((DateTimeOffset)value).Date);
+            return DateTime.SpecifyKind(((DateTimeOffset)value).Date, DateTimeKind.Utc);
         }
     
     }

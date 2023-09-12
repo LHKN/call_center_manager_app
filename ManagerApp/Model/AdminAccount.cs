@@ -1,13 +1,11 @@
-﻿using System.ComponentModel;
+﻿using Google.Cloud.Firestore;
+using System.ComponentModel;
 
 namespace ManagerApp.Model
 {
+    [FirestoreData]
     public class AdminAccount : Account
     {
-        //protected string _phoneNumber;
-        //private string address;
-
-        //public string PhoneNumber { get => _phoneNumber; set => _phoneNumber = value; }
-        //public string Address { get => address; set => address = value; }
+        public AdminAccount() { this.Role = Role.Admin; }
     }
 }

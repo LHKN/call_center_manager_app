@@ -37,77 +37,7 @@ namespace ManagerApp.ViewModel
         public ManageCustomerViewModel()
         {
             _accountRepository = new AccountRepository();
-            CustomerList = new List<Customer> {
-                new VIPCustomer {
-                    Id = "CUS000001",
-                    Name = "Trần Văn Tèo",
-                    PhoneNumber = "+84834635633",
-                    Location = "89 Hoàng Hoa Thám, Phường 6, Bình Thạnh, Thành phố Hồ Chí Minh, Việt Nam",
-                    DateOfBirth = new DateOnly(1996,5,26),
-                    Gender = Gender.Male,
-                    Email = "teovan@gmail.com",
-                    CreateByAdmin = "LHKN",
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now,
-                },
-                new Customer
-                {
-                    Id = "CUS000002",
-                    Name = "Thái Văn Thiên",
-                    PhoneNumber = "+84192355906",
-                    Location = "71/1/12 Nguyễn Văn Thương, Phường 25, Bình Thạnh, Thành phố Hồ Chí Minh, Việt Nam",
-
-                },
-                new VIPCustomer
-                {
-                    Id = "CUS000003",
-                    Name = "Lê Hoàng Khanh Nguyên",
-                    PhoneNumber = "+84331197205",
-                    Location = "106 Phạm Viết Chánh, Phường Nguyễn Cư Trinh, Quận 1, Thành phố Hồ Chí Minh, Việt Nam",
-
-                },
-                new VIPCustomer
-                {
-                    Id = "CUS000004",
-                    Name = "Lê Hoàng Khanh Nguyên",
-                    PhoneNumber = "+84331197205",
-                    Location = "106 Phạm Viết Chánh, Phường Nguyễn Cư Trinh, Quận 1, Thành phố Hồ Chí Minh, Việt Nam",
-
-                },
-                new VIPCustomer
-                {
-                    Id = "CUS000005",
-                    Name = "Lê Hoàng Khanh Nguyên",
-                    PhoneNumber = "+84331197205",
-                    Location = "106 Phạm Viết Chánh, Phường Nguyễn Cư Trinh, Quận 1, Thành phố Hồ Chí Minh, Việt Nam",
-
-                },
-                new VIPCustomer
-                {
-                    Id = "CUS000006",
-                    Name = "Lê Hoàng Khanh Nguyên",
-                    PhoneNumber = "+84331197205",
-                    Location = "106 Phạm Viết Chánh, Phường Nguyễn Cư Trinh, Quận 1, Thành phố Hồ Chí Minh, Việt Nam",
-
-                },
-                new VIPCustomer
-                {
-                    Id = "CUS000007",
-                    Name = "Lê Hoàng Khanh Nguyên",
-                    PhoneNumber = "+84331197205",
-                    Location = "106 Phạm Viết Chánh, Phường Nguyễn Cư Trinh, Quận 1, Thành phố Hồ Chí Minh, Việt Nam",
-
-                },
-                new VIPCustomer
-                {
-                    Id = "CUS000008",
-                    Name = "Lê Hoàng Khanh Nguyên",
-                    PhoneNumber = "+84331197205",
-                    Location = "106 Phạm Viết Chánh, Phường Nguyễn Cư Trinh, Quận 1, Thành phố Hồ Chí Minh, Việt Nam",
-
-                }
-
-            };
+            CustomerList = new List<Customer>();
             DisplayCustomerList = new List<Customer>();
             DisplayCustomerCollection = new ObservableCollection<Customer>();
             ResultCustomerList= new List<Customer>(); 
@@ -144,9 +74,8 @@ namespace ManagerApp.ViewModel
         }
         public async void ExecuteGetAllCustomerCommand()
         {
-            //await Task.Run(() => { });
-            //CustomerList = await _accountRepository.GetAllCustomer(); //TODO: load from Firebase through IAccountRepository
-            CustomerList.ForEach(item => ResultCustomerList.Add(item));
+            CustomerList = await _accountRepository.GetAllCustomer(); //TODO: load from Firebase through IAccountRepository
+            CustomerList.ForEach(item => ResultCustomerList.Add(item));           
             TotalItems = CustomerList.Count;
 
             UpdateDataSource();

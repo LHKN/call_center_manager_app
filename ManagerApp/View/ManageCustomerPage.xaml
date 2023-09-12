@@ -20,6 +20,7 @@
 
     <Page.Resources>
         <services:CustomerTypeConverter x:Key="typeConverter"/>
+        <services:GenderConverter x:Key="genderConverter"/>
         <Style TargetType="controls:DataGridCell">
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="VerticalContentAlignment" Value="Stretch"/>
@@ -89,8 +90,9 @@
             <controls:DataGrid.Columns>
                 <controls:DataGridTextColumn Width="1*" Header="CustomerID"  Binding="{Binding Id}" Tag="ID"/>
                 <controls:DataGridTextColumn Width="1*" Header="Name"  Binding="{Binding Name}" Tag="Name"/>
+                <controls:DataGridTextColumn Width="0.5*" Header="Gender" Binding="{Binding Gender, Converter={StaticResource genderConverter}}" Tag="Gender"/>
                 <controls:DataGridTextColumn Width="1*" Header="PhoneNumber"  Binding="{Binding PhoneNumber}" Tag="PhoneNumber"/>
-                <controls:DataGridTemplateColumn Width="1.5*" Header="Location">
+                <!--<controls:DataGridTemplateColumn Width="1.5*" Header="Location">
                     <controls:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Location}" 
@@ -100,7 +102,8 @@
                                        TextWrapping="Wrap" />
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>
-                </controls:DataGridTemplateColumn>
+                </controls:DataGridTemplateColumn>-->
+                
                 <controls:DataGridTextColumn Width="1*" Header="Type"  Binding="{Binding Type, Converter={StaticResource typeConverter}}" Tag="Type"/>
             </controls:DataGrid.Columns>
         </controls:DataGrid>

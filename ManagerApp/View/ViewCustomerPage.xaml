@@ -21,7 +21,7 @@
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
-            
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -65,12 +65,14 @@
             <TextBlock Grid.Row="5" Grid.Column="1" FontSize="16" FontFamily="Arial" Text="Type:" Margin="30 30 0 0"/>
             <TextBlock Grid.Row="5" Grid.Column="2" FontSize="16" FontFamily="Arial" FontWeight="SemiBold" Text="{Binding CurrentCustomer.Type}" Margin="30 30 0 0"/>
             <TextBlock Grid.Row="6" Grid.Column="1" FontSize="16" FontFamily="Arial" Text="Location:" Margin="30 30 0 0"/>
-            <TextBlock Grid.Row="6" Grid.Column="2" 
-                       Grid.RowSpan="2"
-                       FontSize="16" FontFamily="Arial" FontWeight="SemiBold" 
-                       Text="{Binding CurrentCustomer.Location}"
-                       TextWrapping="WrapWholeWords"
-                       Margin="30 30 0 0"/>
+            <ListView Grid.Row="6" Grid.Column="2"
+                      Grid.RowSpan="2" Grid.ColumnSpan="2"
+                      BorderBrush="Black"
+                      BorderThickness="1"
+                      HorizontalAlignment="Left"  
+                      ItemsSource="{Binding CustomerSavedLocationCollection}"
+                      Margin="30 25 0 0"/>
+
             <TextBlock Grid.Row="8" Grid.Column="1" FontSize="16" FontFamily="Arial" Text="Status:" Margin="30 30 0 30"/>
             <TextBlock Grid.Row="8" Grid.Column="2" FontSize="16" FontFamily="Arial" FontWeight="SemiBold" Text="{Binding CurrentCustomer.Status}" Margin="30 30 0 30"/>
             <TextBlock Grid.Row="1" Grid.Column="3" FontSize="16" FontFamily="Arial" Text="Phone Number:" Margin="30 30 0 0"/>
@@ -83,7 +85,7 @@
             <TextBlock Grid.Row="4" Grid.Column="4" FontSize="16" FontFamily="Arial" FontWeight="SemiBold" Text="{Binding CurrentCustomer.CreatedAt}" Margin="30 30 0 0"/>
             <TextBlock Grid.Row="5" Grid.Column="3" FontSize="16" FontFamily="Arial" Text="Date Updated:" Margin="30 30 0 0"/>
             <TextBlock Grid.Row="5" Grid.Column="4" FontSize="16" FontFamily="Arial" FontWeight="SemiBold" Text="{Binding CurrentCustomer.UpdatedAt}" Margin="30 30 0 0"/>
-            <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.Column="4"
+            <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.Column="3" Grid.ColumnSpan="2"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center">
                 <AppBarButton Icon="Clock" 
@@ -94,24 +96,24 @@
                           ToolTipService.ToolTip="Update information for this customer"
                           ToolTipService.Placement="Bottom"
                 />
-                <AppBarButton Icon="Important" 
-                          Label="Ban"
+                <AppBarButton Icon="{Binding BanIcon}" 
+                          Label="{Binding BanLabel}"
                           Background="#E81123"
                           Foreground="White"
-                          Command="{Binding TerminateCommand}"
-                          ToolTipService.ToolTip="Update information for this customer"
-                          ToolTipService.Placement="Bottom"
-                />
+                          Command="{Binding BanCommand}"
+                          ToolTipService.ToolTip="{Binding BanTooltip}"
+                          ToolTipService.Placement="Bottom">
+                </AppBarButton>
                 <AppBarButton Icon="Delete" 
                           Label="Delete"
                           Background="#E81123"
                           Foreground="White"
                           Command="{Binding DeleteCommand}"
-                          ToolTipService.ToolTip="Update information for this customer"
+                          ToolTipService.ToolTip="Remove this customer from database"
                           ToolTipService.Placement="Bottom"
                 />
             </StackPanel>
-            
+
 
         </Grid>
     </ScrollViewer>
