@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,10 +15,12 @@ namespace ManagerApp.Model
         Task<bool> DeleteAdminAccount(string accountId);
         Task<Account> GetAccountById(string accountId);
 
-        Task<bool> AccountSignedUp(AdminAccount account);
-        Task<bool> AccountSignedIn(AdminAccount account);
+        Task<bool> AccountSignedUp(NetworkCredential credentical);
+        Task<bool> AccountSignedIn(NetworkCredential credentical);
+        Task<bool> AccountSignedOut(NetworkCredential credentical);
 
         Task<int> GetCustomerListCount();
+        Task<int> GetDriverListCount();
 
         Task<bool> AddCustomer(Customer newCustomer);
         Task<bool> EditCustomer(Customer currentCustomer);
@@ -29,7 +32,7 @@ namespace ManagerApp.Model
         Task<bool> DeleteDriver(string driverId);
         Task<bool> GetDriverById(string driverId);
 
-        Task<ObservableCollection<Account>> GetAll();
+        Task<List<AdminAccount>> GetAllAdminAccount();
         Task<List<Customer>> GetAllCustomer();
         Task<List<Driver>> GetAllDriver();
     }
