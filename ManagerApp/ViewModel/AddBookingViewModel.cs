@@ -91,9 +91,9 @@ namespace ManagerApp.ViewModel
 
             ExecuteRefreshCommand();
 
-            var check = App.MainRoot.ShowYesCancelDialog("Proceed?", "Yes", "Check my input");
+            //var check = App.MainRoot.ShowYesCancelDialog("Proceed?", "Yes", "Check my input");
 
-            if (check.Result == false) return;
+            //if (check.Result == false) return;
 
             await _bookingRepository.Add(Booking);
             ParentPageNavigation.ViewModel = new BookingScheduleViewModel();
@@ -134,7 +134,7 @@ namespace ManagerApp.ViewModel
             });
 
             //HTTP request price
-            ServerHTTPRequest priceRequest = new ServerHTTPRequest(PATH_REQUEST, ref booking);
+            //ServerHTTPRequest priceRequest = new ServerHTTPRequest(PATH_REQUEST, ref booking);
 
             IsDoneFetching = true;
 

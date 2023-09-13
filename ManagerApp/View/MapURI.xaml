@@ -170,7 +170,7 @@
             <AppBarButton x:Name="backButton" Icon="Back" Label="Back" Command="{Binding BackCommand}"/>
 
             <TextBlock TextWrapping="WrapWholeWords" Text="Notes:" Padding="10" FontStyle="Italic"/>
-            <TextBlock TextWrapping="WrapWholeWords" Text="Select Graticule and Scale for better view" Padding="20 0 0 30" FontStyle="Italic"/>
+            <TextBlock TextWrapping="WrapWholeWords" Text="Select Bing Maps Aerial" Padding="20 0 0 30" FontStyle="Italic"/>
 
             <tools:MapLayersMenuButton x:Name="mapLayersMenuButton"
                 Margin="2" Padding="8" ToolTipService.ToolTip="Map Layers and Overlays"

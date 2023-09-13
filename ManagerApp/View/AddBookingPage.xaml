@@ -64,14 +64,14 @@
                                     TextChanged="PickupAutoSuggestBox_TextChanged"
                                     SuggestionChosen="PickupAutoSuggestBox_SuggestionChosen"
 />
-                    <AppBarButton Grid.Row="3" Grid.Column="1" x:Name="startLocationButton" Icon="MapPin" Label="Edit" Command="{Binding StartCommand}"/>
+                    <AppBarButton Grid.Row="3" Grid.Column="1" x:Name="startLocationButton" Icon="MapPin" Label="View" Command="{Binding StartCommand}"/>
 
                     <TextBlock Grid.Row="4" Text="Destination*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10"/>
                     <AutoSuggestBox x:Name="DestinationSuggestBox" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding Booking.DestinationName, Mode=TwoWay}" Margin="10 20 50 10" PlaceholderText="Address" 
                                     TextChanged="DestinationAutoSuggestBox_TextChanged"
                                     SuggestionChosen="DestinationAutoSuggestBox_SuggestionChosen"/>
 
-                    <AppBarButton Grid.Row="4" Grid.Column="1" x:Name="destinationButton" Icon="MapPin" Label="Edit" Command="{Binding EndCommand}"/>
+                    <AppBarButton Grid.Row="4" Grid.Column="1" x:Name="destinationButton" Icon="MapPin" Label="View" Command="{Binding EndCommand}"/>
 
                     <TextBlock Grid.Row="5" Grid.Column="1" Text="*Required" FontWeight="Light" FontStyle="Italic" Foreground="Red" TextWrapping="WrapWholeWords"/>
                      
