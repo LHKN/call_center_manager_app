@@ -1,10 +1,14 @@
 ﻿using Google.Cloud.Firestore;
 using ManagerApp.Model;
+using ManagerApp.Services;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ManagerApp.Repository
@@ -34,7 +38,6 @@ namespace ManagerApp.Repository
             { "available", Model.Driver.DriverStatus.Available },
             { "busy", Model.Driver.DriverStatus.Busy },
             { "restricted", Model.Driver.DriverStatus.Restricted },
-            
         };
 
         static Dictionary<string, Model.Gender> genderDict = new Dictionary<string, Model.Gender> {
@@ -51,15 +54,27 @@ namespace ManagerApp.Repository
             { Model.Gender.Male, false  },
         };
 
-
-        public Task<bool> AccountSignedIn(AdminAccount account)
+        public async Task<bool> AccountSignedIn(NetworkCredential credentical)
         {
-            return Task.Run(() => { return true; });
+            bool isValidAccount = false;
+
+            FirebaseAuthService firebaseAuthService = new FirebaseAuthService(AuthClient);
+            string? resultToken = await firebaseAuthService.Login(credentical.UserName, credentical.Password);
+            if (resultToken != null)
+            {
+                isValidAccount = true;
+            }
+            return isValidAccount;
         }
 
-        public Task<bool> AccountSignedUp(AdminAccount account)
+        public Task<bool> AccountSignedOut(NetworkCredential credentical)
         {
-            return Task.Run(() => { return true; });
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> AccountSignedUp(NetworkCredential credentical)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<bool> AddAdminAccount(AdminAccount newAccount)
@@ -84,7 +99,7 @@ namespace ManagerApp.Repository
                 { "created_at", DateTime.SpecifyKind(newCustomer.CreatedAt, DateTimeKind.Utc)},
                 { "updated_at", DateTime.SpecifyKind(newCustomer.UpdatedAt, DateTimeKind.Utc)},
                 { "gender", newCustomer.Gender.ToString() },
-                { "_status", newCustomer.Status.ToString() },
+                { "status", newCustomer.Status.ToString() },
                 { "create_by_admin", newCustomer.CreateByAdmin },
                 { "fcm_token", "" },
             };
@@ -179,7 +194,7 @@ namespace ManagerApp.Repository
                 { "type_customer", currentCustomer.Type.ToString() },
                 { "updated_at", DateTime.SpecifyKind(currentCustomer.UpdatedAt, DateTimeKind.Utc) },
                 { "gender", currentCustomer.Gender.ToString() },
-                { "_status", currentCustomer.Status.ToString() },
+                { "status", currentCustomer.Status.ToString() },
                 //{ "create_by_admin", currentCustomer.CreateByAdmin },
                 //{ "fcm_token", "" },
             };
@@ -233,9 +248,32 @@ namespace ManagerApp.Repository
             return Task.Run(() => { return new Account(); });
         }
 
-        public Task<ObservableCollection<Account>> GetAll()
+        public async Task<List<AdminAccount>> GetAllAdminAccount()
         {
-            return Task.Run(() => { return new ObservableCollection<Account>(); });
+            List<AdminAccount> admins = new List<AdminAccount>();
+
+            Query allAdminsQuery = FirestoreDb.Collection("admin");
+            QuerySnapshot allAdminsQuerySnapshot = await allAdminsQuery.GetSnapshotAsync();
+            foreach (DocumentSnapshot documentSnapshot in allAdminsQuerySnapshot.Documents)
+            {
+                AdminAccount current = new AdminAccount
+                {
+                    Id = documentSnapshot.Id,
+                };
+                Dictionary<string, object> customerFormattedObject = documentSnapshot.ToDictionary();
+                foreach (KeyValuePair<string, object> pair in customerFormattedObject)
+                {
+                    if (pair.Key.Equals("avatar")) { current.Avatar = pair.Value?.ToString(); continue; };
+                    if (pair.Key.Equals("dob")) { current.DateOfBirth = pair.Value is Timestamp timestamp ? timestamp.ToDateTime().ToLocalTime() : current.DateOfBirth; continue; };
+                    if (pair.Key.Equals("email")) { current.Email = pair.Value?.ToString(); continue; };
+                    if (pair.Key.Equals("fcm_token")) { continue; };
+                    if (pair.Key.Equals("gender")) { current.Gender = genderDict[pair.Value?.ToString()]; continue; };
+                    if (pair.Key.Equals("name")) { current.Name = pair.Value?.ToString(); continue; };
+                    if (pair.Key.Equals("phoneNumber")) { current.PhoneNumber = pair.Value?.ToString(); continue; }; 
+                }
+                admins.Add(current);
+            }
+            return admins;
         }
 
         public async Task<List<Customer>> GetAllCustomer()
@@ -329,9 +367,22 @@ namespace ManagerApp.Repository
             return Task.Run(() => { return true; });
         }
 
-        public Task<int> GetCustomerListCount()
+        public async Task<int> GetCustomerListCount()
         {
-            return Task.Run(() => { return 1; });
+            Query customerQuery = FirestoreDb.Collection("Customer");
+            AggregateQuery countQuery = customerQuery.Count();
+            AggregateQuerySnapshot snapshot = await countQuery.GetSnapshotAsync();
+            //await App.MainRoot.ShowDialog("Noti", $"There are total {snapshot.Count} customers");
+            return (snapshot.Count != null ? (int)snapshot.Count : -1);
+        }
+
+        public async Task<int> GetDriverListCount()
+        {
+            Query driverQuery = FirestoreDb.Collection("driver");
+            AggregateQuery countQuery = driverQuery.Count();
+            AggregateQuerySnapshot snapshot = await countQuery.GetSnapshotAsync();
+            //await App.MainRoot.ShowDialog("Noti", $"There are total {snapshot.Count} drivers");
+            return (snapshot.Count != null ? (int)snapshot.Count : -1);
         }
 
         public Task<bool> GetDriverById(string driverId)

@@ -30,6 +30,7 @@
     <None Remove="View\EditCustomerPage.xaml" />
     <None Remove="View\EditDriverPage.xaml" />
     <None Remove="View\HomePage.xaml" />
+    <None Remove="View\LoginPage.xaml" />
     <None Remove="View\LogsPage.xaml" />
     <None Remove="View\ManageCustomerPage.xaml" />
     <None Remove="View\ManageDriverPage.xaml" />
@@ -66,6 +67,7 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
     <PackageReference Include="Prism.Core" Version="8.1.97" />
     <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
     <PackageReference Include="XAML.MapControl" Version="8.1.0" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
@@ -149,6 +151,11 @@
   </PropertyGroup>
   <ItemGroup>
     <PRIResource Remove="NewFolder\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\LoginPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\EditBookingPage.xaml">

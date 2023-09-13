@@ -15,6 +15,7 @@ using Google.Cloud.Firestore.V1;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using FirebaseAdmin.Auth;
+using System.Net;
 
 namespace ManagerApp.Repository
 {
@@ -44,11 +45,32 @@ namespace ManagerApp.Repository
                 Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", path);
                 string project = _config.GetSection("Firebase:ServiceAccount")["project_name"];
                 FirestoreDb = FirestoreDb.Create(project);
-
             }
+
+            // Configure Firebase Authentication
+            {
+                var config = new FirebaseAuthConfig
+                {
+                    ApiKey = _config.GetSection("Firebase")["APIKey"],
+                    AuthDomain = _config.GetSection("Firebase")["AuthDomain"],
+                    Providers = new FirebaseAuthProvider[]
+                    {
+                    // Add and configure individual providers
+                    new GoogleProvider().AddScopes("email"),
+                    new EmailProvider()
+                        // ...
+                    },
+                    UserRepository = new FileUserRepository("FirebaseSample")
+                };
+
+                AuthClient = new FirebaseAuthClient(config);
+            }
+
+
         }
 
-        public FirestoreDb FirestoreDb { get => _firestoreDb; set => _firestoreDb = value; }
+        protected FirestoreDb FirestoreDb { get => _firestoreDb; set => _firestoreDb = value; }
+        protected IFirebaseAuthClient AuthClient { get => _authClient; set => _authClient = value; }
 
         public async Task<IFirebaseClient> TryConnect()
         {
@@ -62,40 +84,5 @@ namespace ManagerApp.Repository
                 return null;
             }
         }
-
-        //public async Task<bool> SignUpAccount(Account account)
-        //{
-        //    try
-        //    {
-        //        // sign up with email and password
-        //        var userCredential = await _authClient.CreateUserWithEmailAndPasswordAsync(account.Username, account.Password, account.Name);
-        //        // User successfully signed up.
-        //        return true;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Handle any exceptions that occurred during signup.
-        //        await App.MainRoot.ShowDialog("Exception",$"Error signing up: {ex.Message}");
-        //        return false;
-        //    }
-        //}
-        //public async Task<bool> SignInAccount(Account account)
-        //{
-        //    try
-        //    {
-        //        // sign up with email and password
-        //        var userCredential = await _authClient.SignInWithEmailAndPasswordAsync(account.Username, account.Password);
-        //        // User successfully signed in.
-        //        return true;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Handle any exceptions that occurred during signup.
-        //        Console.WriteLine($"Error signing up: {ex.Message}");
-        //        return false;
-        //    }
-        //}
-
-
     }
 }

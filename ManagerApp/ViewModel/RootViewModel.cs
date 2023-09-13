@@ -6,8 +6,8 @@ namespace ManagerApp.ViewModel
     {
         public RootViewModel()
         {
-            //ChildPageNavigation = new PageNavigation(new LoginDatabaseViewModel());
-            ChildPageNavigation = new PageNavigation(new HomeViewModel());
+            ChildPageNavigation = new PageNavigation(new LoginViewModel());
+            //ChildPageNavigation = new PageNavigation(new HomeViewModel());
         }
         public PageNavigation ChildPageNavigation { get; }
     }
