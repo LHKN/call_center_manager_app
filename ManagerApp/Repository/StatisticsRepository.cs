@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
-using FireSharp.Interfaces;
 using ManagerApp.Model;
-using ManagerApp.Services;
 
 namespace ManagerApp.Repository
 {
@@ -18,10 +15,10 @@ namespace ManagerApp.Repository
             {
                 while (true)
                 {
+                    Task.Delay(TimeSpan.FromHours(1));
+
                     var task = _bookingRepository.GetAll();
                     bookingList = task.Result;
-
-                    Task.Delay(TimeSpan.FromHours(1));
                 }
             });
         }

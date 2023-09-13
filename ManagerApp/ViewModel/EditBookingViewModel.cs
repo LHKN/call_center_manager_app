@@ -10,9 +10,11 @@ namespace ManagerApp.ViewModel
 {
     class EditBookingViewModel : ViewModelBase
     {
-        const int STANDARD_ROLE = 0;
-        const int VIP_ROLE = 1;
-        const int NEW_ROLE = 2;
+        const string PATH_REQUEST = "Send Path Calculation Request";
+        
+        const string STANDARD_ROLE = "0";
+        const string VIP_ROLE = "1";
+        const string NEW_ROLE = "2";
 
         const string indicator = "EditBooking";
 
@@ -62,6 +64,7 @@ namespace ManagerApp.ViewModel
             ConfirmCommand = new RelayCommand(ExecuteConfirmCommand);
             StartCommand = new RelayCommand(ExecuteStartCommand);
             EndCommand = new RelayCommand(ExecuteEndCommand);
+            RefreshCommand = new RelayCommand(ExecuteRefreshCommand);
         }
 
         // execute commands
@@ -116,12 +119,23 @@ namespace ManagerApp.ViewModel
             ParentPageNavigation.ViewModel = new MapService(booking, indicator);
         }
 
+        public async void ExecuteRefreshCommand()
+        {
+            IsDoneFetching = false;
+
+            // HTTP get price
+            ServerHTTPRequest priceRequest = new ServerHTTPRequest(PATH_REQUEST, ref booking);
+
+            IsDoneFetching = true;
+        }
+
         // getters, setters
         public ObservableCollection<string> TransportOptions { get => transportOptions; set => transportOptions = value; }
         public ObservableCollection<BookingDetail> Bookings { get; set; }
         public BookingDetail Booking { get => booking; set => booking = value; }
         public string CustomerStatus { get; set; }
         public bool EditVisibility { get; set; }
+        public bool IsDoneFetching { get; set; }
 
 
         // commands
@@ -129,5 +143,6 @@ namespace ManagerApp.ViewModel
         public ICommand ConfirmCommand { get; }
         public ICommand StartCommand { get; }
         public ICommand EndCommand { get; }
+        public ICommand RefreshCommand { get; }
     }
 }

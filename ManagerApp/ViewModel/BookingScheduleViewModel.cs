@@ -64,6 +64,7 @@ namespace ManagerApp.ViewModel
 
         public async void ExecuteRefreshCommand()
         {
+            RefreshVisibility = false;
             Warning = "Updating";
             await Task.Run(() =>
             {
@@ -73,6 +74,18 @@ namespace ManagerApp.ViewModel
             });
             OnPropertyChanged(nameof(BookingList));
             Warning = "Finished";
+            RefreshVisibility = true;
+
+            if (_selectedDate == null) return;
+
+            sortedBookings.Clear();
+            foreach (var booking in bookings)
+            {
+                if (booking.PickupDate.ToString().Equals(_selectedDate.ToString()))
+                {
+                    sortedBookings.Add(booking);
+                }
+            }
         }
 
         public DateOnly? Date
@@ -101,6 +114,7 @@ namespace ManagerApp.ViewModel
         public ObservableCollection<BookingDetail> SortedBookingList { get => sortedBookings; set => sortedBookings = value; }
         public BookingDetail SelectedBooking { get => _selectedBooking; set => _selectedBooking = value; }
         public string Warning { get => _warning; set => _warning = value; }
+        public bool RefreshVisibility { get; set; }
 
         // commands
         public ICommand AddCommand { get; }

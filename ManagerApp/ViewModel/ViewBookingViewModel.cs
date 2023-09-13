@@ -10,9 +10,9 @@ namespace ManagerApp.ViewModel
 {
     class ViewBookingViewModel : ViewModelBase
     {
-        const int STANDARD_ROLE = 0;
-        const int VIP_ROLE = 1;
-        const int NEW_ROLE = 2;
+        const string STANDARD_ROLE = "0";
+        const string VIP_ROLE = "1";
+        const string NEW_ROLE = "2";
 
         const string indicator = "ViewBooking";
 
@@ -54,6 +54,9 @@ namespace ManagerApp.ViewModel
                 }
                 DisplayText = "Can not edit";
             }
+            
+            ViewStartVisibility = true; 
+            ViewEndVisibility = true;
 
             if (curBooking.PickupLocationLatitude == 0 && curBooking.PickupLocationLongitude == 0)
             {
@@ -75,7 +78,7 @@ namespace ManagerApp.ViewModel
         }
 
         // execute commands
-        public async void ExecuteBackCommand()
+        public void ExecuteBackCommand()
         {
             ParentPageNavigation.ViewModel = new BookingScheduleViewModel();
         }
@@ -100,7 +103,7 @@ namespace ManagerApp.ViewModel
         }
 
 
-        public async void ExecuteEditCommand()
+        public void ExecuteEditCommand()
         {
             ParentPageNavigation.ViewModel = new EditBookingViewModel(Booking);
         }

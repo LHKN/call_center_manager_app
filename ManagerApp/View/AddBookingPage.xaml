@@ -50,7 +50,7 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="Customer Phone Number*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 5"/>
-                    <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Booking.PhoneNumber, Mode=TwoWay}" HorizontalAlignment="Left" PlaceholderText="Phone Number" MaxLength="11" MaxWidth="200"/>
+                    <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Booking.PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" PlaceholderText="Phone Number" MaxLength="11" MaxWidth="200"/>
                     <!--<NumberBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Booking.PhoneNumber, Mode=TwoWay}" HorizontalAlignment="Left" PlaceholderText="Phone Number" Maximum="99999999999" MaxWidth="200"/>-->
                     <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding CustomerStatus}" FontWeight="Light" FontStyle="Italic" Foreground="DodgerBlue" TextWrapping="WrapWholeWords" />
 
@@ -81,19 +81,19 @@
                     
                     <!--optional only for VIP-->
                     <TextBlock Grid.Row="6" Grid.ColumnSpan="4" Text="Optional" FontWeight="Light" FontStyle="Italic" Foreground="DodgerBlue" TextWrapping="WrapWholeWords" Margin="30 20 0 0"
-                           Visibility="{Binding Visibility}"/>
+                           Visibility="{Binding Visibility, Mode=OneWay}"/>
 
                     <TextBlock Grid.Row="7" Text="Pickup Date" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"
-                           Visibility="{Binding Visibility}"/>
+                           Visibility="{Binding Visibility, Mode=OneWay}"/>
                     <DatePicker Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="datePicker" Width="400"
                                         SelectedDate="{Binding Booking.PickupDate, Converter={StaticResource dateConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            Visibility="{Binding Visibility}"/>
+                            Visibility="{Binding Visibility, Mode=OneWay}"/>
 
                     <TextBlock Grid.Row="8" Text="Pickup Time" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"
-                           Visibility="{Binding Visibility}"/>
+                           Visibility="{Binding Visibility, Mode=OneWay}"/>
                     <TimePicker Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" x:Name="timePicker" Width="400"
                                         SelectedTime="{Binding Booking.PickupTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            Visibility="{Binding Visibility}"/>
+                            Visibility="{Binding Visibility, Mode=OneWay}"/>
                     <!--optional only for VIP-->
 
                     <TextBlock Grid.Row="9" Text="Estimated cost" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 10 10 10"/>
@@ -111,8 +111,11 @@
                         Orientation="Horizontal" Height="50" 
                         RelativePanel.AlignRightWithPanel="True"
                     HorizontalAlignment="Right">
+                <AppBarButton x:Name="refreshButton" Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}" Visibility="{Binding IsDoneFetching}"/>
                 <AppBarButton x:Name="backButton" Icon="Calendar" Label="Back" Command="{Binding BackCommand}"/>
-                <AppBarButton x:Name="confirmButton" Icon="Accept" Label="Confirm" Command="{Binding ConfirmCommand}"/>
+                <AppBarButton x:Name="confirmButton" Icon="Accept" Label="Confirm" Command="{Binding ConfirmCommand}"
+                              Visibility="{Binding IsDoneFetching}"/>
+
             </StackPanel>
 
         </Grid>

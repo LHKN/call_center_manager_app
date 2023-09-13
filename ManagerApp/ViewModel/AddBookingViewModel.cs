@@ -2,6 +2,7 @@
 using ManagerApp.Model;
 using ManagerApp.Repository;
 using ManagerApp.Services;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,18 +14,19 @@ namespace ManagerApp.ViewModel
 {
     class AddBookingViewModel : ViewModelBase
     {
-        const int STANDARD_ROLE = 0;
-        const int VIP_ROLE = 1;
-        const int NEW_ROLE = 2;
+        const string PATH_REQUEST = "Send Path Calculation Request";
+        
+        const string STANDARD_ROLE = "0";
+        const string VIP_ROLE = "1";
+        const string NEW_ROLE = "2";
 
         const string indicator = "AddBooking";
 
         // fields
-        private List<string> VIPPhoneList;
-        private List<string> StandardPhoneList;
+        private Dictionary<string, string> VIPPhoneList;
+        private Dictionary<string, string> StandardPhoneList;
         DateTime tempDate;
         TimeSpan tempTime;
-        bool isDoneFetching;
 
         private BookingDetail booking;
         private ObservableCollection<string> transportOptions;
@@ -38,33 +40,14 @@ namespace ManagerApp.ViewModel
             //initial
             _bookingRepository = new BookingRepository();
             _accountRepository = new AccountRepository();
-            VIPPhoneList = new List<string>();
-            StandardPhoneList = new List<string>();
+            VIPPhoneList = new Dictionary<string, string>();
+            StandardPhoneList = new Dictionary<string, string>();
 
             transportOptions = new ObservableCollection<string> {
                     "4 Seater Car","7 Seater Car","Motorbike"
             };
 
-            isDoneFetching = false;
-
-            Task.Run(() =>
-            {
-                var task = _accountRepository.GetAllCustomer();
-                List<Customer> customerList = task.Result;
-
-                foreach (var customer in customerList)
-                {
-                    if (customer.Type.Equals(Type.VIP))
-                    {
-                        VIPPhoneList.Add(customer.PhoneNumber);
-                    }
-                    else if (customer.Type.Equals(Type.Standard))
-                    {
-                        StandardPhoneList.Add(customer.PhoneNumber);
-                    }
-                }
-                isDoneFetching = true;
-            });
+            IsDoneFetching = true;
 
             Bookings = new ObservableCollection<BookingDetail> { newBooking };
             Booking = newBooking;
@@ -77,11 +60,13 @@ namespace ManagerApp.ViewModel
 
             Visibility = false;
             CustomerStatus = "";
+            Booking.CustomerRole = NEW_ROLE;
 
             BackCommand = new RelayCommand(ExecuteBackCommand);
             ConfirmCommand = new RelayCommand(ExecuteConfirmCommand);
             StartCommand = new RelayCommand(ExecuteStartCommand);
             EndCommand = new RelayCommand(ExecuteEndCommand);
+            RefreshCommand = new RelayCommand(ExecuteRefreshCommand);
         }
 
         // execute commands
@@ -104,15 +89,14 @@ namespace ManagerApp.ViewModel
                 return;
             }
 
-            try
-            {
-                await _bookingRepository.Add(Booking);
-                ParentPageNavigation.ViewModel = new BookingScheduleViewModel();
-            }
-            catch
-            {
-                return;
-            }
+            ExecuteRefreshCommand();
+
+            var check = App.MainRoot.ShowYesCancelDialog("Proceed?", "Yes", "Check my input");
+
+            if (check.Result == false) return;
+
+            await _bookingRepository.Add(Booking);
+            ParentPageNavigation.ViewModel = new BookingScheduleViewModel();
         }
 
         public void ExecuteStartCommand()
@@ -125,45 +109,73 @@ namespace ManagerApp.ViewModel
             ParentPageNavigation.ViewModel = new MapService(booking, indicator);
         }
 
+        public async void ExecuteRefreshCommand()
+        {
+            IsDoneFetching = false;
+            await Task.Run(() =>
+            {
+                var task = _accountRepository.GetAllCustomer();
+                List<Customer> customerList = task.Result;
+
+                VIPPhoneList.Clear();
+                StandardPhoneList.Clear();
+
+                foreach (var customer in customerList)
+                {
+                    if (customer.Type.Equals(Type.VIP))
+                    {
+                        VIPPhoneList.Add(customer.PhoneNumber, customer.Name);
+                    }
+                    else if (customer.Type.Equals(Type.Standard))
+                    {
+                        StandardPhoneList.Add(customer.PhoneNumber, customer.Name);
+                    }
+                }
+            });
+
+            //HTTP request price
+            ServerHTTPRequest priceRequest = new ServerHTTPRequest(PATH_REQUEST, ref booking);
+
+            IsDoneFetching = true;
+
+            if ((VIPPhoneList == null && StandardPhoneList == null) || booking.PhoneNumber == null) return;
+            if (VIPPhoneList.ContainsKey(booking.PhoneNumber))
+            {
+                Booking.Status = 0;
+                Booking.CustomerRole = VIP_ROLE;
+                Booking.CustomerName = VIPPhoneList[booking.PhoneNumber];
+                Visibility = true;
+                CustomerStatus = "This customer is VIP";
+            }
+            else
+            {
+                Booking.Status = 1;
+                Visibility = false;
+                if (StandardPhoneList.ContainsKey(booking.PhoneNumber))
+                {
+                    CustomerStatus = "This customer is Standard";
+                    Booking.CustomerRole = STANDARD_ROLE;
+                    Booking.CustomerName = StandardPhoneList[booking.PhoneNumber];
+                }
+                else
+                {
+                    CustomerStatus = "This customer is New";
+                    Booking.CustomerRole = NEW_ROLE;
+                    Booking.CustomerName = null;
+                }
+            }
+        }
+
         // getters, setters
         public ObservableCollection<string> TransportOptions { get => transportOptions; set => transportOptions = value; }
         public ObservableCollection<BookingDetail> Bookings { get; set; }
         public BookingDetail Booking
         {
             get => booking;
-            set
-            {
-                booking = value;
-
-                if (VIPPhoneList == null) return;
-                if (VIPPhoneList.Contains(booking.PhoneNumber))
-                {
-                    Booking.Status = 0;
-                    Booking.CustomerRole = VIP_ROLE;
-                    Visibility = true;
-                    CustomerStatus = "This customer is VIP";
-                }
-                else
-                {
-                    Booking.Status = 1;
-                    Visibility = false;
-                    if (StandardPhoneList.Contains(booking.PhoneNumber))
-                    {
-                        CustomerStatus = "This customer is Standard";
-                        Booking.CustomerRole = STANDARD_ROLE;
-                    }
-                    else
-                    {
-                        CustomerStatus = "This customer is New";
-                        Booking.CustomerRole = NEW_ROLE;
-                    }
-                }
-
-                OnPropertyChanged(nameof(Booking));
-            }
+            set => booking = value;
         }
         public bool Visibility { get; set; }
-        //public bool IsDoneFetching { get => isDoneFetching; set => isDoneFetching = value; }
+        public bool IsDoneFetching { get; set; }
         public string CustomerStatus { get; set; }
 
         // commands
@@ -171,5 +183,6 @@ namespace ManagerApp.ViewModel
         public ICommand ConfirmCommand { get; }
         public ICommand StartCommand { get; }
         public ICommand EndCommand { get; }
+        public ICommand RefreshCommand { get; }
     }
 }

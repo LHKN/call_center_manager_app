@@ -43,6 +43,7 @@ namespace ManagerApp.Repository
             {
                 client.Set("Bookings/" + booking.Id + "/PhoneNumber", booking.PhoneNumber);
                 client.Set("Bookings/" + booking.Id + "/CustomerRole", booking.CustomerRole.ToString());
+                client.Set("Bookings/" + booking.Id + "/CustomerName", booking.CustomerName);
                 client.Set("Bookings/" + booking.Id + "/PickupLocationName", booking.PickupLocationName);
                 client.Set("Bookings/" + booking.Id + "/DestinationName", booking.DestinationName);
                 client.Set("Bookings/" + booking.Id + "/PickupLocationLatitude", booking.PickupLocationLatitude.ToString());
@@ -52,7 +53,7 @@ namespace ManagerApp.Repository
                 client.Set("Bookings/" + booking.Id + "/PickupTime", booking.PickupTime.ToString());
                 client.Set("Bookings/" + booking.Id + "/PickupDate", booking.PickupDate.ToString());
                 client.Set("Bookings/" + booking.Id + "/Price", booking.Price.ToString());
-                client.Set("Bookings/" + booking.Id + "/Rating", booking.Rating.ToString());
+                //client.Set("Bookings/" + booking.Id + "/Rating", booking.Rating.ToString());
                 client.Set("Bookings/" + booking.Id + "/Transport", booking.Transport);
                 client.Set("Bookings/" + booking.Id + "/Status", booking.Status.ToString());
             }
@@ -72,35 +73,43 @@ namespace ManagerApp.Repository
         {
             try
             {
-                var res = client.Get("Bookings/" + booking.Id + "/PhoneNumber");
-                booking.PhoneNumber = res.ResultAs<string>();
+                var res = client.Get("Bookings/" + booking.Id);
 
-                res = client.Get("Bookings/" + booking.Id + "/CustomerRole");
-                booking.CustomerRole = int.Parse(res.ResultAs<string>());
+                BookingDetailTemplate temp = new BookingDetailTemplate();
+                temp = res.ResultAs<BookingDetailTemplate>();
 
-                res = client.Get("Bookings/" + booking.Id + "/PickupLocationName");
-                booking.PickupLocationName = res.ResultAs<string>();
-
-                res = client.Get("Bookings/" + booking.Id + "/DestinationName");
-                booking.DestinationName = res.ResultAs<string>();
-
-                res = client.Get("Bookings/" + booking.Id + "/PickupTime");
-                booking.PickupTime = TimeSpan.Parse(res.ResultAs<string>());
-
-                res = client.Get("Bookings/" + booking.Id + "/PickupDate");
-                booking.PickupDate = DateOnly.Parse(res.ResultAs<string>());
-
-                res = client.Get("Bookings/" + booking.Id + "/Price");
-                booking.Price = int.Parse(res.ResultAs<string>());
-
-                res = client.Get("Bookings/" + booking.Id + "/Rating");
-                booking.Rating = int.Parse(res.ResultAs<string>());
-
-                res = client.Get("Bookings/" + booking.Id + "/Transport");
-                booking.Transport = res.ResultAs<string>();
-
-                res = client.Get("Bookings/" + booking.Id + "/Status");
-                booking.Status = int.Parse(res.ResultAs<string>());
+                booking.PhoneNumber = temp.PhoneNumber;
+                booking.CustomerRole = temp.CustomerRole;
+                booking.CustomerName = temp.CustomerName;
+                booking.Price = int.Parse(temp.Price);
+                booking.Duration = temp.Duration;
+                booking.Distance = temp.Distance;
+                booking.Status = int.Parse(temp.Status);
+                booking.Transport = temp.Transport;
+                booking.PickupLocationName = temp.PickupLocationName;
+                booking.DestinationName = temp.DestinationName;
+                if (temp.PickupLocationLatitude == null)
+                {
+                    booking.PickupLocationLatitude = 0;
+                }
+                else booking.PickupLocationLatitude = double.Parse(temp.PickupLocationLatitude);
+                if (temp.PickupLocationLongitude == null)
+                {
+                    booking.PickupLocationLongitude = 0;
+                }    
+                else booking.PickupLocationLongitude = double.Parse(temp.PickupLocationLongitude);
+                if (temp.DestinationLatitude == null)
+                {
+                    booking.DestinationLatitude = 0;
+                }
+                else booking.DestinationLatitude = double.Parse(temp.DestinationLatitude);   
+                if (temp.DestinationLongitude == null)
+                {
+                    booking.DestinationLongitude = 0;
+                }
+                else booking.DestinationLongitude = double.Parse(temp.DestinationLongitude);
+                booking.PickupTime = TimeSpan.Parse(temp.PickupTime);
+                booking.PickupDate = DateOnly.Parse(temp.PickupDate);
             }
             catch (Exception ex) when (ex is AggregateException ||
                                       ex is Exception ||
