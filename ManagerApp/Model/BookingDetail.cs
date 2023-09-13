@@ -61,6 +61,30 @@ namespace ManagerApp.Model
             return (PhoneNumber != null && PickupLocationName != null && DestinationName != null);
         }
 
+        public bool CheckValidDate(DateTime date, TimeSpan time)
+        {
+            DateTime bookingDate = ((DateOnly)this.PickupDate).ToDateTime(TimeOnly.MinValue);
+            TimeSpan bookingTime = (TimeSpan)this.PickupTime;
+
+            if (bookingDate.Date.CompareTo(date.Date) < 0)
+            {
+                return false;
+            }
+            else if (bookingDate.Date.CompareTo(date.Date) == 0)
+            {
+                if (bookingTime.CompareTo(time) < 0)
+                {
+                    return false;
+                }
+                else if (bookingTime.CompareTo(time) == 0)
+                {
+                    this.Status = 1;
+                    return true;
+                }
+            }
+            return true;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
     }

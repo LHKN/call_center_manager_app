@@ -2,6 +2,7 @@
 using ManagerApp.Model;
 using ManagerApp.Repository;
 using ManagerApp.Services;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -9,10 +10,16 @@ namespace ManagerApp.ViewModel
 {
     class EditBookingViewModel : ViewModelBase
     {
+        const int STANDARD_ROLE = 0;
         const int VIP_ROLE = 1;
+        const int NEW_ROLE = 2;
+
         const string indicator = "EditBooking";
 
         // fields
+        DateTime tempDate;
+        TimeSpan tempTime;
+
         private BookingDetail booking;
         //private BookingDetail old;
         private ObservableCollection<string> transportOptions;
@@ -29,6 +36,9 @@ namespace ManagerApp.ViewModel
                     "4 Seater Car","7 Seater Car","Motorbike"
             };
 
+            tempDate = DateTime.Now;
+            tempTime = DateTime.Now.TimeOfDay;
+
             Bookings = new ObservableCollection<BookingDetail> { oldBooking };
             Booking = oldBooking;
             //old = oldBooking;
@@ -39,7 +49,14 @@ namespace ManagerApp.ViewModel
                 CustomerStatus = "This customer is VIP";
                 EditVisibility = true;
             }
-            else CustomerStatus = "This customer is Regular";
+            else if(Booking.CustomerRole == NEW_ROLE)
+            {
+                CustomerStatus = "This customer is New";
+            } 
+            else if(Booking.CustomerRole == STANDARD_ROLE)
+            {
+                CustomerStatus = "This customer is Standard";
+            }
 
             BackCommand = new RelayCommand(ExecuteBackCommand);
             ConfirmCommand = new RelayCommand(ExecuteConfirmCommand);
@@ -59,6 +76,12 @@ namespace ManagerApp.ViewModel
             if (Booking.CheckNullDetail() == false)
             {
                 await App.MainRoot.ShowDialog("Missing Detail", "Please fill in all the *Required details!");
+                return;
+            }
+
+            if (!Booking.CheckValidDate(tempDate, tempTime))
+            {
+                await App.MainRoot.ShowDialog("Error", "Please fill in approriate Date and Time!");
                 return;
             }
 

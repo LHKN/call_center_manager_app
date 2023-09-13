@@ -10,7 +10,10 @@ namespace ManagerApp.ViewModel
 {
     class ViewBookingViewModel : ViewModelBase
     {
+        const int STANDARD_ROLE = 0;
         const int VIP_ROLE = 1;
+        const int NEW_ROLE = 2;
+
         const string indicator = "ViewBooking";
 
         // fields
@@ -27,7 +30,7 @@ namespace ManagerApp.ViewModel
                     "4 Seater Car","7 Seater Car","Motorbike"
             };
             Booking = curBooking;
-            
+
             if (curBooking.Status != 0)
             {
                 EditVisibility = false;
@@ -41,7 +44,14 @@ namespace ManagerApp.ViewModel
             }
             else
             {
-                CustomerStatus = "This customer is Regular";
+                if (Booking.CustomerRole == NEW_ROLE)
+                {
+                    CustomerStatus = "This customer is New";
+                }
+                else if (Booking.CustomerRole == STANDARD_ROLE)
+                {
+                    CustomerStatus = "This customer is Standard";
+                }
                 DisplayText = "Can not edit";
             }
 
@@ -77,7 +87,7 @@ namespace ManagerApp.ViewModel
             {
                 try
                 {
-                     await _bookingRepository.Delete(booking.Id);
+                    await _bookingRepository.Delete(booking.Id);
                     ExecuteBackCommand();
                 }
                 catch (Exception ex)

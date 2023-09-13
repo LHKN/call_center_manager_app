@@ -12,7 +12,6 @@ namespace ManagerApp.ViewModel
     partial class BookingScheduleViewModel : ViewModelBase
     {
         // fields
-        // temp users
         private DateOnly? _selectedDate;
         private ObservableCollection<BookingDetail> bookings;
         private ObservableCollection<BookingDetail> sortedBookings;
@@ -75,7 +74,6 @@ namespace ManagerApp.ViewModel
             OnPropertyChanged(nameof(BookingList));
             Warning = "Finished";
         }
-
 
         public DateOnly? Date
         {
