@@ -98,6 +98,7 @@
                         Orientation="Horizontal" Height="50" 
                         RelativePanel.AlignRightWithPanel="True"
                     HorizontalAlignment="Right">
+                <AppBarButton x:Name="refreshButton" Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}" Visibility="{Binding IsDoneFetching}"/>
                 <AppBarButton x:Name="backButton" Icon="Back" Label="Back" Command="{Binding BackCommand}"/>
                 <AppBarButton x:Name="confirmButton" Icon="Accept" Label="Confirm" Command="{Binding ConfirmCommand}"/>
             </StackPanel>

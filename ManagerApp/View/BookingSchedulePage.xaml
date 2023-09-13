@@ -36,8 +36,8 @@
                         Orientation="Horizontal" Height="60" 
                         RelativePanel.AlignRightWithPanel="True"
                     HorizontalAlignment="Right">
-            <AppBarButton x:Name="addButton" Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
-            <AppBarButton x:Name="refreshButton" Icon="Add" Label="Add" Command="{Binding AddCommand}"/>
+            <AppBarButton x:Name="refreshButton" Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}" Visibility="{Binding RefreshVisibility}"/>
+            <AppBarButton x:Name="addButton" Icon="Add" Label="Add" Command="{Binding AddCommand}"/>
             <AppBarButton x:Name="viewButton" Icon="ZoomIn" Label="View" Command="{Binding ViewCommand}"/>
         </StackPanel>
 
@@ -46,15 +46,18 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="60"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="CURRENT BOOKINGS" FontWeight="Bold" Margin="30 30 0 0"/>
                 <Button Content="Update Calendar" HorizontalAlignment="Right" Margin="0 20 40 0" Click="Button_Click" />
                 <!--CommandParameter="{Binding Source={x:Bind calendar}}"/>-->
-                
+                <TextBlock Grid.Row="1" TextWrapping="WrapWholeWords" Text="{Binding Warning, UpdateSourceTrigger=PropertyChanged}" 
+                       FontWeight="Light" FontStyle="Italic" Foreground="CadetBlue" HorizontalTextAlignment="Start" Margin="10 0 5 0"/>
+
                 <CalendarView
                     x:Name="calendar"
-                    Grid.Row="1" 
+                    Grid.Row="2" 
                     CalendarViewDayItemChanging="CalendarView_CalendarViewDayItemChanging"
                     SelectionMode="None"
                     IsGroupLabelVisible="True"
@@ -81,9 +84,6 @@
 
         <!--temp stackpanel-->
         <StackPanel Grid.Row="1" Grid.Column="1">
-            <TextBlock TextWrapping="WrapWholeWords" Text="{Binding Warning, UpdateSourceTrigger=PropertyChanged}" 
-                       FontWeight="Light" FontStyle="Italic" Foreground="CadetBlue" HorizontalTextAlignment="End" Margin="5 0 5 0"/>
-
             <TextBlock Text="VIEW BOOKINGS BY DATE" FontWeight="Bold" Padding="20"/>
 
             <!--<TextBlock TextWrapping="WrapWholeWords" Margin="10 0 0 10">
@@ -106,7 +106,9 @@
                       Margin="10,50,0,0"
                       ItemsSource="{Binding SortedBookingList, Mode=TwoWay}"
                       SelectedItem="{Binding SelectedBooking, Mode=TwoWay}"
-                      MaxHeight="600">
+                      MaxWidth="300"
+                      MaxHeight="450"
+                      HorizontalAlignment="Left">
 
                 <ListView.ItemTemplate>
                     <DataTemplate>

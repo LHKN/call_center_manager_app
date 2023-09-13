@@ -43,6 +43,7 @@ namespace ManagerApp.Repository
             {
                 client.Set("Bookings/" + booking.Id + "/PhoneNumber", booking.PhoneNumber);
                 client.Set("Bookings/" + booking.Id + "/CustomerRole", booking.CustomerRole.ToString());
+                client.Set("Bookings/" + booking.Id + "/CustomerId", booking.CustomerId);
                 client.Set("Bookings/" + booking.Id + "/PickupLocationName", booking.PickupLocationName);
                 client.Set("Bookings/" + booking.Id + "/DestinationName", booking.DestinationName);
                 client.Set("Bookings/" + booking.Id + "/PickupLocationLatitude", booking.PickupLocationLatitude.ToString());
@@ -76,7 +77,10 @@ namespace ManagerApp.Repository
                 booking.PhoneNumber = res.ResultAs<string>();
 
                 res = client.Get("Bookings/" + booking.Id + "/CustomerRole");
-                booking.CustomerRole = int.Parse(res.ResultAs<string>());
+                booking.CustomerRole = res.ResultAs<string>();
+
+                res = client.Get("Bookings/" + booking.Id + "/CustomerId");
+                booking.CustomerId = res.ResultAs<string>();
 
                 res = client.Get("Bookings/" + booking.Id + "/PickupLocationName");
                 booking.PickupLocationName = res.ResultAs<string>();

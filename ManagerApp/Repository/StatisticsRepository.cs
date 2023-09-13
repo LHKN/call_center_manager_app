@@ -18,10 +18,10 @@ namespace ManagerApp.Repository
             {
                 while (true)
                 {
+                    Task.Delay(TimeSpan.FromHours(1));
+
                     var task = _bookingRepository.GetAll();
                     bookingList = task.Result;
-
-                    Task.Delay(TimeSpan.FromHours(1));
                 }
             });
         }

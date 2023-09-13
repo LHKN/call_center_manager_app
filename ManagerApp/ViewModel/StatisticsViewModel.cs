@@ -80,7 +80,6 @@ namespace ManagerApp.ViewModel
         // execute commands
         private async void Load_Statistics(RoutedEventArgs e)
         {
-            // real-time update
             await Task.Run(() =>
             {
                 var bookingTask = _bookingRepository.GetAll();
@@ -92,6 +91,7 @@ namespace ManagerApp.ViewModel
             Visibility = true;
             IsLoadingText = false;
 
+            // real-time update
             await Task.Run(() =>
             { 
                 while (true)

@@ -12,8 +12,8 @@ namespace ManagerApp.Model
     {
         private int _id;
         private string _phoneNumber;
-        private int _customerRole;
-        //private int _customerId;
+        private string _customerRole;
+        private string _customerId;
 
         private DateOnly? _orderDate;
         private int _price;
@@ -22,9 +22,7 @@ namespace ManagerApp.Model
 
         //transport means
         private int _driverId;
-        private int _transportType;
         private string _transport;
-        //private int _transport;
 
         //locations
         private string _pickupLocationName;
@@ -41,7 +39,8 @@ namespace ManagerApp.Model
 
         public int Id { get => _id; set => _id = value; }
         public string PhoneNumber { get => _phoneNumber; set => _phoneNumber = value; }
-        public int CustomerRole { get => _customerRole; set => _customerRole = value; }
+        public string CustomerRole { get => _customerRole; set => _customerRole = value; }
+        public string CustomerId { get => _customerId; set => _customerId = value; }
         public string PickupLocationName { get => _pickupLocationName; set => _pickupLocationName = value; }
         public string DestinationName { get => _destinationName; set => _destinationName = value; }
         public TimeSpan? PickupTime { get => _pickupTime; set => _pickupTime = value; }
