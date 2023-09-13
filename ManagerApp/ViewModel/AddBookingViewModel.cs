@@ -2,7 +2,6 @@
 using ManagerApp.Model;
 using ManagerApp.Repository;
 using ManagerApp.Services;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,8 +13,9 @@ namespace ManagerApp.ViewModel
 {
     class AddBookingViewModel : ViewModelBase
     {
-        const string PATH_REQUEST = "Send Path Calculation Request";
-        
+        const string PATH_CALC_REQUEST = "Send Path Calculation Request";
+        const string PATH_DETAIL_REQUEST = "Send Path Direction Detail Request";
+
         const string STANDARD_ROLE = "0";
         const string VIP_ROLE = "1";
         const string NEW_ROLE = "2";
@@ -133,8 +133,9 @@ namespace ManagerApp.ViewModel
                 }
             });
 
-            //HTTP request price
-            //ServerHTTPRequest priceRequest = new ServerHTTPRequest(PATH_REQUEST, ref booking);
+            // HTTP get price and path detail
+            ServerHTTPRequest priceRequest = new ServerHTTPRequest(PATH_CALC_REQUEST, booking);
+            ServerHTTPRequest pathRequest = new ServerHTTPRequest(PATH_DETAIL_REQUEST, booking);
 
             IsDoneFetching = true;
 

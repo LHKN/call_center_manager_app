@@ -1,6 +1,11 @@
-﻿using ManagerApp.Model;
+﻿using Google.Rpc;
+using ManagerApp.Model;
+using ManagerApp.Model.HTTPResponseTemplate;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 
@@ -8,21 +13,35 @@ namespace ManagerApp.Services
 {
     public class ServerHTTPRequest
     {
-        const string PATH_REQUEST = "Send Path Calculation Request";
+        const string PATH_CALC_REQUEST = "Send Path Calculation Request";
+        const string PATH_DETAIL_REQUEST = "Send Path Direction Detail Request";
         const string CLIENT_REQUEST = "Send Client Pickup Request";
-        
+
+        private HttpClient client = new HttpClient();
+
         private BookingDetail booking;
         private IConfigurationRoot _config;
         private string domain;
+        private Dictionary<string, string> content;
 
-        public ServerHTTPRequest(string indicator, ref BookingDetail currentBooking) { 
+        public ServerHTTPRequest(string indicator, BookingDetail currentBooking)
+        {
             booking = currentBooking;
+            _config = new ConfigurationBuilder().AddUserSecrets<MainWindow>().Build();
 
-            switch(indicator)
+            domain = _config.GetSection("Server")["domain"];
+            if (domain == null) return;
+
+            switch (indicator)
             {
-                case PATH_REQUEST:
+                case PATH_CALC_REQUEST:
                     {
                         SendPathCalculationRequest();
+                        break;
+                    }
+                case PATH_DETAIL_REQUEST:
+                    {
+                        SendPathDetailRequest();
                         break;
                     }
                 case CLIENT_REQUEST:
@@ -33,72 +52,78 @@ namespace ManagerApp.Services
             }
         }
 
-
         public async void SendClientPickupRequest()
         {
-            domain = _config.GetSection("Server")["domain"];
-            if (domain == null) return;
+            string vehicle;
+            
+            if (booking.Transport.Equals("Motorbike")) //?
+            {
+                vehicle = "motor";
+            }
+            else vehicle = "car";
 
-            BookingDetail booking = new BookingDetail();
-
-            string idToken = "dasd54a6sd56as124324";
-            string systemKey = _config.GetSection("Firebase")["FcmToken"];
-            string userId = _config.GetSection("Firebase")["AdminId"];
-            string name = booking.CustomerName;
-            string startAddress = booking.PickupLocationName;
-            string endAddress = booking.DestinationName;
-            string phone = booking.PhoneNumber;
-            string vehicle = booking.Transport; // ?
             string duration = booking.Duration;
             string distance = booking.Distance;
             string cost = booking.Price.ToString();
             string time = booking.PickupDate.ToString() + " " + booking.PickupTime.ToString();
 
+            content = new Dictionary<string, string>
+            {
+                { "idToken", "" },
+                { "systemKey", _config.GetSection("Firebase")["FcmToken"] },
+                { "userId", _config.GetSection("Firebase")["AdminId"] },
+                { "name", booking.CustomerName },
+                { "startAddress", booking.PickupLocationName },
+                { "endAddress", booking.DestinationName },
+                { "phone", booking.PhoneNumber },
+                { "vehicle", vehicle }
+            };
+
             // send request from app to server
             try
             {
-                HttpClient client = new HttpClient();
                 HttpRequestMessage request = new HttpRequestMessage();
                 request.Method = HttpMethod.Post;
-                client.DefaultRequestHeaders.Add("ngrok-skip-browser-warning", "any value");
+                request.RequestUri = new Uri(domain + "pickup/client/new_request");
+                request.Headers.Add("ngrok-skip-browser-warning", "any value");
+                request.Content = new FormUrlEncodedContent(content);
 
-                request.Content = JsonContent.Create(new
+                HttpResponseMessage response = await client.SendAsync(request);
+
+                // Check if the request was successful (HTTP status code 200)
+                if (response.IsSuccessStatusCode)
                 {
-                    idToken,
-                    systemKey,
-                    userId,
-                    name,
-                    startAddress,
-                    endAddress,
-                    phone,
-                    vehicle,
-                    duration,
-                    distance,
-                    cost,
-                    time,
-                });
+                    // Parse the JSON response
+                    string json = await response.Content.ReadAsStringAsync();
 
-                using (HttpClient httpClient = new HttpClient())
-                {
-                    // Send the GET request to the Bing Maps API
-                    HttpResponseMessage response = await httpClient.GetAsync(domain, HttpCompletionOption.ResponseContentRead);
-
-                    // Check if the request was successful (HTTP status code 200)
-                    if (response.IsSuccessStatusCode)
+                    //get data
+                    if (json != "")
                     {
-                        // Parse the JSON response
-                        string json = await response.Content.ReadAsStringAsync();
+                        //newResponse = JsonConvert.DeserializeObject<PatchCalculationResponse>(json);
 
-                        //get data
-                        // json 
+                        //if (booking.Transport.Equals("Motorbike"))
+                        //{
+                        //    booking.Duration = newResponse.PathsCost[1].Duration.ToString();
+                        //    booking.Distance = newResponse.PathsCost[1].Distance.ToString();
+                        //    booking.Price = (int)Math.Round(newResponse.PathsCost[1].Cost);
+                        //}
+                        //else
+                        //{
+                        //    booking.Duration = newResponse.PathsCost[0].Duration.ToString();
+                        //    booking.Distance = newResponse.PathsCost[0].Distance.ToString();
+                        //    booking.Price = (int)Math.Round(newResponse.PathsCost[0].Cost);
+                        //}
                     }
                     else
-                    {
-                        Console.WriteLine("Error: HTTP Status Code " + (int)response.StatusCode);
-                    }
+                        throw new Exception();
                 }
+                else
+                {
+                    await App.MainRoot.ShowDialog("Error", "HTTP Status Code " + (int)response.StatusCode);
+                }
+
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 await App.MainRoot.ShowDialog("Error", ex.Message);
             }
@@ -106,58 +131,130 @@ namespace ManagerApp.Services
 
         public async void SendPathCalculationRequest()
         {
-            domain = _config.GetSection("Server")["domain"];
-            if (domain == null) return;
-
-            BookingDetail booking = new BookingDetail();
-
-            string idToken = "dasd54a6sd56as1d56a";
-            string systemKey = _config.GetSection("Firebase")["FcmToken"];
-            string userId = _config.GetSection("Firebase")["AdminId"];
-            string startAddress = booking.PickupLocationName;
-            string endAddress = booking.DestinationName;
+            content = new Dictionary<string, string>
+            {
+                { "idToken", "" },
+                { "systemKey", _config.GetSection("Firebase")["FcmToken"] },
+                { "userId", _config.GetSection("Firebase")["AdminId"] },
+                { "startAddress", booking.PickupLocationName },
+                { "endAddress", booking.DestinationName }
+            };
 
             // send request from app to server
             try
             {
-                HttpClient client = new HttpClient();
                 HttpRequestMessage request = new HttpRequestMessage();
                 request.Method = HttpMethod.Post;
-                client.DefaultRequestHeaders.Add("ngrok-skip-browser-warning", "any value");
+                request.RequestUri = new Uri(domain + "pickup/cost");
+                request.Headers.Add("ngrok-skip-browser-warning", "any value");
+                request.Content = new FormUrlEncodedContent(content);
 
-                request.Content = JsonContent.Create(new
+                HttpResponseMessage response = await client.SendAsync(request);
+ 
+                //PatchCalculationResponse newResponse;
+
+                // Check if the request was successful (HTTP status code 200)
+                if (response.IsSuccessStatusCode)
                 {
-                    idToken,
-                    systemKey,
-                    userId,
-                    startAddress,
-                    endAddress,
-                });
+                    // Parse the JSON response
+                    string json = await response.Content.ReadAsStringAsync();
 
-                using (HttpClient httpClient = new HttpClient())
-                {
-                    // Send the GET request to the Bing Maps API
-                    HttpResponseMessage response = await httpClient.GetAsync(domain, HttpCompletionOption.ResponseContentRead);
-
-                    // Check if the request was successful (HTTP status code 200)
-                    if (response.IsSuccessStatusCode)
+                    //get data
+                    if (json != "")
                     {
-                        // Parse the JSON response
-                        string json = await response.Content.ReadAsStringAsync();
+                        //newResponse = JsonConvert.DeserializeObject<PatchCalculationResponse>(json);
 
-                        //get data
+                        //if (booking.Transport.Equals("Motorbike"))
+                        //{
+                        //    booking.Duration = newResponse.PathsCost[1].Duration.ToString();
+                        //    booking.Distance = newResponse.PathsCost[1].Distance.ToString();
+                        //    booking.Price = (int)Math.Round(newResponse.PathsCost[1].Cost);
+                        //}
+                        //else
+                        //{
+                        //    booking.Duration = newResponse.PathsCost[0].Duration.ToString();
+                        //    booking.Distance = newResponse.PathsCost[0].Distance.ToString();
+                        //    booking.Price = (int)Math.Round(newResponse.PathsCost[0].Cost);
+                        //}
+
+                        booking.Price = 135000;
                     }
                     else
-                    {
-                        Console.WriteLine("Error: HTTP Status Code " + (int)response.StatusCode);
-                    }
+                        throw new Exception();
                 }
+                else
+                {
+                    await App.MainRoot.ShowDialog("Error", "HTTP Status Code " + (int)response.StatusCode);
+                }
+
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 await App.MainRoot.ShowDialog("Error", ex.Message);
             }
         }
 
+        public async void SendPathDetailRequest()
+        {
+            content = new Dictionary<string, string>
+            {
+                { "idToken", "" },
+                { "systemKey", _config.GetSection("Firebase")["FcmToken"] },
+                { "userId", _config.GetSection("Firebase")["AdminId"] },
+                { "startAddress", booking.PickupLocationName },
+                { "endAddress", booking.DestinationName }
+            };
+
+            // send request from app to server
+            try
+            {
+                HttpRequestMessage request = new HttpRequestMessage();
+                request.Method = HttpMethod.Post;
+                request.RequestUri = new Uri(domain + "pickup/direction/v1");
+                request.Headers.Add("ngrok-skip-browser-warning", "any value");
+                request.Content = new FormUrlEncodedContent(content);
+
+                HttpResponseMessage response = await client.SendAsync(request);
+
+                // Check if the request was successful (HTTP status code 200)
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the JSON response
+                    string json = await response.Content.ReadAsStringAsync();
+
+                    //get data
+                    if (json != "")
+                    {
+                        //newResponse = JsonConvert.DeserializeObject<PatchCalculationResponse>(json);
+
+                        //if (booking.Transport.Equals("Motorbike"))
+                        //{
+                        //    booking.Duration = newResponse.PathsCost[1].Duration.ToString();
+                        //    booking.Distance = newResponse.PathsCost[1].Distance.ToString();
+                        //    booking.Price = (int)Math.Round(newResponse.PathsCost[1].Cost);
+                        //}
+                        //else
+                        //{
+                        //    booking.Duration = newResponse.PathsCost[0].Duration.ToString();
+                        //    booking.Distance = newResponse.PathsCost[0].Distance.ToString();
+                        //    booking.Price = (int)Math.Round(newResponse.PathsCost[0].Cost);
+                        //}
+
+                        booking.Price = 135000;
+                    }
+                    else
+                        throw new Exception();
+                }
+                else
+                {
+                    await App.MainRoot.ShowDialog("Error", "HTTP Status Code " + (int)response.StatusCode);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                await App.MainRoot.ShowDialog("Error", ex.Message);
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using ManagerApp.Model.HTTPResponseTemplate;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,8 @@ namespace ManagerApp.ViewModel
         {
             //Account = null;
             ChildPageNavigation = new PageNavigation(new StatisticsViewModel());
+
+            Log = new ObservableCollection<LogNotification>();
         }
 
         private ICommand _itemInvokedCommand;
@@ -52,11 +55,12 @@ namespace ManagerApp.ViewModel
             }
             else if (args.InvokedItem.ToString().Equals("Logs"))
             {
-                ChildPageNavigation.ViewModel = new LogsViewModel();
+                ChildPageNavigation.ViewModel = new LogsViewModel(Log);
             }
 
         }
         public PageNavigation ChildPageNavigation { get; set; }
         //public Account Account { get => _account; set => _account = value; }
+        public ObservableCollection<LogNotification> Log;
     }
 }

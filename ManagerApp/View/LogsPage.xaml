@@ -25,5 +25,48 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Text="LOGS" FontWeight="Bold" FontSize="20" Padding="30"/>
+
+        <StackPanel Grid.Row="2">
+            <ListView x:Name="dataListView" 
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Visible"
+                      Margin="10,50,0,0"
+                      ItemsSource="{Binding LogList, Mode=OneWay}"
+                      MaxWidth="300"
+                      MaxHeight="500"
+                      HorizontalAlignment="Left">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel MinHeight="70">
+                            <TextBlock TextWrapping="WrapWholeWords" >
+                                        Summary : <Run Text="{Binding Title}" FontWeight="Bold" Foreground="CadetBlue"/>
+                            </TextBlock>
+                            <TextBlock TextWrapping="WrapWholeWords" >
+                                        Objective : <Run Text="{Binding Message}" FontWeight="Bold" Foreground="CadetBlue"/>
+                            </TextBlock>
+                            <TextBlock TextWrapping="WrapWholeWords" >
+                                        Status Code : <Run Text="{Binding StatusCode}" FontWeight="Bold" Foreground="CadetBlue"/>
+                            </TextBlock>
+
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+                <ListView.Resources>
+                    <CommandBarFlyout Placement="Right" x:Name="CommandBarFlyout1">
+                        <!--<AppBarButton x:Name="viewButton" Icon="ZoomIn" Label="View" Command="{Binding ViewCommand}"/>-->
+                    </CommandBarFlyout>
+                </ListView.Resources>
+
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsWrapGrid x:Name="MaxItemsWrapGrid"
+                               MaximumRowsOrColumns="1"
+                               Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+        </StackPanel>
     </Grid>
 </Page>

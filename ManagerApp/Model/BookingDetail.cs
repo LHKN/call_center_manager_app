@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using ManagerApp.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +11,8 @@ namespace ManagerApp.Model
 {
     public class BookingDetail : ObservableObject
     {
+        const string CLIENT_REQUEST = "Send Client Pickup Request";
+        
         private int _id;
         private string _phoneNumber;
         private string _customerRole;
@@ -81,6 +84,7 @@ namespace ManagerApp.Model
                 else if (bookingTime.CompareTo(time) == 0)
                 {
                     this.Status = 1;
+                    new ServerHTTPRequest(CLIENT_REQUEST, this);
                     return true;
                 }
             }

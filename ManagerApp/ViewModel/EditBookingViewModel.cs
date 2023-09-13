@@ -10,8 +10,9 @@ namespace ManagerApp.ViewModel
 {
     class EditBookingViewModel : ViewModelBase
     {
-        const string PATH_REQUEST = "Send Path Calculation Request";
-        
+        const string PATH_CALC_REQUEST = "Send Path Calculation Request";
+        const string PATH_DETAIL_REQUEST = "Send Path Direction Detail Request";
+
         const string STANDARD_ROLE = "0";
         const string VIP_ROLE = "1";
         const string NEW_ROLE = "2";
@@ -45,6 +46,7 @@ namespace ManagerApp.ViewModel
             Booking = oldBooking;
             //old = oldBooking;
             EditVisibility = false;
+            IsDoneFetching = true;
 
             if (Booking.CustomerRole == VIP_ROLE)
             {
@@ -101,21 +103,11 @@ namespace ManagerApp.ViewModel
 
         public void ExecuteStartCommand()
         {
-            //not implemented
-
-            //Booking.PickupLocationName = "119 Đ. Võ Văn Kiệt, Phường 7, Quận 6, Thành phố Hồ Chí Minh, Vietnam";
-            //Booking.PickupLocationLatitude = 10.740126;
-            //Booking.PickupLocationLongitude = 106.641168;
             ParentPageNavigation.ViewModel = new MapService(booking, indicator);
         }
 
         public void ExecuteEndCommand()
         {
-            //not implemented
-
-            //Booking.DestinationName = "107-54 Trương Định, Phường 6, Quận 3, Thành phố Hồ Chí Minh, Vietnam";
-            //Booking.DestinationLatitude = 10.778695;
-            //Booking.DestinationLongitude = 106.688538;
             ParentPageNavigation.ViewModel = new MapService(booking, indicator);
         }
 
@@ -123,8 +115,9 @@ namespace ManagerApp.ViewModel
         {
             IsDoneFetching = false;
 
-            // HTTP get price
-            ServerHTTPRequest priceRequest = new ServerHTTPRequest(PATH_REQUEST, ref booking);
+            // HTTP get price and path detail
+            ServerHTTPRequest priceRequest = new ServerHTTPRequest(PATH_CALC_REQUEST, booking);
+            ServerHTTPRequest pathRequest = new ServerHTTPRequest(PATH_DETAIL_REQUEST, booking);
 
             IsDoneFetching = true;
         }

@@ -130,7 +130,7 @@ namespace ManagerApp.ViewModel
             }
 
             XAxes[0].Labels = _monthLabels;
-            XAxes[0].Name = "Total income of this month";
+            XAxes[0].Name = "Total income of this month (VND)";
 
             IncomeSeries = new List<ISeries>
             {
@@ -177,7 +177,7 @@ namespace ManagerApp.ViewModel
             }
 
             XAxes[0].Labels = _yearLabels;
-            XAxes[0].Name = "Total income of this year";
+            XAxes[0].Name = "Total income of this year (VND)";
 
             IncomeSeries = new List<ISeries>
             {

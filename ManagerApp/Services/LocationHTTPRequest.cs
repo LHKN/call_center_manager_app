@@ -35,7 +35,7 @@ namespace ManagerApp.Services
                     if (response.IsSuccessStatusCode)
                     {
                         // Parse the JSON response
-                        string json = await response.Content.ReadAsStringAsync();                       
+                        string json = await response.Content.ReadAsStringAsync();
 
                         // Deserialize the JSON
                         GeocodingResponse geocodingResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<GeocodingResponse>(json);
@@ -50,7 +50,7 @@ namespace ManagerApp.Services
                                 Console.WriteLine("Location found:");
                                 Console.WriteLine("Formatted Address: " + resources[0].address.formattedAddress);
                                 Console.WriteLine("Coordinates: " + resources[0].point.coordinates[0] + ", " + resources[0].point.coordinates[1]);
-                                
+
                             }
                             else
                             {
@@ -59,7 +59,6 @@ namespace ManagerApp.Services
                         }
                         else
                         {
-                            //await App.MainRoot.ShowDialog("Search", "No results found.");
                         }
                         return geocodingResponse;
                     }
@@ -71,7 +70,6 @@ namespace ManagerApp.Services
             }
             catch (Exception ex)
             {
-                //await App.MainRoot.ShowDialog("Search", "An error occurred: " + ex.Message);
             }
             return null;
         }

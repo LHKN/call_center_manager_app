@@ -167,7 +167,8 @@
         </StackPanel>
 
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6" Background="#7FFFFFFF">
-            <AppBarButton x:Name="backButton" Icon="Back" Label="Back" Command="{Binding BackCommand}"/>
+            <AppBarButton x:Name="backButton" Icon="Back" Label="Back" Command="{Binding BackCommand}"
+                          Background="CadetBlue" Foreground="White"/>
 
             <TextBlock TextWrapping="WrapWholeWords" Text="Notes:" Padding="10" FontStyle="Italic"/>
             <TextBlock TextWrapping="WrapWholeWords" Text="Select Bing Maps Aerial" Padding="20 0 0 30" FontStyle="Italic"/>

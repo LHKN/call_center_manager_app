@@ -11,20 +11,32 @@ namespace ManagerApp.Repository
 {
     class BookingRepository : FirebaseConfiguration, IBookingRepository
     {
+        const string CLIENT_REQUEST = "Send Client Pickup Request";
+
         public bool UpdateBookingDetail(IFirebaseClient client, BookingDetail booking)
         {
             try
             {
-                client.Set("Bookings/" + booking.Id + "/PickupLocationName", booking.PickupLocationName);
-                client.Set("Bookings/" + booking.Id + "/DestinationName", booking.DestinationName);
-                client.Set("Bookings/" + booking.Id + "/PickupLocationLatitude", booking.PickupLocationLatitude.ToString());
-                client.Set("Bookings/" + booking.Id + "/PickupLocationLongitude", booking.PickupLocationLongitude.ToString());
-                client.Set("Bookings/" + booking.Id + "/DestinationLatitude", booking.DestinationLatitude.ToString());
-                client.Set("Bookings/" + booking.Id + "/DestinationLongitude", booking.DestinationLongitude.ToString());
-                client.Set("Bookings/" + booking.Id + "/PickupTime", booking.PickupTime.ToString());
-                client.Set("Bookings/" + booking.Id + "/PickupDate", booking.PickupDate.ToString());
-                client.Set("Bookings/" + booking.Id + "/Transport", booking.Transport);
-                client.Set("Bookings/" + booking.Id + "/Status", booking.Status.ToString());
+                BookingDetailTemplate temp = new BookingDetailTemplate();
+
+                temp.PhoneNumber = booking.PhoneNumber;
+                temp.CustomerRole = booking.CustomerRole;
+                temp.CustomerName = booking.CustomerName;
+                temp.Price = booking.Price.ToString();
+                temp.Duration = booking.Duration;
+                temp.Distance = booking.Distance;
+                temp.Status = booking.Status.ToString();
+                temp.Transport = booking.Transport;
+                temp.PickupLocationName = booking.PickupLocationName;
+                temp.DestinationName = booking.DestinationName;
+                temp.PickupLocationLatitude = booking.PickupLocationLatitude.ToString();
+                temp.PickupLocationLongitude = booking.PickupLocationLongitude.ToString();
+                temp.DestinationLatitude = booking.DestinationLatitude.ToString();
+                temp.DestinationLongitude = booking.DestinationLongitude.ToString();
+                temp.PickupTime = booking.PickupTime.ToString();
+                temp.PickupDate = booking.PickupDate.ToString();
+
+                client.Update("Bookings/" + booking.Id, temp);
             }
             catch (Exception ex) when (ex is AggregateException ||
                                       ex is Exception ||
@@ -41,21 +53,27 @@ namespace ManagerApp.Repository
         {
             try
             {
-                client.Set("Bookings/" + booking.Id + "/PhoneNumber", booking.PhoneNumber);
-                client.Set("Bookings/" + booking.Id + "/CustomerRole", booking.CustomerRole.ToString());
-                client.Set("Bookings/" + booking.Id + "/CustomerName", booking.CustomerName);
-                client.Set("Bookings/" + booking.Id + "/PickupLocationName", booking.PickupLocationName);
-                client.Set("Bookings/" + booking.Id + "/DestinationName", booking.DestinationName);
-                client.Set("Bookings/" + booking.Id + "/PickupLocationLatitude", booking.PickupLocationLatitude.ToString());
-                client.Set("Bookings/" + booking.Id + "/PickupLocationLongitude", booking.PickupLocationLongitude.ToString());
-                client.Set("Bookings/" + booking.Id + "/DestinationLatitude", booking.DestinationLatitude.ToString());
-                client.Set("Bookings/" + booking.Id + "/DestinationLongitude", booking.DestinationLongitude.ToString());
-                client.Set("Bookings/" + booking.Id + "/PickupTime", booking.PickupTime.ToString());
-                client.Set("Bookings/" + booking.Id + "/PickupDate", booking.PickupDate.ToString());
-                client.Set("Bookings/" + booking.Id + "/Price", booking.Price.ToString());
-                //client.Set("Bookings/" + booking.Id + "/Rating", booking.Rating.ToString());
-                client.Set("Bookings/" + booking.Id + "/Transport", booking.Transport);
-                client.Set("Bookings/" + booking.Id + "/Status", booking.Status.ToString());
+                BookingDetailTemplate temp = new BookingDetailTemplate();
+
+                temp.Id = booking.Id.ToString();
+                temp.PhoneNumber = booking.PhoneNumber;
+                temp.CustomerRole = booking.CustomerRole;
+                temp.CustomerName = booking.CustomerName;
+                temp.Price = booking.Price.ToString();
+                temp.Duration = booking.Duration;
+                temp.Distance = booking.Distance;
+                temp.Status = booking.Status.ToString();
+                temp.Transport = booking.Transport;
+                temp.PickupLocationName = booking.PickupLocationName;
+                temp.DestinationName = booking.DestinationName;
+                temp.PickupLocationLatitude = booking.PickupLocationLatitude.ToString();
+                temp.PickupLocationLongitude = booking.PickupLocationLongitude.ToString();
+                temp.DestinationLatitude = booking.DestinationLatitude.ToString();
+                temp.DestinationLongitude = booking.DestinationLongitude.ToString();
+                temp.PickupTime = booking.PickupTime.ToString();
+                temp.PickupDate = booking.PickupDate.ToString();
+
+                client.Set("Bookings/" + booking.Id, temp);
             }
             catch (Exception ex) when (ex is AggregateException ||
                                       ex is Exception ||
@@ -276,6 +294,20 @@ namespace ManagerApp.Repository
                     {
                         await App.MainRoot.ShowDialog("Error", "Unable to fetch data... Please check database entries");
                         break;
+                    }
+
+                    DateTime getDate = ((DateOnly)temp.PickupDate).ToDateTime(TimeOnly.MinValue);
+                    TimeSpan getTime = (TimeSpan)temp.PickupTime;
+
+                    if (getDate.CompareTo(DateTime.Now.Date) == 0)
+                    {
+                        if (temp.Status != 0)
+                        {
+                            if (getTime.TotalHours.Equals(DateTime.Now.Hour))
+                            {
+                                new ServerHTTPRequest(CLIENT_REQUEST, temp);
+                            }
+                        }
                     }
                     bookings.Add(temp);
                 }
