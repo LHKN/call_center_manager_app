@@ -62,6 +62,7 @@ namespace ManagerApp.View
                         SourceName = "Bing Maps Road",
                         Description = "© [Microsoft](http://www.bing.com/maps/)"
                     }
+                    
                 });
 
                 mapLayersMenuButton.MapLayers.Add(new MapLayerItem
@@ -92,6 +93,8 @@ namespace ManagerApp.View
             }
 
             AddTestLayers();
+
+
         }
 
         partial void AddTestLayers();

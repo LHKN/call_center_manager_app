@@ -60,16 +60,22 @@
                                           SelectedItem="{Binding Booking.Transport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <TextBlock Grid.Row="3" Text="Pickup Location*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10"/>
-                    <TextBox Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding Booking.PickupLocationName, Mode=TwoWay}" Margin="10 20 50 10" PlaceholderText="Address"/>
-                    <AppBarButton Grid.Row="3" Grid.Column="1" x:Name="startLocationButton" Icon="MapPin" Label="View" Command="{Binding StartCommand}"/>
+                    <AutoSuggestBox x:Name="PickupSuggestBox" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding Booking.PickupLocationName, Mode=TwoWay}" Margin="10 20 50 10" PlaceholderText="Address" 
+                                    TextChanged="PickupAutoSuggestBox_TextChanged"
+                                    SuggestionChosen="PickupAutoSuggestBox_SuggestionChosen"
+/>
+                    <AppBarButton Grid.Row="3" Grid.Column="1" x:Name="startLocationButton" Icon="MapPin" Label="Edit" Command="{Binding StartCommand}"/>
 
                     <TextBlock Grid.Row="4" Text="Destination*" FontWeight="Light" TextWrapping="WrapWholeWords" Margin="10 20 10 10"/>
-                    <TextBox Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding Booking.DestinationName, Mode=TwoWay}" Margin="10 20 50 10" PlaceholderText="Address"/>
+                    <AutoSuggestBox x:Name="DestinationSuggestBox" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding Booking.DestinationName, Mode=TwoWay}" Margin="10 20 50 10" PlaceholderText="Address" 
+                                    TextChanged="DestinationAutoSuggestBox_TextChanged"
+                                    SuggestionChosen="DestinationAutoSuggestBox_SuggestionChosen"/>
 
-                    <AppBarButton Grid.Row="4" Grid.Column="1" x:Name="destinationButton" Icon="MapPin" Label="View" Command="{Binding EndCommand}"/>
+                    <AppBarButton Grid.Row="4" Grid.Column="1" x:Name="destinationButton" Icon="MapPin" Label="Edit" Command="{Binding EndCommand}"/>
 
-                    <TextBlock Grid.Row="5" Grid.Column="1" Text="*Required" FontWeight="Light" FontStyle="Italic" Foreground="Red" TextWrapping="WrapWholeWords"/>
-
+                    <!--For transfer data between View and ViewModel-->
+                    <ListView x:Name="Booking" ItemsSource="{Binding Booking}" Visibility="Collapsed" />
+                    
                     <!--optional only for VIP-->
                     <TextBlock Grid.Row="6" Grid.ColumnSpan="4" Text="Optional" FontWeight="Light" FontStyle="Italic" Foreground="DodgerBlue" TextWrapping="WrapWholeWords" Margin="30 20 0 0"
                            Visibility="{Binding EditVisibility}"/>
