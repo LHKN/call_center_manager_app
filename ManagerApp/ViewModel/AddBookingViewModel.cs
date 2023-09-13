@@ -14,6 +14,8 @@ namespace ManagerApp.ViewModel
 {
     class AddBookingViewModel : ViewModelBase
     {
+        const string PATH_REQUEST = "Send Path Calculation Request";
+        
         const string STANDARD_ROLE = "0";
         const string VIP_ROLE = "1";
         const string NEW_ROLE = "2";
@@ -132,16 +134,17 @@ namespace ManagerApp.ViewModel
                 {
                     if (customer.Type.Equals(Type.VIP))
                     {
-                        VIPPhoneList.Add(customer.PhoneNumber, customer.Id);
+                        VIPPhoneList.Add(customer.PhoneNumber, customer.Name);
                     }
                     else if (customer.Type.Equals(Type.Standard))
                     {
-                        StandardPhoneList.Add(customer.PhoneNumber, customer.Id);
+                        StandardPhoneList.Add(customer.PhoneNumber, customer.Name);
                     }
                 }
             });
 
             //HTTP request price
+            ServerHTTPRequest priceRequest = new ServerHTTPRequest(PATH_REQUEST, ref booking);
 
             IsDoneFetching = true;
 
@@ -150,7 +153,7 @@ namespace ManagerApp.ViewModel
             {
                 Booking.Status = 0;
                 Booking.CustomerRole = VIP_ROLE;
-                Booking.CustomerId = VIPPhoneList[booking.PhoneNumber];
+                Booking.CustomerName = VIPPhoneList[booking.PhoneNumber];
                 Visibility = true;
                 CustomerStatus = "This customer is VIP";
             }
@@ -162,13 +165,13 @@ namespace ManagerApp.ViewModel
                 {
                     CustomerStatus = "This customer is Standard";
                     Booking.CustomerRole = STANDARD_ROLE;
-                    Booking.CustomerId = StandardPhoneList[booking.PhoneNumber];
+                    Booking.CustomerName = StandardPhoneList[booking.PhoneNumber];
                 }
                 else
                 {
                     CustomerStatus = "This customer is New";
                     Booking.CustomerRole = NEW_ROLE;
-                    Booking.CustomerId = null;
+                    Booking.CustomerName = null;
                 }
             }
         }

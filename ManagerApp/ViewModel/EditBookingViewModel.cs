@@ -10,6 +10,8 @@ namespace ManagerApp.ViewModel
 {
     class EditBookingViewModel : ViewModelBase
     {
+        const string PATH_REQUEST = "Send Path Calculation Request";
+        
         const string STANDARD_ROLE = "0";
         const string VIP_ROLE = "1";
         const string NEW_ROLE = "2";
@@ -120,7 +122,10 @@ namespace ManagerApp.ViewModel
         public async void ExecuteRefreshCommand()
         {
             IsDoneFetching = false;
+
             // HTTP get price
+            ServerHTTPRequest priceRequest = new ServerHTTPRequest(PATH_REQUEST, ref booking);
+
             IsDoneFetching = true;
         }
 
