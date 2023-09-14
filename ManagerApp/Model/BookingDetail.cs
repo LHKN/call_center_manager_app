@@ -84,7 +84,7 @@ namespace ManagerApp.Model
                 else if (bookingTime.CompareTo(time) == 0)
                 {
                     this.Status = 1;
-                    new ServerHTTPRequest(CLIENT_REQUEST, this);
+                    //new ServerHTTPRequest(CLIENT_REQUEST, this);
                     return true;
                 }
             }

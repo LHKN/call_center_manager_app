@@ -99,12 +99,12 @@ namespace ManagerApp.ViewModel
                     var task = await _accountRepository.EditCustomer(CurrentCustomer); //TODO: implement Remove/Delete method on AccountRepository
                     if (task)
                     {
-                        await App.MainRoot.ShowDialog("Success", "User _status is banned!");
+                        await App.MainRoot.ShowDialog("Success", "User is banned!");
                         ExecuteBackCommand();
                     }
                     else
                     {
-                        await App.MainRoot.ShowDialog("Failure", " unsuccessful...");
+                        await App.MainRoot.ShowDialog("Failure", "Ban user unsuccessful...");
                     }
                 }
 

@@ -296,19 +296,19 @@ namespace ManagerApp.Repository
                         break;
                     }
 
-                    DateTime getDate = ((DateOnly)temp.PickupDate).ToDateTime(TimeOnly.MinValue);
-                    TimeSpan getTime = (TimeSpan)temp.PickupTime;
+                    //DateTime getDate = ((DateOnly)temp.PickupDate).ToDateTime(TimeOnly.MinValue);
+                    //TimeSpan getTime = (TimeSpan)temp.PickupTime;
 
-                    if (getDate.CompareTo(DateTime.Now.Date) == 0)
-                    {
-                        if (temp.Status != 0)
-                        {
-                            if (getTime.TotalHours.Equals(DateTime.Now.Hour))
-                            {
-                                new ServerHTTPRequest(CLIENT_REQUEST, temp);
-                            }
-                        }
-                    }
+                    //if (getDate.CompareTo(DateTime.Now.Date) == 0)
+                    //{
+                    //    if (temp.Status != 0)
+                    //    {
+                    //        if (getTime.TotalHours.Equals(DateTime.Now.Hour))
+                    //        {
+                    //            new ServerHTTPRequest(CLIENT_REQUEST, temp);
+                    //        }
+                    //    }
+                    //}
                     bookings.Add(temp);
                 }
 

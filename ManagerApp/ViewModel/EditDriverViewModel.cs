@@ -23,7 +23,7 @@ namespace ManagerApp.ViewModel
         public ICommand BackCommand { get; private set; }
         public ICommand CancelCommand { get; private set; }
         public Driver CurrentDriver { get => _currentDriver; set => _currentDriver = value; }
-        public ObservableCollection<Gender> Genders { get => genders; set => genders = value; }
+        public ObservableCollection<Gender> Genders { get => genders; set => genders = value; } 
 
         public EditDriverViewModel(Driver currentDriver)
         {
@@ -67,6 +67,7 @@ namespace ManagerApp.ViewModel
                 if (isSuccess == true)
                 {
                     await App.MainRoot.ShowDialog("Success", "Driver updated successfully!");
+                    ExecuteBackCommand();
                 }
                 else
                 {
