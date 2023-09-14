@@ -15,6 +15,8 @@
 
     <Page.Resources>
         <services:DateOnlyConverter x:Key="dateConverter"/>
+        <services:CustomerRoleConverter x:Key="customerRoleConverter"/>
+        <services:BookingStatusConverter x:Key="bookingStatusConverter"/>
     </Page.Resources>
     
     <Grid>
@@ -74,8 +76,7 @@
             <TextBlock TextWrapping="WrapWholeWords" Text="Notes:" Padding="10"/>
             <TextBlock TextWrapping="WrapWholeWords" Text="Blue date is today's date" Padding="20 0 0 0"/>
             <TextBlock TextWrapping="WrapWholeWords" Text="The number of strokes is the number of bookings" Padding="20 0 0 0"/>
-            <TextBlock TextWrapping="WrapWholeWords" Text="Bookings on dates before today's date will not display" Padding="20 0 0 0"/>
-            <TextBlock TextWrapping="WrapWholeWords" Text="Can only edit orange/'status 0' bookings" Padding="20 0 0 0"/>
+            <TextBlock TextWrapping="WrapWholeWords" Text="Can only edit orange/'Inactive' bookings" Padding="20 0 0 0"/>
 
         </StackPanel>
 
@@ -117,10 +118,10 @@
                                         Customer's phone number : <Run Text="{Binding PhoneNumber}" FontWeight="Bold" Foreground="CadetBlue"/>
                             </TextBlock>
                             <TextBlock TextWrapping="WrapWholeWords" >
-                                        Booking Status : <Run Text="{Binding Status}" FontWeight="Bold" Foreground="CadetBlue"/>
+                                        Booking Status : <Run Text="{Binding Status, Converter={StaticResource bookingStatusConverter}}" FontWeight="Bold" Foreground="CadetBlue"/>
                             </TextBlock>
                             <TextBlock TextWrapping="WrapWholeWords" >
-                                        Role : <Run Text="{Binding CustomerRole}" FontWeight="Bold" Foreground="CadetBlue"/>
+                                        Role : <Run Text="{Binding CustomerRole, Converter={StaticResource customerRoleConverter}}" FontWeight="Bold" Foreground="CadetBlue"/>
                             </TextBlock>
 
                         </StackPanel>
