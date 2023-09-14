@@ -27,7 +27,7 @@
         <TextBlock Text="LOGS" FontWeight="Bold" FontSize="20" Padding="30"/>
 
         <StackPanel Grid.Row="1" Grid.Column="1">
-            <TextBlock Text="Most Recent Request" FontSize="13"/>
+            <!--<TextBlock Text="Most Recent Request" FontSize="13"/>
 
             <StackPanel MinHeight="70">
                 <TextBlock TextWrapping="WrapWholeWords" >
@@ -40,20 +40,20 @@
                                         Status Code : <Run Text="{Binding MyLog.StatusCode}" FontWeight="Bold" Foreground="CadetBlue"/>
                 </TextBlock>
 
-            </StackPanel>
+            </StackPanel>-->
             
             <ListView x:Name="dataListView" 
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                       ScrollViewer.VerticalScrollBarVisibility="Visible"
-                      Margin="10,50,0,0"
+                      Margin="10,0,0,0"
                       ItemsSource="{Binding LogList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                      MaxWidth="300"
-                      MaxHeight="500"
+                      MaxWidth="500"
+                      MaxHeight="450"
                       HorizontalAlignment="Left">
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel MinHeight="70">
+                        <StackPanel MinHeight="90">
                             <TextBlock TextWrapping="WrapWholeWords" >
                                         Summary : <Run Text="{Binding Title}" FontWeight="Bold" Foreground="CadetBlue"/>
                             </TextBlock>

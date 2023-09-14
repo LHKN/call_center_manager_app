@@ -391,7 +391,11 @@ namespace ManagerApp.Repository
             {
                 client = await TryConnect();
 
-                client.Set("Logs/" + 0, log);
+                var countRes = client.Get("Logs/count");
+                int curCount = int.Parse(countRes.ResultAs<string>());
+
+                client.Set("Logs/" + curCount, log);
+                client.Set("Logs/count", (curCount + 1).ToString());
             }
             catch (Exception ex) when (ex is AggregateException ||
                                       ex is Exception ||
@@ -411,19 +415,20 @@ namespace ManagerApp.Repository
             {
                 client = await TryConnect();
 
-                //LogNotification temp;
-                //EventStreamResponse response = await client.OnAsync("Logs/0", (sender, args, context) => {
-                //    temp = args.Data;
-                //});
+                var countRes = client.Get("Logs/count");
+                int curCount = int.Parse(countRes.ResultAs<string>());
+                if (curCount == 0) return logs;
 
-                ////Call dispose to stop listening for events
-                //response.Dispose();
+                FirebaseResponse res;
+                LogNotification temp;
 
-                var res = client.Get("Logs/0");
-                
-                LogNotification temp = res.ResultAs<LogNotification>();
+                for (int i = 0; i < curCount; i++)
+                {
+                    res = client.Get("Logs/" + i);
+                    temp = res.ResultAs<LogNotification>();
+                    logs.Add(temp);
+                }                
 
-                logs.Add(temp);
             }
             catch (Exception ex) when (ex is AggregateException ||
                                       ex is Exception ||

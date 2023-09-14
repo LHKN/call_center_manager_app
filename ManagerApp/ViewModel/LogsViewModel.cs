@@ -10,6 +10,7 @@ namespace ManagerApp.ViewModel
     {
         // fields
         private ObservableCollection<LogNotification> _logs;
+        private LogNotification _log;
         private IBookingRepository _bookingRepository;
 
         // constructor
@@ -18,24 +19,29 @@ namespace ManagerApp.ViewModel
             _bookingRepository = new BookingRepository();
 
             var task2 = _bookingRepository.GetLog();
-            MyLog = task2.Result;
+            _log = task2.Result;
 
-            Task.Run(() =>
-            {
-                while (true)
-                {
-                    var task = _bookingRepository.GetAllLog();
-                    _logs = task.Result;
-                    Task.Delay(System.TimeSpan.FromMinutes(1));
-                }
-            });
+            var task = _bookingRepository.GetAllLog();
+            _logs = task.Result;
+            //RunTask();
         }
 
         // execute commands
+        public async void RunTask()
+        {
+            await Task.Run(() =>
+            {
+                var task2 = _bookingRepository.GetLog();
+                _log = task2.Result;
+
+                var task = _bookingRepository.GetAllLog();
+                _logs = task.Result;
+            });
+        }
 
         // getters, setters
         public ObservableCollection<LogNotification> LogList { get => _logs; set => _logs = value; }
-        public LogNotification MyLog { get; set; }
+        public LogNotification MyLog { get => _log; set => _log = value; }
 
         // commands
     }
