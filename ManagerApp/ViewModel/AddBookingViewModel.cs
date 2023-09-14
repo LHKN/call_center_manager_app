@@ -134,8 +134,8 @@ namespace ManagerApp.ViewModel
             });
 
             // HTTP get price and path detail
-            //ServerHTTPRequest priceRequest = new ServerHTTPRequest(PATH_CALC_REQUEST, booking);
-            //ServerHTTPRequest pathRequest = new ServerHTTPRequest(PATH_DETAIL_REQUEST, booking);
+            ServerHTTPRequest priceRequest = new ServerHTTPRequest(PATH_CALC_REQUEST, booking);
+            ServerHTTPRequest pathRequest = new ServerHTTPRequest(PATH_DETAIL_REQUEST, booking);
 
             IsDoneFetching = true;
 

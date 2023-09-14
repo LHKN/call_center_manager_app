@@ -1,6 +1,7 @@
 ﻿using Google.Rpc;
 using ManagerApp.Model;
 using ManagerApp.Model.HTTPResponseTemplate;
+using ManagerApp.Repository;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
@@ -23,14 +24,20 @@ namespace ManagerApp.Services
         private IConfigurationRoot _config;
         private string domain;
         private Dictionary<string, string> content;
+        private LogNotification log;
+        private IBookingRepository _bookingRepository;
 
         public ServerHTTPRequest(string indicator, BookingDetail currentBooking)
         {
             booking = currentBooking;
             _config = new ConfigurationBuilder().AddUserSecrets<MainWindow>().Build();
+            _bookingRepository = new BookingRepository();
+            log = new LogNotification();
 
             domain = _config.GetSection("Server")["domain"];
             if (domain == null) return;
+
+            log.Title = indicator;
 
             switch (indicator)
             {
@@ -90,6 +97,10 @@ namespace ManagerApp.Services
 
                 HttpResponseMessage response = await client.SendAsync(request);
 
+                log.Message = DateTime.Now.ToString();
+                log.StatusCode = response.StatusCode.ToString();
+                await _bookingRepository.AddLog(log);
+
                 // Check if the request was successful (HTTP status code 200)
                 if (response.IsSuccessStatusCode)
                 {
@@ -119,13 +130,13 @@ namespace ManagerApp.Services
                 }
                 else
                 {
-                    await App.MainRoot.ShowDialog("Error", "HTTP Status Code " + (int)response.StatusCode);
+                    //await App.MainRoot.ShowDialog("Error", "HTTP Status Code " + (int)response.StatusCode);
                 }
 
             }
             catch (Exception ex)
             {
-                await App.MainRoot.ShowDialog("Error", ex.Message);
+                //await App.MainRoot.ShowDialog("Error", ex.Message);
             }
         }
 
@@ -150,7 +161,10 @@ namespace ManagerApp.Services
                 request.Content = new FormUrlEncodedContent(content);
 
                 HttpResponseMessage response = await client.SendAsync(request);
- 
+
+                log.Message = DateTime.Now.ToString();
+                log.StatusCode = response.StatusCode.ToString();
+                await _bookingRepository.AddLog(log);
                 //PatchCalculationResponse newResponse;
 
                 // Check if the request was successful (HTTP status code 200)
@@ -184,13 +198,13 @@ namespace ManagerApp.Services
                 }
                 else
                 {
-                    await App.MainRoot.ShowDialog("Error", "HTTP Status Code " + (int)response.StatusCode);
+                    //await App.MainRoot.ShowDialog("Error", "HTTP Status Code " + (int)response.StatusCode);
                 }
 
             }
             catch (Exception ex)
             {
-                await App.MainRoot.ShowDialog("Error", ex.Message);
+                //await App.MainRoot.ShowDialog("Error", ex.Message);
             }
         }
 
@@ -215,6 +229,10 @@ namespace ManagerApp.Services
                 request.Content = new FormUrlEncodedContent(content);
 
                 HttpResponseMessage response = await client.SendAsync(request);
+
+                log.Message = DateTime.Now.ToString();
+                log.StatusCode = response.StatusCode.ToString();
+                await _bookingRepository.AddLog(log);
 
                 // Check if the request was successful (HTTP status code 200)
                 if (response.IsSuccessStatusCode)
@@ -247,13 +265,13 @@ namespace ManagerApp.Services
                 }
                 else
                 {
-                    await App.MainRoot.ShowDialog("Error", "HTTP Status Code " + (int)response.StatusCode);
+                    //await App.MainRoot.ShowDialog("Error", "HTTP Status Code " + (int)response.StatusCode);
                 }
 
             }
             catch (Exception ex)
             {
-                await App.MainRoot.ShowDialog("Error", ex.Message);
+                //await App.MainRoot.ShowDialog("Error", ex.Message);
             }
         }
     }

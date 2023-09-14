@@ -4,8 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using FireSharp.Interfaces;
+using FireSharp.Response;
 using ManagerApp.Model;
+using ManagerApp.Model.HTTPResponseTemplate;
 using ManagerApp.Services;
+using Windows.Media.Protection.PlayReady;
 
 namespace ManagerApp.Repository
 {
@@ -296,19 +299,16 @@ namespace ManagerApp.Repository
                         break;
                     }
 
-                    //DateTime getDate = ((DateOnly)temp.PickupDate).ToDateTime(TimeOnly.MinValue);
-                    //TimeSpan getTime = (TimeSpan)temp.PickupTime;
+                    DateTime getDate = ((DateOnly)temp.PickupDate).ToDateTime(TimeOnly.MinValue);
+                    TimeSpan getTime = (TimeSpan)temp.PickupTime;
 
-                    //if (getDate.CompareTo(DateTime.Now.Date) == 0)
-                    //{
-                    //    if (temp.Status != 0)
-                    //    {
-                    //        if (getTime.TotalHours.Equals(DateTime.Now.Hour))
-                    //        {
-                    //            new ServerHTTPRequest(CLIENT_REQUEST, temp);
-                    //        }
-                    //    }
-                    //}
+                    if (getDate.CompareTo(DateTime.Now.Date) == 0)
+                    {
+                        if (getTime.TotalHours.Equals(DateTime.Now.Hour))
+                        {
+                            new ServerHTTPRequest(CLIENT_REQUEST, temp);
+                        }
+                    }
                     bookings.Add(temp);
                 }
 
@@ -381,6 +381,80 @@ namespace ManagerApp.Repository
                 return -1;
             }
 
+        }
+
+        public async Task AddLog(LogNotification log)
+        {
+            IFirebaseClient client;
+
+            try
+            {
+                client = await TryConnect();
+
+                client.Set("Logs/" + 0, log);
+            }
+            catch (Exception ex) when (ex is AggregateException ||
+                                      ex is Exception ||
+                                      ex is ArgumentNullException)
+            {
+                await App.MainRoot.ShowDialog("Error", ex.Message);
+            }
+
+        }
+
+        public async Task<ObservableCollection<LogNotification>> GetAllLog()
+        {
+            ObservableCollection<LogNotification> logs = new ObservableCollection<LogNotification>();
+            IFirebaseClient client;
+
+            try
+            {
+                client = await TryConnect();
+
+                //LogNotification temp;
+                //EventStreamResponse response = await client.OnAsync("Logs/0", (sender, args, context) => {
+                //    temp = args.Data;
+                //});
+
+                ////Call dispose to stop listening for events
+                //response.Dispose();
+
+                var res = client.Get("Logs/0");
+                
+                LogNotification temp = res.ResultAs<LogNotification>();
+
+                logs.Add(temp);
+            }
+            catch (Exception ex) when (ex is AggregateException ||
+                                      ex is Exception ||
+                                      ex is ArgumentNullException)
+            {
+                await App.MainRoot.ShowDialog("Error", ex.Message);
+            }
+
+            return logs;
+        }
+
+        public async Task<LogNotification> GetLog()
+        {
+            IFirebaseClient client;
+            LogNotification temp = new LogNotification();
+
+            try
+            {
+                client = await TryConnect();
+                var res = client.Get("Logs/0");
+
+                temp = res.ResultAs<LogNotification>();   
+            }
+            catch (Exception ex) when (ex is AggregateException ||
+                                      ex is Exception ||
+                                      ex is ArgumentNullException)
+            {
+                await App.MainRoot.ShowDialog("Error", ex.Message);
+            }
+
+            return temp;
         }
     }
 }

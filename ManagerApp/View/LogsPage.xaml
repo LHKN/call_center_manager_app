@@ -19,19 +19,34 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="*"/>
 
         </Grid.ColumnDefinitions>
 
         <TextBlock Text="LOGS" FontWeight="Bold" FontSize="20" Padding="30"/>
 
-        <StackPanel Grid.Row="2">
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <TextBlock Text="Most Recent Request" FontSize="13"/>
+
+            <StackPanel MinHeight="70">
+                <TextBlock TextWrapping="WrapWholeWords" >
+                                        Summary : <Run Text="{Binding MyLog.Title}" FontWeight="Bold" Foreground="CadetBlue"/>
+                </TextBlock>
+                <TextBlock TextWrapping="WrapWholeWords" >
+                                        Date and Time : <Run Text="{Binding MyLog.Message}" FontWeight="Bold" Foreground="CadetBlue"/>
+                </TextBlock>
+                <TextBlock TextWrapping="WrapWholeWords" >
+                                        Status Code : <Run Text="{Binding MyLog.StatusCode}" FontWeight="Bold" Foreground="CadetBlue"/>
+                </TextBlock>
+
+            </StackPanel>
+            
             <ListView x:Name="dataListView" 
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                       ScrollViewer.VerticalScrollBarVisibility="Visible"
                       Margin="10,50,0,0"
-                      ItemsSource="{Binding LogList, Mode=OneWay}"
+                      ItemsSource="{Binding LogList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                       MaxWidth="300"
                       MaxHeight="500"
                       HorizontalAlignment="Left">

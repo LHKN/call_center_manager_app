@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using ManagerApp.Model.HTTPResponseTemplate;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace ManagerApp.Model
@@ -11,5 +12,9 @@ namespace ManagerApp.Model
         Task<bool> Delete(int id);
         Task<BookingDetail> GetById(int id);
         Task<ObservableCollection<BookingDetail>> GetAll();
+
+        Task AddLog(LogNotification log);
+        Task<ObservableCollection<LogNotification>> GetAllLog();
+        Task<LogNotification> GetLog();
     }
 }

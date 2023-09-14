@@ -1,5 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using FireSharp.Response;
+using ManagerApp.Model;
 using ManagerApp.Model.HTTPResponseTemplate;
+using ManagerApp.Repository;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -9,6 +12,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Media.Protection.PlayReady;
 
 namespace ManagerApp.ViewModel
 {
@@ -25,8 +29,6 @@ namespace ManagerApp.ViewModel
         {
             //Account = null;
             ChildPageNavigation = new PageNavigation(new StatisticsViewModel());
-
-            Log = new ObservableCollection<LogNotification>();
         }
 
         private ICommand _itemInvokedCommand;
@@ -55,12 +57,11 @@ namespace ManagerApp.ViewModel
             }
             else if (args.InvokedItem.ToString().Equals("Logs"))
             {
-                ChildPageNavigation.ViewModel = new LogsViewModel(Log);
+                ChildPageNavigation.ViewModel = new LogsViewModel();
             }
 
         }
         public PageNavigation ChildPageNavigation { get; set; }
         //public Account Account { get => _account; set => _account = value; }
-        public ObservableCollection<LogNotification> Log;
     }
 }
