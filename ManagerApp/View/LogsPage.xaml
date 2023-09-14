@@ -26,7 +26,7 @@
 
         <TextBlock Text="LOGS" FontWeight="Bold" FontSize="20" Padding="30"/>
 
-        <StackPanel Grid.Row="1" Grid.Column="1">
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
             <!--<TextBlock Text="Most Recent Request" FontSize="13"/>
 
             <StackPanel MinHeight="70">
